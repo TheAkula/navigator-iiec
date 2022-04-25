@@ -15,8 +15,8 @@ const server = http.createServer(app);
 const jsonParser = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-app.use(express.static(path.resolve(__dirname, "../client/build")));
 app.use(express.static(path.resolve(__dirname)));
+app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 const localPath = path.join(__dirname);
 
