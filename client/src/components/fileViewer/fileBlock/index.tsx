@@ -66,7 +66,7 @@ const FileBlock = ({
       return changePath(path + "/");
     }
     const link = document.createElement("a");
-    link.href = "http://localhost:3001/get-file" + path;
+    link.href = "/get-file" + path;
     link.click();
   };
 
@@ -110,7 +110,7 @@ const FileBlock = ({
     let download_url_data =
       "application/octet-stream:" +
       title +
-      ":http://localhost:3001/get-file" +
+      "/get-file" +
       path.replaceAll("\\", "/");
     e.dataTransfer.setData("DownloadURL", download_url_data);
     e.dataTransfer.effectAllowed = "copy";
@@ -189,7 +189,7 @@ const FileBlock = ({
     <StyledFileBlock
       href={
         !isDir
-          ? "http://localhost:3001/get-file" + path
+          ? "/get-file" + path
           : "file:///C:/Users/Pechenka/navigator/server" + path
       }
       className={selected ? "selected file-block" : "file-block"}

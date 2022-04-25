@@ -16,7 +16,7 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
 app.use(express.static(path.join(__dirname)));
 
-const localPath = path.join(__dirname, "..", "..");
+const localPath = path.join(__dirname);
 
 app.use("/get-file/*", (req, res, next) => {
   res.download(path.join(localPath, req.params["0"]));
