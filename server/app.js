@@ -15,8 +15,8 @@ const server = http.createServer(app);
 const jsonParser = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-app.use(express.static(path.join(__dirname, "..", "client", "build")));
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.resolve(__dirname, "../client/build")));
+app.use(express.static(path.resolve(__dirname)));
 
 const localPath = path.join(__dirname);
 
@@ -171,7 +171,7 @@ app.post("/rename-file", jsonParser, (req, res, next) => {
 });
 
 app.get("/", (req, res, next) => {
-  res.render(path.join(__dirname, "..", "client", "build", "index.html"));
+  res.render(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
 server.listen(PORT);
