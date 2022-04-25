@@ -8,6 +8,8 @@ const upload = multer({ dest: path.join(__dirname) });
 
 const app = express();
 
+const PORT = process.env.PORT || 3001;
+
 const server = http.createServer(app);
 
 const jsonParser = bodyParser.json();
@@ -172,4 +174,4 @@ app.get("/", (req, res, next) => {
   res.render(path.join(__dirname, "..", "client", "build", "index.html"));
 });
 
-server.listen(3001);
+server.listen(PORT);
