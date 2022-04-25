@@ -171,7 +171,7 @@ app.post("/rename-file", jsonParser, (req, res, next) => {
 });
 
 app.get("*", (req, res, next) => {
-  res.send(path.resolve(__dirname, "../client/build", "index.html"));
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
 server.listen(PORT);
