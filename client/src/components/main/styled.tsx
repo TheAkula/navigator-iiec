@@ -10,6 +10,6 @@ export const StyledMain = styled.main`
   margin: 0 auto;
 
   @media screen and (max-width: 1620px) {
-    grid-template-columns: 360px minmax(500px, 960px) 360px;
+    grid-template-columns: 340px minmax(500px, 960px) 340px;
   }
 `;

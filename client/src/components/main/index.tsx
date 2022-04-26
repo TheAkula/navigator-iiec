@@ -51,6 +51,7 @@ const Main = () => {
   const { pathname } = location;
 
   const update = useCallback(() => {
+    setLoading(true);
     axios
       .post("/api", { path: path })
       .then((data) => {
@@ -65,7 +66,10 @@ const Main = () => {
 
   useEffect(() => {
     // if (prevPath !== path && path) {
-    update();
+    setLoading(false);
+    if (path) {
+      update();
+    }
     // }
   }, [update, path]);
 
@@ -86,7 +90,6 @@ const Main = () => {
     setPath(p);
     const prevP = getPrevPath(p!);
     setPrevPath(prevP);
-    setLoading(true);
   };
 
   return (
