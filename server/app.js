@@ -100,7 +100,7 @@ app.post("/move-file", jsonParser, (req, res, next) => {
 
   const fileName = from.slice(from.lastIndexOf("\\") + 1);
 
-  fs.rename(from, path.join(localPath, to, fileName), (err) => {
+  fs.rename(from, path.join(to, fileName), (err) => {
     if (err) {
       console.log(err);
       return res.status(500).json({ err: err });
@@ -123,7 +123,7 @@ app.post("/copy-file", jsonParser, async (req, res, next) => {
 
   const from = req.body.oldPath;
   const fileName = from.slice(from.lastIndexOf("\\") + 1);
-  const to = path.join(localPath, req.body.newPath, fileName);
+  const to = path.join(req.body.newPath, fileName);
 
   const parent = to.slice(0, to.lastIndexOf("\\"));
   if (parent === from) {
