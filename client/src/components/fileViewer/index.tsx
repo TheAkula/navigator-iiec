@@ -1,11 +1,18 @@
-import axios, { AxiosResponse } from "axios";
-import { MouseEventHandler, useCallback, useEffect, useState } from "react";
+import {
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import BackFileBlock from "./backFileBlock";
 import FileBlock from "./fileBlock";
 import Header from "./header";
 import Modal from "../modal";
 import { ContextMenu } from "./contextMenu";
 import { StyledFileViewer } from "./styled";
+import { FileType, SelectedFile } from "../main";
 
 interface FileViewerProps {
   path: string;
@@ -13,26 +20,15 @@ interface FileViewerProps {
   prevPath: string | null;
   setLoading: (l: boolean) => void;
   loading: boolean;
-}
-
-export interface FileType {
-  ext: string;
-  isDir: boolean;
-  size: number;
-  title: string;
-  path: string;
-  mtime: number;
-  fullPath: string;
+  files: FileType[] | null;
+  selectedFiles: SelectedFile[];
+  update: () => void;
+  changeSelectedFiles: Dispatch<SetStateAction<SelectedFile[]>>;
 }
 
 export interface SortType {
   name: keyof FileType;
   reverse: boolean;
-}
-
-export interface SelectedFile {
-  path: string;
-  isDir: boolean;
 }
 
 interface CopiedFiles {
@@ -56,14 +52,16 @@ const FileViewer = ({
   changePath,
   prevPath,
   setLoading,
+  files,
+  selectedFiles,
+  update,
   loading,
+  changeSelectedFiles,
 }: FileViewerProps) => {
-  const [files, setFiles] = useState<FileType[]>([]);
   const [sortType, setSortType] = useState<SortType>({
     name: "title",
     reverse: false,
   });
-  const [selectedFiles, setSelectedFiles] = useState<SelectedFile[]>([]);
   const [modal, setModal] = useState<null | ModalType>(null);
   const [filesToUpload, setFilesToUpload] = useState<null | File[]>(null);
   const [showContextMenu, setShowContextMenu] = useState(false);
@@ -75,19 +73,6 @@ const FileViewer = ({
   const [copiedFiles, setCopiedFiles] = useState<CopiedFiles | null>(null);
   const [renamedFile, setRenamedFile] = useState<null | RenamedFile>(null);
   const [isLocalDrag, setIsLocalDrag] = useState(false);
-
-  const update = useCallback(() => {
-    axios
-      .post("/api", { path: path })
-      .then((data) => {
-        setLoading(false);
-        setFiles(JSON.parse(data.data));
-        setSelectedFiles([]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [path, setLoading]);
 
   const uploadFiles = useCallback(() => {
     // if (copiedFiles && copiedFiles.items.length) {
@@ -116,11 +101,9 @@ const FileViewer = ({
     //     setTargetToUpload("");
     //   });
     // }
-    console.log("herers");
+    setModal(null);
     if (filesToUpload && filesToUpload.length) {
       setLoading(true);
-      setModal(null);
-      console.log("upload", filesToUpload);
       Promise.all(
         filesToUpload!.map((file) => {
           let formData = new FormData();
@@ -159,9 +142,9 @@ const FileViewer = ({
         return file.path === path;
       }) !== -1;
     if (!isSel && selectedFiles.length) {
-      setSelectedFiles([]);
+      changeSelectedFiles([]);
     } else if (!isSel) {
-      setSelectedFiles((prevSelectedFiles) => {
+      changeSelectedFiles((prevSelectedFiles) => {
         return [{ path: path, isDir: isDir }];
       });
     }
@@ -200,19 +183,15 @@ const FileViewer = ({
           })
       )
         .then((data) => {
-          console.log("moving ends with no errors");
           setCopiedFiles((prevCopiedFiles) => null);
           setLoading(false);
           update();
         })
         .catch((err) => {
-          console.log("moving ends with errors");
           setLoading(false);
           console.log(err);
         })
         .finally(() => {
-          console.log("moving finally block");
-          console.log("loading to false");
           setCopiedFiles((prevCopiedFiles) => null);
           setLoading(false);
         });
@@ -227,7 +206,6 @@ const FileViewer = ({
         content: `Скопировать выбранные файлы в ${path + "/" + targetToUpload}`,
       });
       if (isLocalDrag && selectedFiles.length) {
-        console.log("local drag");
         return setCopiedFiles((prevCopiedFiles) => {
           return { items: selectedFiles, type: "cut" };
         });
@@ -238,22 +216,24 @@ const FileViewer = ({
     [isLocalDrag, selectedFiles, uploadFiles, path, targetToUpload, moveFiles]
   );
 
-  const onMouseClicked: EventListenerOrEventListenerObject = (e) => {
-    if (!(e.target as HTMLElement).closest("#context-menu")) {
-      setContextMenu(null);
-      setShowContextMenu(false);
-    }
-    if (!(e.target as HTMLElement).closest(".file-block")) {
-      setSelectedFiles((prevSelectedFiles) => []);
-    }
-  };
+  const onMouseClicked: EventListenerOrEventListenerObject = useCallback(
+    (e) => {
+      if (!(e.target as HTMLElement).closest("#context-menu")) {
+        setContextMenu(null);
+        setShowContextMenu(false);
+      }
+      if (!(e.target as HTMLElement).closest(".file-block")) {
+        changeSelectedFiles((prevSelectedFiles) => []);
+      }
+    },
+    [changeSelectedFiles]
+  );
 
   const onPasteFiles = useCallback(
     (e: ClipboardEvent) => {
       if (copiedFiles && copiedFiles.items.length) {
         return moveFiles();
       }
-      console.log("something");
       setFilesToUpload((prevFilesToUpload) => [...e.clipboardData!.files]);
       setModal({
         onAgree: uploadFiles,
@@ -269,7 +249,7 @@ const FileViewer = ({
       const copiedFiles = selectedFiles
         .filter((selF) => selF.path !== "...")
         .map((selFile) => {
-          const f = files.find((file) => {
+          const f = files!.find((file) => {
             return file.path === selFile.path;
           })!;
 
@@ -290,7 +270,7 @@ const FileViewer = ({
       const copiedFiles = selectedFiles
         .filter((sf) => sf.path !== "...")
         .map((selFile) => {
-          const f = files.find((file) => {
+          const f = files!.find((file) => {
             return file.path === selFile.path;
           })!;
 
@@ -331,18 +311,18 @@ const FileViewer = ({
       document.removeEventListener("cut", onCutFiles);
       document.removeEventListener("copy", onCopyFiles);
     };
-  }, [onUploadFiles, onCutFiles, onPasteFiles, onCopyFiles]);
+  }, [onUploadFiles, onCutFiles, onPasteFiles, onCopyFiles, onMouseClicked]);
 
   const onSelectedFile = (title: string, mult: boolean, isDir: boolean) => {
     if (mult) {
-      setSelectedFiles((prevSelectedFiles) => {
+      changeSelectedFiles((prevSelectedFiles) => {
         const isSel =
           prevSelectedFiles.findIndex((file) => file.path === title) !== -1;
         if (isSel) return prevSelectedFiles.filter((s) => s.path !== title);
         return [...prevSelectedFiles, { path: title, isDir: isDir }];
       });
     } else {
-      setSelectedFiles((prevSelectedFiles) => {
+      changeSelectedFiles((prevSelectedFiles) => {
         return [{ path: title, isDir: isDir }];
       });
     }
@@ -357,19 +337,8 @@ const FileViewer = ({
     });
   };
 
-  useEffect(() => {
-    if (!files.length) {
-      update();
-    }
-  }, [files, update]);
-
-  const changedPath = (p: string) => {
-    changePath(p);
-    setFiles([]);
-  };
-
   const getSortedFiles = () => {
-    const newFiles: (FileType & { selected: boolean })[] = files
+    const newFiles: (FileType & { selected: boolean })[] = files!
       .sort((a, b) => {
         return a[sortType.name] > b[sortType.name]
           ? 1
@@ -433,7 +402,6 @@ const FileViewer = ({
             if (data.err) {
               return console.log(data.err);
             }
-            console.log("renamed");
           })
           .catch((err) => {
             console.log(err);
@@ -473,7 +441,6 @@ const FileViewer = ({
       })
     )
       .then((data) => {
-        console.log(data);
         setLoading(false);
         update();
       })
@@ -503,7 +470,7 @@ const FileViewer = ({
 
   let fileList = null;
 
-  if (files.length) {
+  if (files && files.length) {
     fileList = getSortedFiles().map((file, i) => {
       const isSelected = selectedFiles.find((f) => {
         return f.path === file.path;
@@ -521,7 +488,7 @@ const FileViewer = ({
           {...file}
           changeLocalDrag={changeLocalDrag}
           selected={!!isSelected}
-          changePath={changedPath}
+          changePath={changePath}
           onContextMenu={onContextMenuFile}
           onDrop={onFileBlockDrop}
         />
@@ -540,7 +507,7 @@ const FileViewer = ({
         selectedFile={onSelectedFile}
         loading={loading}
         path={prevPath!}
-        onChangePath={changedPath}
+        onChangePath={changePath}
       />
       {fileList}
       {showContextMenu && (

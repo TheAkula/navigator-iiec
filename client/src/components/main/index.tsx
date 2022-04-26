@@ -21,16 +21,53 @@ import Weather from "../../assets/images/weather.svg";
 import Wikipedia from "../../assets/images/wikipedia.svg";
 import Work from "../../assets/images/work.svg";
 import Yandex from "../../assets/images/Yandex_znak.svg";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import MainMenu from "./mainMenu";
+import axios from "axios";
 import { useLocation } from "react-router";
+
+export interface FileType {
+  ext: string;
+  isDir: boolean;
+  size: number;
+  title: string;
+  path: string;
+  mtime: number;
+  fullPath: string;
+}
+
+export interface SelectedFile {
+  path: string;
+  isDir: boolean;
+}
 
 const Main = () => {
   const [path, setPath] = useState<null | string>(null);
   const [prevPath, setPrevPath] = useState<null | string>(null);
   const [loading, setLoading] = useState(false);
+  const [files, setFiles] = useState<FileType[] | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<SelectedFile[]>([]);
   const location = useLocation();
   const { pathname } = location;
+
+  const update = useCallback(() => {
+    axios
+      .post("/api", { path: path })
+      .then((data) => {
+        setLoading(false);
+        setFiles(JSON.parse(data.data));
+        setSelectedFiles([]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [path, setLoading]);
+
+  useEffect(() => {
+    // if (prevPath !== path && path) {
+    update();
+    // }
+  }, [update, path]);
 
   useEffect(() => {
     document.documentElement.style.cursor = loading ? "wait" : "auto";
@@ -93,6 +130,10 @@ const Main = () => {
           !!location.state &&
           !!(location.state as { showFileViewer?: boolean }).showFileViewer
         }
+        changeSelectedFiles={setSelectedFiles}
+        files={files}
+        selectedFiles={selectedFiles}
+        update={update}
         onChangePath={onChangePath}
         setLoading={(l: boolean) => setLoading(l)}
         loading={loading}

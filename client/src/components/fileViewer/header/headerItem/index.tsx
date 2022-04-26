@@ -1,6 +1,7 @@
 import { REWithChildren } from "../../../../../types";
 import { StyledHeaderItem } from "./styled";
-import { FileType, SortType } from "../../";
+import { SortType } from "../../";
+import { FileType } from "../../../main";
 import Arrow from "../../../svgComponents/arrow";
 
 type HeaderItemProps = {

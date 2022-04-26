@@ -4,7 +4,7 @@ import {
   KeyboardEventHandler,
   MouseEventHandler,
 } from "react";
-import { FileType } from "../index";
+import { FileType } from "../../main";
 import { StyledFileBlock } from "./styled";
 import TxtIcon from "../../../assets/images/txt.png";
 import UnknownIcon from "../../../assets/images/unknown.png";

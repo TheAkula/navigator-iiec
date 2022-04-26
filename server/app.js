@@ -4,7 +4,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const http = require("http");
 const multer = require("multer");
-const upload = multer({ dest: path.join(__dirname) });
+const upload = multer({ dest: path.join(__dirname, "uploads") });
 
 const app = express();
 
@@ -79,7 +79,6 @@ app.post("/delete-file", jsonParser, (req, res, next) => {
         console.log(err);
         return res.status(500).json({ err: err });
       }
-      console.log("deleted file");
 
       return res.status(200).json({ message: "success" });
     });
@@ -89,7 +88,6 @@ app.post("/delete-file", jsonParser, (req, res, next) => {
       console.log(err);
       return res.status(500).json({ err: err });
     }
-    console.log("deleted folder");
     return res.status(200).json({ message: "success" });
   });
 });
@@ -145,7 +143,6 @@ app.post("/copy-file", jsonParser, async (req, res, next) => {
   }
 
   new Promise((resolve, reject) => {
-    console.log("why");
     return resolve(copyFolderSync(from, to));
   }).then(() => {
     res.status(200).json({ message: "success" });

@@ -2,6 +2,8 @@ import FileViewer from "../../fileViewer";
 import MainRoutes from "../../../routes/mainRoutes";
 import { StyledMainMenu } from "./styled";
 import Logo from "../../../assets/images/logo 1.svg";
+import { FileType, SelectedFile } from "..";
+import { Dispatch, SetStateAction } from "react";
 
 interface MainMenuProps {
   path: string | null;
@@ -10,6 +12,10 @@ interface MainMenuProps {
   prevPath: string | null;
   setLoading: (l: boolean) => void;
   loading: boolean;
+  files: FileType[] | null;
+  selectedFiles: SelectedFile[];
+  update: () => void;
+  changeSelectedFiles: Dispatch<SetStateAction<SelectedFile[]>>;
 }
 
 const MainMenu = ({
@@ -18,7 +24,11 @@ const MainMenu = ({
   isFileViewer,
   prevPath,
   setLoading,
+  files,
+  selectedFiles,
+  update,
   loading,
+  changeSelectedFiles,
 }: MainMenuProps) => {
   return (
     <StyledMainMenu
@@ -32,6 +42,10 @@ const MainMenu = ({
     >
       {isFileViewer && path ? (
         <FileViewer
+          files={files}
+          selectedFiles={selectedFiles}
+          update={update}
+          changeSelectedFiles={changeSelectedFiles}
           prevPath={prevPath}
           path={path!}
           changePath={onChangePath}

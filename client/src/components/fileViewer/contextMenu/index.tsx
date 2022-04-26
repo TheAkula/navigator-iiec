@@ -1,5 +1,5 @@
 import { StyledContextMenu } from "./styled";
-import { SelectedFile } from "../";
+import { SelectedFile } from "../../main";
 
 interface ContextMenuProps {
   files: SelectedFile[];

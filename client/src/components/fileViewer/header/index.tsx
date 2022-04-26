@@ -1,6 +1,7 @@
 import { StyledHeader } from "./styled";
 import HeaderItem from "./headerItem";
-import { FileType, SortType } from "../index";
+import { SortType } from "../index";
+import { FileType } from "../../main";
 
 interface HeaderProps {
   clicked: (type: keyof FileType) => void;
