@@ -1,14 +1,14 @@
-import { REWithChildren } from "../../../../../types";
 import { StyledHeaderItem } from "./styled";
 import { SortType } from "../../";
 import { FileType } from "../../../main";
-import Arrow from "../../../svgComponents/arrow";
+import { ArrowIcon } from "../../../../icons";
 
 type HeaderItemProps = {
   clicked: (type: keyof FileType) => void;
   type: keyof FileType;
   sortType: SortType;
-} & REWithChildren;
+  children: React.ReactNode
+}
 
 const HeaderItem = ({ children, clicked, type, sortType }: HeaderItemProps) => {
   const onClickedHandler = () => {
@@ -24,7 +24,7 @@ const HeaderItem = ({ children, clicked, type, sortType }: HeaderItemProps) => {
       <span>{children}</span>
       {sortType.name === type && (
         <div className="arrow">
-          <Arrow />
+          <ArrowIcon />
         </div>
       )}
     </StyledHeaderItem>

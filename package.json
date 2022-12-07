@@ -13,9 +13,11 @@
     "body-parser": "^1.20.0",
     "express": "^4.17.3",
     "multer": "^1.4.4",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
-    "@types/node": "^17.0.23"
+    "@types/node": "^17.0.23",
+    "@types/styled-components": "^5.1.26"
   }
 }

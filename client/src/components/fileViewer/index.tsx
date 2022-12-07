@@ -9,7 +9,7 @@ import {
 import BackFileBlock from "./backFileBlock";
 import FileBlock from "./fileBlock";
 import Header from "./header";
-import Modal from "../modal";
+import { Modal } from "../modal";
 import { ContextMenu } from "./contextMenu";
 import { StyledFileViewer } from "./styled";
 import { FileType, SelectedFile } from "../main";

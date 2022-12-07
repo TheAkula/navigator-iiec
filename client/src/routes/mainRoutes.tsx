@@ -1,13 +1,10 @@
 import { Routes, Route } from "react-router";
-import Main from "../views/main";
-import OurPride from "../views/our-pride";
-import Requests from "../views/requests";
-import Student from "../views/student";
+import { Home, OurPride, Requests, Student } from '../components/views';
 
-const MainRoutes = () => {
+export const MainRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Main />} />
+      <Route path="/" element={<Home />} />
       <Route path="/requests" element={<Requests />} />
       <Route path="/student" element={<Student />} />
       <Route path="/our-pride" element={<OurPride />} />
@@ -15,4 +12,3 @@ const MainRoutes = () => {
   );
 };
 
-export default MainRoutes;
