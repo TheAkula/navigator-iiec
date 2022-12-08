@@ -4,12 +4,14 @@ import {
   Delete,
   Get,
   Post,
+  Query,
+  Req,
   Res,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { CopyDto } from './dtos/req/copy.dto';
 import { DeleteDto } from './dtos/req/delete.dto';
 import { GetFileDto } from './dtos/req/get-file.dto';
@@ -18,20 +20,20 @@ import { ReadDirDto } from './dtos/req/read-directory.dto';
 import { RenameDto } from './dtos/req/rename.dto';
 import { UploadFilesDto } from './dtos/req/upload-files.dto';
 import { SuccessDto } from './dtos/res/success.dto';
-import { File } from './file';
+import { FileType } from './file';
 import { FilesService } from './files.service';
 
-@Controller('files')
+@Controller()
 export class FilesController {
   constructor(private filesService: FilesService) {}
 
   @Get('/download-file')
   getFile(@Res() res: Response, @Body() { path }: GetFileDto) {
-    return res.download(this.filesService.getPath(path));
+    return res.download(this.filesService.getPath(...path));
   }
 
   @Get('/read-directory')
-  readDir(@Body() readDirDto: ReadDirDto): Promise<File[]> {
+  readDir(@Query() readDirDto: ReadDirDto): Promise<FileType[]> {
     return this.filesService.readDir(readDirDto);
   }
 

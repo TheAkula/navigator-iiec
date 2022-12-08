@@ -1,2 +1,2 @@
-export { MainMenu } from './main-menu'
-export * from './styled'
+export { MainMenu } from "./main-menu";
+export * from "./styled";

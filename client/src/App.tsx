@@ -1,7 +1,12 @@
+import { FileViewerContextProvider } from "./context/file-viewer";
 import { Layout } from "./layout";
 
 function App() {
-  return <Layout />;
+  return (
+    <FileViewerContextProvider>
+      <Layout />
+    </FileViewerContextProvider>
+  );
 }
 
 export default App;

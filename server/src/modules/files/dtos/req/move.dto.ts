@@ -3,15 +3,12 @@ import { Type } from 'class-transformer';
 
 export class MoveItemDto {
   @IsString()
-  path: string;
-
-  @IsString()
-  filename: string;
+  path: string[];
 }
 
 export class MoveDto {
   @IsString()
-  dest: string;
+  dest: string[];
 
   @IsArray()
   @Type(() => MoveItemDto)
