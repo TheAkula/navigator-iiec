@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const StyledContextMenu = styled.div`
   width: 200px;
@@ -28,4 +28,4 @@ export const StyledContextMenu = styled.div`
       background-color: #ededed;
     }
   }
-`;
+`

@@ -1,5 +1,5 @@
-import { StyledContextMenu } from "./styled";
-import { SelectedFile } from "../../main";
+import { StyledContextMenu } from './styled'
+import { SelectedFile } from '../../main'
 
 interface ContextMenuProps {
   files: SelectedFile[];
@@ -30,33 +30,33 @@ export const ContextMenu = ({
   onPaste,
 }: ContextMenuProps) => {
   const cutFiles = () => {
-    closeContextMenu();
-    onCutFiles();
-  };
+    closeContextMenu()
+    onCutFiles()
+  }
 
   const copyFiles = () => {
-    closeContextMenu();
-    onCopyFiles();
-  };
+    closeContextMenu()
+    onCopyFiles()
+  }
 
   const renameFile = () => {
-    onRenameFile(files[0].path);
-    closeContextMenu();
-  };
+    onRenameFile(files[0].path)
+    closeContextMenu()
+  }
 
   const update = () => {
-    onUpdate();
-    closeContextMenu();
-  };
+    onUpdate()
+    closeContextMenu()
+  }
 
   const paste = () => {
-    closeContextMenu();
-    onPaste();
-  };
+    closeContextMenu()
+    onPaste()
+  }
 
   return (
     <StyledContextMenu
-      style={{ left: pos[0] + "px", top: pos[1] + "px" }}
+      style={{ left: pos[0] + 'px', top: pos[1] + 'px' }}
       id="context-menu"
     >
       {files.length ? (
@@ -92,5 +92,5 @@ export const ContextMenu = ({
         </>
       )}
     </StyledContextMenu>
-  );
-};
+  )
+}

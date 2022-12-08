@@ -1,14 +1,14 @@
-import Archive from "../../assets/images/archive.svg";
-import Event from "../../assets/images/event.svg";
-import Konsultant from "../../assets/images/konsultant-plus.svg";
-import Library from "../../assets/images/library.svg";
-import MetObr from "../../assets/images/metod-obr.svg";
-import Web from "../../assets/images/optimize-web.svg";
-import Quality from "../../assets/images/quality.svg";
-import Timetable from "../../assets/images/timetable.svg";
-import Weather from "../../assets/images/weather.svg";
-import Yandex from "../../assets/images/Yandex_znak.svg";
-import { MenuItemType } from "./types";
+import Archive from '../../assets/images/archive.svg'
+import Event from '../../assets/images/event.svg'
+import Konsultant from '../../assets/images/konsultant-plus.svg'
+import Library from '../../assets/images/library.svg'
+import MetObr from '../../assets/images/metod-obr.svg'
+import Web from '../../assets/images/optimize-web.svg'
+import Quality from '../../assets/images/quality.svg'
+import Timetable from '../../assets/images/timetable.svg'
+import Weather from '../../assets/images/weather.svg'
+import Yandex from '../../assets/images/Yandex_znak.svg'
+import { MenuItemType } from './types'
 
 interface SidebarTypes {
     id: string,

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const StyledFileBlock = styled.a`
   display: grid;
@@ -50,4 +50,4 @@ export const StyledFileBlock = styled.a`
       height: 100%;
     }
   }
-`;
+`

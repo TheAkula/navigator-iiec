@@ -1,7 +1,7 @@
-import { StyledHeader } from "./styled";
-import HeaderItem from "./headerItem";
-import { SortType } from "../index";
-import { FileType } from "../../main";
+import { StyledHeader } from './styled'
+import HeaderItem from './headerItem'
+import { SortType } from '../index'
+import { FileType } from '../../main'
 
 interface HeaderProps {
   clicked: (type: keyof FileType) => void;
@@ -24,7 +24,7 @@ const Header = ({ clicked, sortType }: HeaderProps) => {
         Размер
       </HeaderItem>
     </StyledHeader>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

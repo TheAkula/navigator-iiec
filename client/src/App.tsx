@@ -1,7 +1,7 @@
-import { Layout } from "./layout";
+import { Layout } from './layout'
 
 function App() {
-  return <Layout />;
+  return <Layout />
 }
 
-export default App;
+export default App

@@ -1,9 +1,9 @@
-import FileViewer from "../../fileViewer";
-import { StyledMainMenu } from "./styled";
-import Logo from "../../../assets/images/logo 1.svg";
-import { FileType, SelectedFile } from "..";
-import { Dispatch, SetStateAction } from "react";
-import { MainRoutes } from "../../../routes";
+import FileViewer from '../../fileViewer'
+import { StyledMainMenu } from './styled'
+import Logo from '../../../assets/images/logo 1.svg'
+import { FileType, SelectedFile } from '..'
+import { Dispatch, SetStateAction } from 'react'
+import { MainRoutes } from '../../../routes'
 
 interface MainMenuProps {
   path: string | null;
@@ -35,9 +35,9 @@ export const MainMenu = ({
       className="main-menu"
       style={{
         backgroundImage: `url('${Logo}')`,
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "calc(100% - 100px)",
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'calc(100% - 100px)',
       }}
     >
       {isFileViewer && path ? (
@@ -56,6 +56,6 @@ export const MainMenu = ({
         <MainRoutes />
       )}
     </StyledMainMenu>
-  );
-};
+  )
+}
 

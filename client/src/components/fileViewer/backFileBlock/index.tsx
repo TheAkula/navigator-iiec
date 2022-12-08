@@ -1,6 +1,6 @@
-import { StyledFileBlock } from "../fileBlock/styled";
-import FolderIcon from "../../../assets/images/folder.png";
-import { MouseEventHandler } from "react";
+import { StyledFileBlock } from '../fileBlock/styled'
+import FolderIcon from '../../../assets/images/folder.png'
+import { MouseEventHandler } from 'react'
 
 interface BackFileBlockProps {
   path: string;
@@ -18,19 +18,19 @@ const BackFileBlock = ({
   selected,
 }: BackFileBlockProps) => {
   const onDoubleClicked = () => {
-    onChangePath(path);
-  };
+    onChangePath(path)
+  }
 
   const onClicked: MouseEventHandler = (e) => {
-    selectedFile("...", e.ctrlKey, true);
-  };
+    selectedFile('...', e.ctrlKey, true)
+  }
 
   return (
     <StyledFileBlock
       style={{
-        cursor: loading ? "wait" : "pointer",
+        cursor: loading ? 'wait' : 'pointer',
       }}
-      className={selected ? "selected file-block" : "file-block"}
+      className={selected ? 'selected file-block' : 'file-block'}
       onClick={onClicked}
       onDoubleClick={onDoubleClicked}
     >
@@ -41,7 +41,7 @@ const BackFileBlock = ({
         <span>...</span>
       </div>
     </StyledFileBlock>
-  );
-};
+  )
+}
 
-export default BackFileBlock;
+export default BackFileBlock

@@ -1,7 +1,7 @@
-import { StyledHeader, StyledNavigation, StyledNavigationItem, StyledAddress, StyledLogo } from "./styled";
-import Marker from "../../assets/images/map 1.svg";
-import LogoImage from "../../assets/images/logo.svg";
-import { headerMenuData } from "./types";
+import { StyledHeader, StyledNavigation, StyledNavigationItem, StyledAddress, StyledLogo } from './styled'
+import Marker from '../../assets/images/map 1.svg'
+import LogoImage from '../../assets/images/logo.svg'
+import { headerMenuData } from './types'
 
 export const Header = () => {
   return (
@@ -26,6 +26,6 @@ export const Header = () => {
       </StyledAddress>
       
     </StyledHeader>
-  );
-};
+  )
+}
 

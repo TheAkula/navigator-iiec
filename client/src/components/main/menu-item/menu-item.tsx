@@ -12,8 +12,9 @@ interface Props {
 
 export const MenuItem = ({ path, children, roleLinks = MenuItemType.Link, changePath, state }: Props) => {
     const changeHandler = () => {
-        changePath!(path, "");
-    };
+        changePath!(path, '')
+    }
+
     return (
         <>
             {roleLinks === MenuItemType.Link && <StyledMenuLink to={path}>{children}</StyledMenuLink>}

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const StyledMain = styled.main`
   display: grid;
@@ -12,7 +12,7 @@ export const StyledMain = styled.main`
   @media screen and (max-width: 1620px) {
     grid-template-columns: 340px minmax(500px, 960px) 340px;
   }
-`;
+`
 
 export const StyledMenu = styled.div`
   border: 2px solid #c9c9c9;
@@ -28,4 +28,4 @@ export const StyledMenu = styled.div`
     margin-left: 30px;
     margin-bottom: 15px;
   }
-`;
+`
