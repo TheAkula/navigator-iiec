@@ -18,7 +18,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js,.ts,.jsx,.tsx src",
-    "format": "yarn run lint --fix & yarn prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
+    "format": "yarn run lint --fix & yarn prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
+    "precommit": "sh scripts/my-specific-hook.sh"
   },
   "proxy": "http://localhost:3001",
   "browserslist": {
@@ -56,5 +57,10 @@
     "prettier": "^2.8.1",
     "react-dom": "^18.0.0"
   },
-  "prettier": "@imaginary-cloud/prettier-config"
+  "husky": {
+    "hooks": {
+       "pre-commit": "npm test",
+      "commit-msg": "sh scripts/my-specific-hook.sh"
+    }
+   }
 }

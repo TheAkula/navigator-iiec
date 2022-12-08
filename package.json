@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "husky": "^8.0.2",
+    "lint-staged": "13.0.3"
+  },
+  "lint-staged": {
+    "*.{js,tsx,ts}": "eslint --fix"
+  }
+}
