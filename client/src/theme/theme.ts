@@ -1,9 +1,9 @@
 import { colors } from './colors'
 import { createGlobalStyle, DefaultTheme } from 'styled-components'
 import { Fonts } from './fonts'
-import RobotoRegular from '../assets/fonts/Roboto-Regular.ttf';
-import RobotoMediuam from '../assets/fonts/Roboto-Medium.ttf';
-import RobotoBold from '../assets/fonts/Roboto-Bold.ttf';
+import RobotoRegular from '../assets/fonts/Roboto-Regular.ttf'
+import RobotoMediuam from '../assets/fonts/Roboto-Medium.ttf'
+import RobotoBold from '../assets/fonts/Roboto-Bold.ttf'
 
 export type ThemeType = {
   theme: typeof theme
@@ -40,4 +40,4 @@ export const GlobalStyle = createGlobalStyle<ThemeType>`
     -khtml-user-select: none;
     user-select: none;
   }
-`;
+`

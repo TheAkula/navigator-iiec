@@ -11,9 +11,9 @@ export const MainMenu = () => {
       className="main-menu"
       style={{
         backgroundImage: `url('${Logo}')`,
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "calc(100% - 100px)",
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'calc(100% - 100px)',
       }}
     >
       <FileViewer />

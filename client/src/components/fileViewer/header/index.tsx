@@ -43,7 +43,7 @@ const Header = ({ clicked, filters }: HeaderProps) => {
         Размер
       </HeaderItem>
     </StyledHeader>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

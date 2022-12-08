@@ -1,25 +1,30 @@
-import React from 'react'
-import { MouseEventHandler } from "react";
-import { StyledModal, Background } from "./styled";
+import React, { useRef } from 'react'
+import {
+  StyledModal,
+  Background,
+  WrapperButtons,
+  ButtonAgree,
+  ButtonCancel,
+} from './styled'
 
-type ModalProps = {
-  onAgree: MouseEventHandler<HTMLButtonElement>
-  onCancel: MouseEventHandler<HTMLButtonElement>
-  children: React.ReactNode
-};
+interface ModalProps {
+  onAgree: () => void
+  onCancel: () => void
+  children?: React.ReactNode
+}
 
 export const Modal = ({ children, onAgree, onCancel }: ModalProps) => {
-  return (
-    <>  
-      <StyledModal>
-        <p>{children}</p>
-        <div>
-          <button onClick={onAgree}>Ок</button>
-          <button onClick={onCancel}>Отмена</button>
-        </div>
-      </StyledModal>
-      <Background />
-    </>
-  );
-};
+  const modalRef = useRef<HTMLDivElement>(null)
 
+  return (
+    <Background>
+      <StyledModal ref={modalRef}>
+        {children}
+        <WrapperButtons>
+          <ButtonAgree onClick={onAgree}>Ок</ButtonAgree>
+          <ButtonCancel onClick={onCancel}>Отмена</ButtonCancel>
+        </WrapperButtons>
+      </StyledModal>
+    </Background>
+  )
+}
