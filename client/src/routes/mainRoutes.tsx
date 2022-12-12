@@ -1,5 +1,5 @@
-import { Routes, Route } from "react-router";
-import { Home, OurPride, Requests, Student } from '../components/views';
+import { Routes, Route } from 'react-router'
+import { Home, OurPride, Requests, Student } from '../components/views'
 
 export const MainRoutes = () => {
   return (
@@ -9,6 +9,6 @@ export const MainRoutes = () => {
       <Route path="/student" element={<Student />} />
       <Route path="/our-pride" element={<OurPride />} />
     </Routes>
-  );
-};
+  )
+}
 

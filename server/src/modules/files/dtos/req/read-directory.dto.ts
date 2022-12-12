@@ -1,6 +1,8 @@
-import { IsString } from 'class-validator';
+import { IsArray, IsEmpty, IsOptional, IsString } from 'class-validator';
 
 export class ReadDirDto {
-  @IsString()
-  path: string;
+  // @IsString({ each: true })
+  // @IsOptional()
+  @IsArray()
+  path: string[];
 }

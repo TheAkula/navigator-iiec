@@ -2,16 +2,15 @@ import { IsString, IsArray } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class MoveItemDto {
-  @IsString()
-  path: string;
-
-  @IsString()
-  filename: string;
+  @IsString({ each: true })
+  @IsArray()
+  path: string[];
 }
 
 export class MoveDto {
-  @IsString()
-  dest: string;
+  @IsString({ each: true })
+  @IsArray()
+  dest: string[];
 
   @IsArray()
   @Type(() => MoveItemDto)

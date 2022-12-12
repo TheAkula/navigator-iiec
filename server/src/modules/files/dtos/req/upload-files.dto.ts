@@ -1,6 +1,7 @@
-import { IsString } from 'class-validator';
+import { IsArray, IsString } from 'class-validator';
 
 export class UploadFilesDto {
-  @IsString()
-  dest: string;
+  @IsString({ each: true })
+  @IsArray()
+  dest: string[];
 }

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const StyledViewsComponent = styled.li`
   margin-bottom: 15px;
@@ -13,4 +13,4 @@ export const StyledViewsComponent = styled.li`
       color: #018ddc;
     }
   }
-`;
+`

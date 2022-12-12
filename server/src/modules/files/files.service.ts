@@ -26,7 +26,7 @@ import { ReadDirDto } from './dtos/req/read-directory.dto';
 import { RenameDto } from './dtos/req/rename.dto';
 import { UploadFilesDto } from './dtos/req/upload-files.dto';
 import { SuccessDto } from './dtos/res/success.dto';
-import { File } from './file';
+import { FileType } from './file';
 
 @Injectable()
 export class FilesService {
@@ -36,9 +36,9 @@ export class FilesService {
     return join(this.apiConfigService.getLocalPath(), ...paths);
   }
 
-  async readDir({ path }: ReadDirDto): Promise<File[]> {
-    return new Promise<File[]>((res) => {
-      return readdir(this.getPath(path), async (err, content) => {
+  async readDir({ path }: ReadDirDto): Promise<FileType[]> {
+    return new Promise<FileType[]>((res) => {
+      return readdir(this.getPath(...path), async (err, content) => {
         if (err) {
           throw new InternalServerErrorException(
             'Произошла ошибка при чтении папки',
@@ -47,8 +47,8 @@ export class FilesService {
         const files = [];
 
         for (const file of content) {
-          const some = await new Promise<File>((resolve) => {
-            stat(this.getPath(path, file), (err, stats) => {
+          const some = await new Promise<FileType>((resolve) => {
+            stat(this.getPath(...path, file), (err, stats) => {
               if (err) {
                 throw new InternalServerErrorException(
                   'Произошла ошибка при чтении папки',
@@ -60,9 +60,9 @@ export class FilesService {
                 isDir: stats.isDirectory(),
                 ext: extname(file),
                 title: file,
-                path: join(path, file),
+                path: [...path, file],
                 mtime: stats.mtimeMs,
-                fullPath: this.getPath(path, file),
+                fullPath: this.getPath(...path, file),
               };
 
               return resolve(obj);
@@ -84,7 +84,7 @@ export class FilesService {
       await new Promise(() => {
         rename(
           join(this.apiConfigService.getUploadDest(), file.filename),
-          this.getPath(dest, file.filename),
+          this.getPath(...dest, file.filename),
           (err) => {
             if (err) {
               throw new InternalServerErrorException(
@@ -101,7 +101,7 @@ export class FilesService {
 
   async delete({ files }: DeleteDto): Promise<void> {
     for (const file of files) {
-      const filePath = this.getPath(file);
+      const filePath = this.getPath(...file);
       const isDir = statSync(filePath);
 
       if (isDir) {
@@ -132,8 +132,8 @@ export class FilesService {
     for (const file of files) {
       await new Promise(() =>
         rename(
-          this.getPath(file.path),
-          this.getPath(dest, file.filename),
+          this.getPath(...file.path),
+          this.getPath(...dest, file.path[file.path.length - 1]),
           (err) => {
             if (err) {
               throw new InternalServerErrorException(
@@ -146,16 +146,18 @@ export class FilesService {
     }
   }
 
-  async rename({ path, new_name, dest }: RenameDto): Promise<void> {
-    return this.move({
-      dest,
-      files: [
-        {
-          filename: new_name,
-          path: path,
-        },
-      ],
-    });
+  async rename({ path, new_name }: RenameDto): Promise<void> {
+    return rename(
+      this.getPath(...path),
+      this.getPath(...path.slice(0, path.length - 1).concat(new_name)),
+      (err) => {
+        if (err) {
+          throw new InternalServerErrorException(
+            'Произошла ошибка при переименовыании файла',
+          );
+        }
+      },
+    );
   }
 
   private copyFolderSync(from: string, to: string): void {
@@ -172,17 +174,17 @@ export class FilesService {
     });
   }
 
-  async copy({ files }: CopyDto): Promise<void> {
+  async copy({ files, to }: CopyDto): Promise<void> {
     for (const file of files) {
-      if (file.parent === file.from) {
+      if (file.from[file.from.length - 2] === to[file.from.length - 1]) {
         throw new BadRequestException(
           'Конечная папка, в которую следует поместить файлы, является дочерней для папки, в которой они находятся.',
         );
       }
 
-      if (statSync(file.from).isFile()) {
+      if (statSync(this.getPath(...file.from)).isFile()) {
         await new Promise(() =>
-          copyFile(file.from, file.to, (err) => {
+          copyFile(this.getPath(...file.from), this.getPath(...to), (err) => {
             if (err) {
               throw new BadRequestException(
                 'Произошла ошибка при копировании файлов',
@@ -192,13 +194,18 @@ export class FilesService {
         );
       } else {
         await new Promise(() => {
-          return cp(file.from, file.to, { recursive: true }, (err) => {
-            if (err) {
-              throw new InternalServerErrorException(
-                'Произошла ошибка при копировании папки',
-              );
-            }
-          });
+          return cp(
+            this.getPath(...file.from),
+            this.getPath(...to),
+            { recursive: true },
+            (err) => {
+              if (err) {
+                throw new InternalServerErrorException(
+                  'Произошла ошибка при копировании папки',
+                );
+              }
+            },
+          );
         });
       }
     }

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const LayoutWrapper = styled.div`
   display: flex;
@@ -6,4 +6,4 @@ export const LayoutWrapper = styled.div`
   justify-content: space-between;
   width: 100%;
   height: calc(100vh - 80px);
-`;
+`

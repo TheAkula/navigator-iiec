@@ -1,6 +1,7 @@
-import { IsString } from 'class-validator';
+import { IsArray, IsString } from 'class-validator';
 
 export class GetFileDto {
-  @IsString()
-  path: string;
+  // @IsString({ each: true })
+  @IsArray()
+  path: string[];
 }

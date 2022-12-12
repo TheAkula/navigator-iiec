@@ -10,8 +10,8 @@ export type ThemeType = {
 }
 
 export const theme: DefaultTheme = {
-    ...colors,
-    ...Fonts,
+  ...colors,
+  ...Fonts,
 }
 
 export const GlobalStyle = createGlobalStyle<ThemeType>`

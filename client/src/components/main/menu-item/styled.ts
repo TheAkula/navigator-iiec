@@ -1,5 +1,5 @@
-import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
+import styled, { css } from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const sharedStyle = css`
   display: flex;
@@ -27,9 +27,9 @@ const sharedStyle = css`
 
 export const StyledMenuA = styled.a`
   ${sharedStyle}
-`;
+`
 
 export const StyledMenuLink = styled(Link)`
   ${sharedStyle}
-`;
+`
 

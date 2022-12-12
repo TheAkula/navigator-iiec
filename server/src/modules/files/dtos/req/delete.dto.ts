@@ -1,7 +1,7 @@
 import { IsArray, IsString } from 'class-validator';
 
 export class DeleteDto {
-  @IsArray()
-  @IsString()
-  files: string[];
+  @IsArray({ each: true })
+  @IsString({ each: true })
+  files: string[][];
 }
