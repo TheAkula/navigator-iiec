@@ -9,6 +9,7 @@ import {
 import {
   copy_files,
   delete_files,
+  download_file,
   move_files,
   open_directory,
   rename_file,
@@ -69,6 +70,7 @@ interface FileViewerContextValue {
   renameFile: (newName: string) => Promise<void>;
   copyFiles: (dest: string[]) => Promise<void>;
   openDirectory: (path: string[]) => Promise<void>;
+  downloadFile: (path: string[], title: string) => Promise<void>;
 }
 
 const FileViewerContext = createContext<FileViewerContextValue>({
@@ -102,6 +104,7 @@ const FileViewerContext = createContext<FileViewerContextValue>({
   renameFile: () => Promise.resolve(),
   copyFiles: () => Promise.resolve(),
   openDirectory: () => Promise.resolve(),
+  downloadFile: () => Promise.resolve(),
   /* eslint-enable @typescript-eslint/no-empty-function */
 })
 
@@ -112,7 +115,7 @@ interface Props {
 export const FileViewerContextProvider = ({ children }: Props) => {
   const [buffer, setBuffer] = useState<FileType[]>([])
   const [nativeBuffer, setNativeBuffer] = useState<File[]>([])
-  const [path, setPath] = useState<string[]>(['/'])
+  const [path, setPath] = useState<string[]>([])
   const [mode, setMode] = useState<MainMode>(MainMode.ROUTES)
   const [files, setFiles] = useState<FileType[]>([])
   const [loading, setLoading] = useState(false)
@@ -171,6 +174,17 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     const respone = await open_directory({ path })
     setFiles(respone.data)
     setPath(path)
+  })
+
+  const downloadFile = request(async (path: string[], title: string) => {
+    const res = await download_file({ path })
+    const blob = new Blob([res.data])
+
+    const link = document.createElement('a')
+    const url = URL.createObjectURL(blob)
+    link.href = url
+    link.download = title
+    link.click()
   })
 
   const goNext = request(async (dir: string) => {
@@ -273,6 +287,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
         mode,
         files,
         filters,
+        downloadFile,
         toggleFilter,
         addToBuffer,
         clearBuffer,

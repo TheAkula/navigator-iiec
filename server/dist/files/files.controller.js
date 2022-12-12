@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FilesController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
+const fs_1 = require("fs");
 const copy_dto_1 = require("./dtos/req/copy.dto");
 const delete_dto_1 = require("./dtos/req/delete.dto");
 const get_file_dto_1 = require("./dtos/req/get-file.dto");
@@ -28,7 +29,9 @@ let FilesController = class FilesController {
         this.filesService = filesService;
     }
     getFile(res, { path }) {
-        return res.download(this.filesService.getPath(...path));
+        const file = (0, fs_1.createReadStream)(this.filesService.getPath(...path));
+        console.log(file);
+        file.pipe(res);
     }
     readDir(readDirDto) {
         return this.filesService.readDir(readDirDto);

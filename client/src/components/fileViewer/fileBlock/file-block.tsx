@@ -22,7 +22,7 @@ interface FileBlockProps {
 }
 
 const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
-  const { goNext } = useFileViewerContext()
+  const { goNext, downloadFile } = useFileViewerContext()
   // const onContextMenuHandler: MouseEventHandler = (e) => {
   //   e.preventDefault();
   //   e.stopPropagation();
@@ -37,14 +37,10 @@ const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
     if (file.isDir) {
       e.preventDefault()
 
-      return goNext(file.title)
+      return await goNext(file.title)
     }
-    // const link = document.createElement('a')
-    // link.href = server_host + endpoints.downloadFile
-    // link.click()
-    // console.log(file.path)
 
-    await download_file({ path: file.path })
+    await downloadFile(file.path, file.title)
   }
 
   // const onClicked: MouseEventHandler = (e) => {

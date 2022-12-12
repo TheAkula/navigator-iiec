@@ -21,7 +21,7 @@ let FilesService = class FilesService {
     getPath(...paths) {
         return (0, path_1.join)(this.apiConfigService.getLocalPath(), ...paths);
     }
-    async readDir({ path }) {
+    async readDir({ path = [] }) {
         return new Promise((res) => {
             return (0, fs_1.readdir)(this.getPath(...path), async (err, content) => {
                 if (err) {
