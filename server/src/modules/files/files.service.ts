@@ -36,7 +36,7 @@ export class FilesService {
     return join(this.apiConfigService.getLocalPath(), ...paths);
   }
 
-  async readDir({ path }: ReadDirDto): Promise<FileType[]> {
+  async readDir({ path = [] }: ReadDirDto): Promise<FileType[]> {
     return new Promise<FileType[]>((res) => {
       return readdir(this.getPath(...path), async (err, content) => {
         if (err) {

@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Header,
   Post,
   Query,
   Req,
@@ -12,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Response, Request } from 'express';
+import { createReadStream } from 'fs';
 import { CopyDto } from './dtos/req/copy.dto';
 import { DeleteDto } from './dtos/req/delete.dto';
 import { GetFileDto } from './dtos/req/get-file.dto';
@@ -29,7 +31,9 @@ export class FilesController {
 
   @Get('/download-file')
   getFile(@Res() res: Response, @Query() { path }: GetFileDto) {
-    return res.download(this.filesService.getPath(...path));
+    const file = createReadStream(this.filesService.getPath(...path));
+    console.log(file);
+    file.pipe(res);
   }
 
   @Get('/read-directory')
