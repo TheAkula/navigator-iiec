@@ -1,36 +1,22 @@
 import { StyledFileBlock } from '../fileBlock/styled'
 import FolderIcon from '../../../assets/images/folder.png'
 import { MouseEventHandler } from 'react'
+import { useFileViewerContext } from '../../../context/file-viewer'
 
-interface BackFileBlockProps {
-  path: string;
-  onChangePath: (p: string) => void;
-  loading: boolean;
-  selectedFile: (f: string, m: boolean, d: boolean) => void;
-  selected: boolean;
-}
+const BackFileBlock = () => {
+  const { goBack } = useFileViewerContext()
 
-const BackFileBlock = ({
-  path,
-  onChangePath,
-  loading,
-  selectedFile,
-  selected,
-}: BackFileBlockProps) => {
-  const onDoubleClicked = () => {
-    onChangePath(path)
+  const onDoubleClicked = async () => {
+    await goBack()
   }
 
   const onClicked: MouseEventHandler = (e) => {
-    selectedFile('...', e.ctrlKey, true)
+    // selectedFile('...', e.ctrlKey, true)
   }
 
   return (
     <StyledFileBlock
-      style={{
-        cursor: loading ? 'wait' : 'pointer',
-      }}
-      className={selected ? 'selected file-block' : 'file-block'}
+      // className={selected ? 'selected file-block' : 'file-block'}
       onClick={onClicked}
       onDoubleClick={onDoubleClicked}
     >

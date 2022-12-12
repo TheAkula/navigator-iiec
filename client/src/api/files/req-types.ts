@@ -1,35 +1,39 @@
 export interface OpenDirectoryRequest {
-  path: string[];
+  path: string[]
 }
 
 export interface UploadFilesRequest {
-  files: File[];
-  dest: string[];
+  files: File[]
+  dest: string[]
 }
 
 export interface DeleteFilesRequest {
-  files: string[][];
+  files: string[][]
 }
 
 export interface MoveFilesItem {
-  path: string[];
+  path: string[]
 }
 
 export interface MoveFilesRequest {
-  files: MoveFilesItem[];
-  dest: string[];
+  files: MoveFilesItem[]
+  dest: string[]
 }
 
 export interface RenameFileRequest {
-  path: string[];
-  newName: string;
+  path: string[]
+  newName: string
 }
 
 export interface CopyFilesItem {
-  from: string[];
+  from: string[]
 }
 
 export interface CopyFilesRequest {
-  files: CopyFilesItem[];
-  dest: string[];
+  files: CopyFilesItem[]
+  dest: string[]
+}
+
+export interface DownloadRequest {
+  path: string[]
 }

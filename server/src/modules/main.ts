@@ -1,6 +1,5 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { json } from 'body-parser';
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
@@ -9,6 +8,7 @@ async function bootstrap() {
       origin: 'http://localhost:3000',
     },
   });
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

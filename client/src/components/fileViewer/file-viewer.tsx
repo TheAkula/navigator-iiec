@@ -88,8 +88,6 @@ export const FileViewer = () => {
 
   const onContextMenu = () => {
     // eslint-disable-next-line no-console
-    console.log('context-menu')
-
   }
 
   const onContextMenuFile = (path: string[], x: number, y: number) => {
@@ -130,13 +128,7 @@ export const FileViewer = () => {
   return (
     <StyledFileViewer onContextMenu={onContextMenu}>
       <Header filters={filters} clicked={toggleFilter} />
-      {/* <BackFileBlock
-        selected={rootDirIsSel}
-        selectedFile={onSelectedFile}
-        loading={loading}
-        path={prevPath!}
-        onChangePath={changePath}
-      /> */}
+      <BackFileBlock />
       {fileList}
       {/* {showContextMenu && (
         <ContextMenu

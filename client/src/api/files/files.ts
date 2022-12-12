@@ -3,6 +3,7 @@ import { api } from '../init'
 import {
   CopyFilesRequest,
   DeleteFilesRequest,
+  DownloadRequest,
   MoveFilesRequest,
   OpenDirectoryRequest,
   RenameFileRequest,
@@ -49,5 +50,11 @@ export const rename_file = async (req: RenameFileRequest) => {
 export const copy_files = async (req: CopyFilesRequest) => {
   return api.post<SuccessResponse>(endpoints.copy, {
     data: req,
+  })
+}
+
+export const download_file = async (req: DownloadRequest) => {
+  return api.get<void>(endpoints.downloadFile, {
+    params: req,
   })
 }

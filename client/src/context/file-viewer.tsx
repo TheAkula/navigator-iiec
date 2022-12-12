@@ -57,8 +57,8 @@ interface FileViewerContextValue {
   addToBuffer: (files: FileType[]) => void;
   removeFromBuffer: (files: FileType[]) => void;
   clearBuffer: () => void;
-  goNext: (dir: string) => void;
-  goBack: () => void;
+  goNext: (dir: string) => Promise<void>;
+  goBack: () => Promise<void>;
   getPrevPath: () => string[];
   addToNativeBuffer: (files: File[]) => void;
   clearNativeBuffer: () => void;
@@ -87,8 +87,8 @@ const FileViewerContext = createContext<FileViewerContextValue>({
   },
   /* eslint-disable @typescript-eslint/no-empty-function */
   toggleFilter: () => { },
-  goBack: () => { },
-  goNext: () => { },
+  goBack: () => Promise.resolve(),
+  goNext: () => Promise.resolve(),
   getPrevPath: () => [],
   removeFromBuffer: () => { },
   addToBuffer: () => { },
@@ -175,16 +175,19 @@ export const FileViewerContextProvider = ({ children }: Props) => {
 
   const goNext = request(async (dir: string) => {
     const response = await open_directory({ path: path.concat(dir) })
+
     setFiles(() => response.data)
     setPath((prev) => [...prev, dir])
   })
 
   const goBack = request(async () => {
-    const respone = await open_directory({
-      path: path.slice(0, path.length - 1),
-    })
-    setFiles(respone.data)
-    setPath((prevPath) => prevPath.slice(0, prevPath.length - 1))
+    if (path.length) {
+      const respone = await open_directory({
+        path: path.slice(0, path.length - 1),
+      })
+      setFiles(respone.data)
+      setPath((prevPath) => prevPath.slice(0, prevPath.length - 1))
+    }
   })
 
   const uploadFiles = request(async (dest: string[]) => {

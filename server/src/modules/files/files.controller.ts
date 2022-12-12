@@ -28,7 +28,7 @@ export class FilesController {
   constructor(private filesService: FilesService) {}
 
   @Get('/download-file')
-  getFile(@Res() res: Response, @Body() { path }: GetFileDto) {
+  getFile(@Res() res: Response, @Query() { path }: GetFileDto) {
     return res.download(this.filesService.getPath(...path));
   }
 

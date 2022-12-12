@@ -6,11 +6,14 @@ import {
 } from 'react'
 import { StyledFileBlock } from './styled'
 
-import { FileType } from '../../../context/file-viewer'
+import { FileType, useFileViewerContext } from '../../../context/file-viewer'
 import { getIcon } from '../../../utils/file-info/get-file-icon'
 import { getDate } from '../../../utils/file-info/get-file-date'
 import { getExt } from '../../../utils/file-info/get-file-ext'
 import { getSize } from '../../../utils/file-info/get-file-size'
+import { endpoints } from '../../../api/endpoints'
+import { server_host } from '../../../api/init'
+import { download_file } from '../../../api'
 
 interface FileBlockProps {
   file: FileType;
@@ -19,6 +22,7 @@ interface FileBlockProps {
 }
 
 const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
+  const { goNext } = useFileViewerContext()
   // const onContextMenuHandler: MouseEventHandler = (e) => {
   //   e.preventDefault();
   //   e.stopPropagation();
@@ -29,15 +33,19 @@ const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
   //   );
   // };
 
-  // const onDoubleClicked: MouseEventHandler<HTMLAnchorElement> = (e) => {
-  //   if (isDir) {
-  //     e.preventDefault();
-  //     return changePath(path + "/");
-  //   }
-  //   const link = document.createElement("a");
-  //   link.href = "/get-file" + path;
-  //   link.click();
-  // };
+  const onDoubleClicked: MouseEventHandler<HTMLAnchorElement> = async (e) => {
+    if (file.isDir) {
+      e.preventDefault()
+
+      return goNext(file.title)
+    }
+    // const link = document.createElement('a')
+    // link.href = server_host + endpoints.downloadFile
+    // link.click()
+    // console.log(file.path)
+
+    await download_file({ path: file.path })
+  }
 
   // const onClicked: MouseEventHandler = (e) => {
   //   e.preventDefault();
@@ -78,21 +86,20 @@ const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
   // };
 
   return (
-    // <div>{file.path.join()}</div>
     <StyledFileBlock
-    // href={
-    //   !isDir
-    //     ? "/get-file" + path
-    //     : "file:///C:/Users/Pechenka/navigator/server" + path
-    // }
-    // className={selected ? "selected file-block" : "file-block"}
-    // draggable
-    // style={{
-    //   cursor: loading ? "wait" : "default",
-    // }}
-    // onClick={onClicked}
-    // onDrop={onDropped}
-    // onDoubleClick={onDoubleClicked}
+      // href={
+      //   !isDir
+      //     ? "/get-file" + path
+      //     : "file:///C:/Users/Pechenka/navigator/server" + path
+      // }
+      // className={selected ? "selected file-block" : "file-block"}
+      // draggable
+      // style={{
+      //   cursor: loading ? "wait" : "default",
+      // }}
+      // onClick={onClicked}
+      // onDrop={onDropped}
+      onDoubleClick={onDoubleClicked}
     // onDragStart={onDragStart}
     // onDragEnd={() => {
     //   changeLocalDrag(false);
