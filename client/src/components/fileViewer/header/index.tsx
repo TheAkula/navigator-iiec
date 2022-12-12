@@ -1,6 +1,6 @@
-import { StyledHeader } from "./styled";
-import { HeaderItem } from "./headerItem/header-item";
-import { FileViewerFilter, Filter } from "../../../context/file-viewer";
+import { StyledHeader } from './styled'
+import { HeaderItem } from './headerItem/header-item'
+import { FileViewerFilter, Filter } from '../../../context/file-viewer'
 
 interface HeaderProps {
   clicked: (type: Filter) => void;

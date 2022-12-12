@@ -1,4 +1,4 @@
-import { FileType } from "../../context/file-viewer";
+import { FileType } from '../../context/file-viewer'
 
 export type OpenDirectoryResponse = FileType[];
 

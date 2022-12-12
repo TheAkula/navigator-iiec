@@ -1,16 +1,18 @@
+import { Type } from 'class-transformer';
 import { IsArray, IsString } from 'class-validator';
 
 export class CopyItemDto {
   @IsArray()
-  @IsString()
+  @IsString({ each: true })
   from: string[];
 }
 
 export class CopyDto {
   @IsArray()
-  @IsString()
+  @Type(() => CopyItemDto)
   files: CopyItemDto[];
 
-  @IsString()
+  @IsString({ each: true })
+  @IsArray()
   to: string[];
 }

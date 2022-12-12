@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const StyledFooter = styled.footer`
   text-align: center;
@@ -8,4 +8,4 @@ export const StyledFooter = styled.footer`
     color: #018ddc;
     font-size: 18px;
   }
-`;
+`

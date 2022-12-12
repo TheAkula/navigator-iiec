@@ -1,6 +1,6 @@
-import { StyledHeaderItem } from "./styled";
-import { ArrowIcon } from "../../../../icons";
-import { Filter, FilterState } from "../../../../context/file-viewer";
+import { StyledHeaderItem } from './styled'
+import { ArrowIcon } from '../../../../icons'
+import { Filter, FilterState } from '../../../../context/file-viewer'
 
 type HeaderItemProps = {
   clicked: (type: Filter) => void;
@@ -18,8 +18,8 @@ export const HeaderItem = ({
   active,
 }: HeaderItemProps) => {
   const onClickedHandler = () => {
-    clicked(type);
-  };
+    clicked(type)
+  }
 
   return (
     <StyledHeaderItem
@@ -34,5 +34,5 @@ export const HeaderItem = ({
         </div>
       )}
     </StyledHeaderItem>
-  );
-};
+  )
+}

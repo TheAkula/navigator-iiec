@@ -1,6 +1,6 @@
-import React from "react";
-import { MenuItemType } from "../types";
-import { StyledMenuA, StyledMenuLink } from "./styled";
+import React from 'react'
+import { MenuItemType } from '../types'
+import { StyledMenuA, StyledMenuLink } from './styled'
 
 interface Props {
   path: string[] | string;
@@ -17,13 +17,13 @@ export const MenuItem = ({
   changePath,
   state,
 }: Props) => {
-  const stringPath = Array.isArray(path) ? path.join() : path;
+  const stringPath = Array.isArray(path) ? path.join() : path
 
   const changeHandler = () => {
     if (Array.isArray(path)) {
-      changePath(path);
+      changePath(path)
     }
-  };
+  }
 
   return (
     <>
@@ -37,13 +37,13 @@ export const MenuItem = ({
       )}
       {roleLinks === MenuItemType.FileManager && (
         <StyledMenuLink
-          to={stringPath ?? "/"}
-          state={state ?? ""}
+          to={stringPath ?? '/'}
+          state={state ?? ''}
           onClick={changeHandler}
         >
           {children}
         </StyledMenuLink>
       )}
     </>
-  );
-};
+  )
+}

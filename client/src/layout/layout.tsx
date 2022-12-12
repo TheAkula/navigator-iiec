@@ -1,5 +1,5 @@
-import { Footer, Main, Header } from "../components";
-import { LayoutWrapper } from "./styled";
+import { Footer, Main, Header } from '../components'
+import { LayoutWrapper } from './styled'
 
 export const Layout = () => {
   return (
@@ -10,6 +10,6 @@ export const Layout = () => {
         <Footer />
       </LayoutWrapper>
     </div>
-  );
-};
+  )
+}
 

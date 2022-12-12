@@ -1,65 +1,70 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 import {
   FileType,
   FileViewerFilter,
   Filter,
   FilterState,
   useFileViewerContext,
-} from "../../context/file-viewer";
-import BackFileBlock from "./backFileBlock";
-import { ContextMenu } from "./contextMenu";
-import FileBlock from "./fileBlock/file-block";
-import Header from "./header";
-import { StyledFileViewer } from "./styled";
+} from '../../context/file-viewer'
+import BackFileBlock from './backFileBlock'
+import { ContextMenu } from './contextMenu'
+import FileBlock from './fileBlock/file-block'
+import Header from './header'
+import { StyledFileViewer } from './styled'
 
 const getSortKey = (filter: Filter): keyof FileType => {
   switch (filter) {
     case Filter.TITLE:
-      return "title";
+      return 'title'
+
     case Filter.EXT:
-      return "ext";
+      return 'ext'
+
     case Filter.SIZE:
-      return "size";
+      return 'size'
+
     case Filter.TIME:
-      return "mtime";
+      return 'mtime'
+
     default:
-      throw new Error("Bad sort filter");
+      throw new Error('Bad sort filter')
   }
-};
+}
 
 const getSortedValue = <T,>(filterState: FilterState, a: T, b: T) => {
   if (filterState === FilterState.ASC) {
-    return a < b;
+    return a < b
   } else {
-    return a > b;
+    return a > b
   }
-};
+}
 
 const getSortedFiles = (files: FileType[], filters: FileViewerFilter) => {
   const newFiles = files.sort((a, b) => {
     const sortedFilters: Filter[] = Object.keys(filters)
       .sort((a, b) => filters[+a as Filter][1] - filters[+b as Filter][1])
-      .map((f) => +f);
+      .map((f) => +f)
 
     for (const filter of sortedFilters) {
-      const sortKey = getSortKey(filter);
+      const sortKey = getSortKey(filter)
       const sortedValue = getSortedValue(
         filters[filter][0],
         a[sortKey],
         b[sortKey]
-      );
+      )
+
       if (sortedValue) {
-        return -1;
+        return -1
       } else {
-        return 0;
+        return 0
       }
     }
 
-    return 1;
-  });
+    return 1
+  })
 
-  return newFiles;
-};
+  return newFiles
+}
 
 export const FileViewer = () => {
   const {
@@ -71,41 +76,45 @@ export const FileViewer = () => {
     clearBuffer,
     buffer,
     toggleFilter,
-  } = useFileViewerContext();
-  const [showContextMenu, setShowContextMenu] = useState(false);
+  } = useFileViewerContext()
+  const [showContextMenu, setShowContextMenu] = useState(false)
   const [contextMenuCoords, setContextMenuCoords] = useState<[number, number]>([
     0, 0,
-  ]);
+  ])
 
   useEffect(() => {
-    openDirectory(path);
-  }, []);
+    openDirectory(path)
+  }, [])
 
-  const onContextMenu = () => {};
+  const onContextMenu = () => {
+    // eslint-disable-next-line no-console
+    console.log('context-menu')
+
+  }
 
   const onContextMenuFile = (path: string[], x: number, y: number) => {
-    const findedFile = files.find((f) => f.path.join() === path.join());
+    const findedFile = files.find((f) => f.path.join() === path.join())
 
     if (findedFile) {
-      setShowContextMenu(true);
-      setContextMenuCoords(() => [x, y]);
+      setShowContextMenu(true)
+      setContextMenuCoords(() => [x, y])
 
-      const selectedFile = buffer.find((f) => f.path.join() === path.join());
+      const selectedFile = buffer.find((f) => f.path.join() === path.join())
 
       if (!selectedFile) {
-        clearBuffer();
-        addToBuffer([findedFile]);
+        clearBuffer()
+        addToBuffer([findedFile])
       }
     }
-  };
+  }
 
-  let fileList = null;
+  let fileList = null
 
   if (files && files.length) {
     fileList = getSortedFiles(files, filters).map((file, i) => {
       const selected = buffer.find((f) => {
-        return f.path.join() === file.path.join();
-      });
+        return f.path.join() === file.path.join()
+      })
 
       return (
         <FileBlock
@@ -114,8 +123,8 @@ export const FileViewer = () => {
           file={file}
           onContextMenu={onContextMenuFile}
         />
-      );
-    });
+      )
+    })
   }
 
   return (
@@ -151,5 +160,5 @@ export const FileViewer = () => {
         </Modal>
       )} */}
     </StyledFileViewer>
-  );
-};
+  )
+}

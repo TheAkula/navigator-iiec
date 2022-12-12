@@ -1,2 +1,2 @@
-export { OurPride } from "./our-pride";
+export { OurPride } from './our-pride'
 export * from './types'

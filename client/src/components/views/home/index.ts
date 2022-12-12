@@ -1,2 +1,2 @@
-export { Home } from "./home";
+export { Home } from './home'
 export * from './types'

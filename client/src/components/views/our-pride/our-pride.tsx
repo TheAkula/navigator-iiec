@@ -1,7 +1,7 @@
-import React from "react";
-import { RenderItem } from "../render-item";
-import { ViewsComponentsList } from "../styled";
-import { ourPrideData } from "./types";
+import React from 'react'
+import { RenderItem } from '../render-item'
+import { ViewsComponentsList } from '../styled'
+import { ourPrideData } from './types'
 
 export const OurPride = () => {
   return (
@@ -10,5 +10,5 @@ export const OurPride = () => {
         <RenderItem key={el.id} path={el.path}>{el.title}</RenderItem>
       ))}
     </ViewsComponentsList>
-  );
-};
+  )
+}

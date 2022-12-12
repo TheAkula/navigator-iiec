@@ -1,7 +1,8 @@
-import { IsString } from 'class-validator';
+import { IsArray, IsString } from 'class-validator';
 
 export class RenameDto {
-  @IsString()
+  @IsString({ each: true })
+  @IsArray()
   path: string[];
 
   @IsString()

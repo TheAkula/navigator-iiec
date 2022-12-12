@@ -1,20 +1,21 @@
-import React from "react";
-import { StyledMain, StyledMenu } from "./styled";
-import { useEffect, useState, useCallback } from "react";
-import { MainMenu } from "./main-menu";
-import axios from "axios";
-import { useLocation } from "react-router";
-import { FileType, SelectedFile } from "./types";
-import { leftSidebarData } from "./menu-types";
-import { MenuItem } from "./menu-item";
-import { rightSidebarData } from "./additionally-types";
-import { useFileViewerContext } from "../../context/file-viewer";
+import React from 'react'
+import { StyledMain, StyledMenu } from './styled'
+import { useEffect, useState, useCallback } from 'react'
+import { MainMenu } from './main-menu'
+import axios from 'axios'
+import { useLocation } from 'react-router'
+import { FileType, SelectedFile } from './types'
+import { leftSidebarData } from './menu-types'
+import { MenuItem } from './menu-item'
+import { rightSidebarData } from './additionally-types'
+import { useFileViewerContext } from '../../context/file-viewer'
 
 export const Main = () => {
-  const { openDirectory } = useFileViewerContext();
+  const { openDirectory } = useFileViewerContext()
+
   const onChangePath = (path: string[]) => {
-    openDirectory(path);
-  };
+    openDirectory(path)
+  }
   // const [path, setPath] = useState<null | string>(null);
   // const [prevPath, setPrevPath] = useState<null | string>(null);
   // const [loading, setLoading] = useState(false);
@@ -104,5 +105,5 @@ export const Main = () => {
         </ul>
       </StyledMenu>
     </StyledMain>
-  );
-};
+  )
+}
