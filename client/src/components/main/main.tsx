@@ -8,7 +8,7 @@ import { FileType, SelectedFile } from './types'
 import { leftSidebarData } from './menu-types'
 import { MenuItem } from './menu-item'
 import { rightSidebarData } from './additionally-types'
-import { useFileViewerContext } from '../../context/file-viewer'
+import { useFileViewerContext } from '../../context/file-viewer-context'
 
 export const Main = () => {
   const { openDirectory } = useFileViewerContext()

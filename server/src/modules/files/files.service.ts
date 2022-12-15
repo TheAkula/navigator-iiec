@@ -136,6 +136,8 @@ export class FilesService {
           this.getPath(...dest, file.path[file.path.length - 1]),
           (err) => {
             if (err) {
+              console.log(err);
+
               throw new InternalServerErrorException(
                 'Произошла ошибка при перемещении файла',
               );
@@ -174,7 +176,9 @@ export class FilesService {
     });
   }
 
-  async copy({ files, to }: CopyDto): Promise<void> {
+  async copy({ files, to = [] }: CopyDto): Promise<void> {
+    console.log(files);
+
     for (const file of files) {
       if (file.from[file.from.length - 2] === to[file.from.length - 1]) {
         throw new BadRequestException(
@@ -184,13 +188,19 @@ export class FilesService {
 
       if (statSync(this.getPath(...file.from)).isFile()) {
         await new Promise(() =>
-          copyFile(this.getPath(...file.from), this.getPath(...to), (err) => {
-            if (err) {
-              throw new BadRequestException(
-                'Произошла ошибка при копировании файлов',
-              );
-            }
-          }),
+          copyFile(
+            this.getPath(...file.from),
+            this.getPath(...to, file.from[file.from.length - 1]),
+            (err) => {
+              if (err) {
+                console.log(err);
+
+                throw new BadRequestException(
+                  'Произошла ошибка при копировании файлов',
+                );
+              }
+            },
+          ),
         );
       } else {
         await new Promise(() => {

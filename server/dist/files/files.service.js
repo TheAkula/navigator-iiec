@@ -90,6 +90,7 @@ let FilesService = class FilesService {
         for (const file of files) {
             await new Promise(() => (0, fs_1.rename)(this.getPath(...file.path), this.getPath(...dest, file.path[file.path.length - 1]), (err) => {
                 if (err) {
+                    console.log(err);
                     throw new common_1.InternalServerErrorException('Произошла ошибка при перемещении файла');
                 }
             }));
@@ -113,14 +114,16 @@ let FilesService = class FilesService {
             }
         });
     }
-    async copy({ files, to }) {
+    async copy({ files, to = [] }) {
+        console.log(files);
         for (const file of files) {
             if (file.from[file.from.length - 2] === to[file.from.length - 1]) {
                 throw new common_1.BadRequestException('Конечная папка, в которую следует поместить файлы, является дочерней для папки, в которой они находятся.');
             }
             if ((0, fs_1.statSync)(this.getPath(...file.from)).isFile()) {
-                await new Promise(() => (0, fs_1.copyFile)(this.getPath(...file.from), this.getPath(...to), (err) => {
+                await new Promise(() => (0, fs_1.copyFile)(this.getPath(...file.from), this.getPath(...to, file.from[file.from.length - 1]), (err) => {
                     if (err) {
+                        console.log(err);
                         throw new common_1.BadRequestException('Произошла ошибка при копировании файлов');
                     }
                 }));

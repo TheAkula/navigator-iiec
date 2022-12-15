@@ -15,8 +15,8 @@ const class_validator_1 = require("class-validator");
 class CopyItemDto {
 }
 __decorate([
-    (0, class_validator_1.IsArray)(),
     (0, class_validator_1.IsString)({ each: true }),
+    (0, class_validator_1.IsArray)(),
     __metadata("design:type", Array)
 ], CopyItemDto.prototype, "from", void 0);
 exports.CopyItemDto = CopyItemDto;
@@ -25,10 +25,12 @@ class CopyDto {
 __decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_transformer_1.Type)(() => CopyItemDto),
+    (0, class_validator_1.ValidateNested)({ each: true }),
     __metadata("design:type", Array)
 ], CopyDto.prototype, "files", void 0);
 __decorate([
     (0, class_validator_1.IsString)({ each: true }),
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)(),
     __metadata("design:type", Array)
 ], CopyDto.prototype, "to", void 0);

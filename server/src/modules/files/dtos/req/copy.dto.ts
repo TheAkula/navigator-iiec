@@ -1,18 +1,20 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsString } from 'class-validator';
+import { IsArray, IsOptional, IsString, ValidateNested } from 'class-validator';
 
 export class CopyItemDto {
-  @IsArray()
   @IsString({ each: true })
+  @IsArray()
   from: string[];
 }
 
 export class CopyDto {
   @IsArray()
   @Type(() => CopyItemDto)
+  @ValidateNested({ each: true })
   files: CopyItemDto[];
 
   @IsString({ each: true })
+  @IsOptional()
   @IsArray()
-  to: string[];
+  to?: string[];
 }

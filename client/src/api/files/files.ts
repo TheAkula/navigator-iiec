@@ -30,27 +30,19 @@ export const upload_files = async ({ files, dest }: UploadFilesRequest) => {
 }
 
 export const delete_files = async (req: DeleteFilesRequest) => {
-  return api.post<SuccessResponse>(endpoints.delete, {
-    data: req,
-  })
+  return api.post<SuccessResponse>(endpoints.delete, req)
 }
 
 export const move_files = async (req: MoveFilesRequest) => {
-  return api.post<SuccessResponse>(endpoints.move, {
-    data: req,
-  })
+  return api.post<SuccessResponse>(endpoints.move, req)
 }
 
 export const rename_file = async (req: RenameFileRequest) => {
-  return api.post<SuccessResponse>(endpoints.rename, {
-    data: req,
-  })
+  return api.post<SuccessResponse>(endpoints.rename, req)
 }
 
 export const copy_files = async (req: CopyFilesRequest) => {
-  return api.post<SuccessResponse>(endpoints.copy, {
-    data: req,
-  })
+  return api.post<SuccessResponse>(endpoints.copy, req)
 }
 
 export const download_file = async (req: DownloadRequest) => {

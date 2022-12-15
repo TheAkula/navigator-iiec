@@ -30,7 +30,6 @@ let FilesController = class FilesController {
     }
     getFile(res, { path }) {
         const file = (0, fs_1.createReadStream)(this.filesService.getPath(...path));
-        console.log(file);
         file.pipe(res);
     }
     readDir(readDirDto) {
@@ -52,7 +51,8 @@ let FilesController = class FilesController {
         await this.filesService.rename(renameDto);
         return { message: 'success' };
     }
-    async copy(copyDto) {
+    async copy(copyDto, req) {
+        console.log(req);
         await this.filesService.copy(copyDto);
         return { message: 'success' };
     }
@@ -105,8 +105,9 @@ __decorate([
 __decorate([
     (0, common_1.Post)('/copy'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [copy_dto_1.CopyDto]),
+    __metadata("design:paramtypes", [copy_dto_1.CopyDto, Object]),
     __metadata("design:returntype", Promise)
 ], FilesController.prototype, "copy", null);
 FilesController = __decorate([

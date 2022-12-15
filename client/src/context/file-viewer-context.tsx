@@ -54,6 +54,10 @@ interface FileViewerContextValue {
   loading: boolean;
   error: Error | null;
   filters: FileViewerFilter;
+  selectedFiles: FileType[];
+  selectFiles: (files: FileType[]) => void;
+  clearSelectedFiles: () => void;
+  removeFromSelectedFiles: (file: FileType) => void;
   toggleFilter: (filter: Filter) => void;
   addToBuffer: (files: FileType[]) => void;
   removeFromBuffer: (files: FileType[]) => void;
@@ -66,9 +70,13 @@ interface FileViewerContextValue {
   updateMode: (mode: MainMode) => void;
   uploadFiles: (dest: string[]) => Promise<void>;
   deleteFiles: () => Promise<void>;
-  moveFiles: (dest: string[]) => Promise<void>;
+  // moveFilesRequest: (dest: string[]) => Promise<void>;
+  // moveFiles: () => void;
   renameFile: (newName: string) => Promise<void>;
-  copyFiles: (dest: string[]) => Promise<void>;
+  copyFiles: () => void;
+  // copyFilesRequest: (dest: string[]) => Promise<void>;
+  cutFiles: () => void;
+  pasteFiles: (dest: string[]) => void;
   openDirectory: (path: string[]) => Promise<void>;
   downloadFile: (path: string[], title: string) => Promise<void>;
 }
@@ -81,6 +89,7 @@ const FileViewerContext = createContext<FileViewerContextValue>({
   files: [],
   loading: false,
   error: null,
+  selectedFiles: [],
   filters: {
     [Filter.EXT]: [FilterState.ASC, 0],
     [Filter.TITLE]: [FilterState.ASC, 1],
@@ -88,6 +97,10 @@ const FileViewerContext = createContext<FileViewerContextValue>({
     [Filter.SIZE]: [FilterState.ASC, 3],
   },
   /* eslint-disable @typescript-eslint/no-empty-function */
+  selectFiles: () => { },
+  pasteFiles: () => { },
+  removeFromSelectedFiles: () => { },
+  clearSelectedFiles: () => { },
   toggleFilter: () => { },
   goBack: () => Promise.resolve(),
   goNext: () => Promise.resolve(),
@@ -100,9 +113,11 @@ const FileViewerContext = createContext<FileViewerContextValue>({
   updateMode: () => { },
   uploadFiles: () => Promise.resolve(),
   deleteFiles: () => Promise.resolve(),
-  moveFiles: () => Promise.resolve(),
+  // moveFiles: () => { },
   renameFile: () => Promise.resolve(),
-  copyFiles: () => Promise.resolve(),
+  copyFiles: () => { },
+  // copyFilesRequest: () => Promise.resolve(),
+  cutFiles: () => { },
   openDirectory: () => Promise.resolve(),
   downloadFile: () => Promise.resolve(),
   /* eslint-enable @typescript-eslint/no-empty-function */
@@ -112,20 +127,39 @@ interface Props {
   children: ReactNode;
 }
 
+export enum BufferAction {
+  CUT,
+  COPY,
+}
+
 export const FileViewerContextProvider = ({ children }: Props) => {
   const [buffer, setBuffer] = useState<FileType[]>([])
   const [nativeBuffer, setNativeBuffer] = useState<File[]>([])
+  const [selectedFiles, setSelectedFiles] = useState<FileType[]>([])
   const [path, setPath] = useState<string[]>([])
   const [mode, setMode] = useState<MainMode>(MainMode.ROUTES)
   const [files, setFiles] = useState<FileType[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
+  const [bufferAction, setBufferAction] = useState<BufferAction>()
   const [filters, setFilters] = useState<FileViewerFilter>({
     [Filter.EXT]: [FilterState.ASC, 2],
     [Filter.TITLE]: [FilterState.ASC, 0],
     [Filter.TIME]: [FilterState.ASC, 1],
     [Filter.SIZE]: [FilterState.ASC, 3],
   })
+
+  const selectFiles = (files: FileType[]) => {
+    setSelectedFiles(prevFiles => [...prevFiles, ...files])
+  }
+
+  const clearSelectedFiles = () => {
+    setSelectedFiles(() => [])
+  }
+
+  const removeFromSelectedFiles = (file: FileType) => {
+    setSelectedFiles(prevFiles => prevFiles.filter(f => f === file))
+  }
 
   const toggleFilter = (filter: Filter) => {
     function incrementFilters(filters: FileViewerFilter, filter: Filter) {
@@ -218,7 +252,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     }
   })
 
-  const moveFiles = request(async (dest: string[]) => {
+  const moveFilesRequest = request(async (dest: string[]) => {
     if (buffer.length) {
       await move_files({
         dest,
@@ -237,7 +271,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     }
   })
 
-  const copyFiles = request(async (dest: string[]) => {
+  const copyFilesRequest = request(async (dest: string[]) => {
     if (buffer.length) {
       await copy_files({
         dest,
@@ -276,6 +310,30 @@ export const FileViewerContextProvider = ({ children }: Props) => {
 
   const updateMode = useCallback((mode: MainMode) => setMode(() => mode), [])
 
+  const copyFiles = () => {
+    setBufferAction(BufferAction.COPY)
+    clearBuffer()
+    addToBuffer(selectedFiles)
+    clearSelectedFiles()
+  }
+
+  const cutFiles = () => {
+    setBufferAction(BufferAction.CUT)
+    clearBuffer()
+    addToBuffer(selectedFiles)
+    clearSelectedFiles()
+  }
+
+  const pasteFiles = async (dest: string[]) => {
+    if (bufferAction === BufferAction.COPY) {
+      await copyFilesRequest(dest)
+    } else if (bufferAction === BufferAction.CUT) {
+      await moveFilesRequest(dest)
+    }
+
+    clearBuffer()
+  }
+
   return (
     <FileViewerContext.Provider
       value={{
@@ -287,6 +345,12 @@ export const FileViewerContextProvider = ({ children }: Props) => {
         mode,
         files,
         filters,
+        selectedFiles,
+        cutFiles,
+        pasteFiles,
+        selectFiles,
+        removeFromSelectedFiles,
+        clearSelectedFiles,
         downloadFile,
         toggleFilter,
         addToBuffer,
@@ -301,7 +365,6 @@ export const FileViewerContextProvider = ({ children }: Props) => {
         uploadFiles,
         renameFile,
         deleteFiles,
-        moveFiles,
         copyFiles,
         openDirectory,
       }}

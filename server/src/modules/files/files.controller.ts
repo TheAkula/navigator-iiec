@@ -32,7 +32,6 @@ export class FilesController {
   @Get('/download-file')
   getFile(@Res() res: Response, @Query() { path }: GetFileDto) {
     const file = createReadStream(this.filesService.getPath(...path));
-    console.log(file);
     file.pipe(res);
   }
 
@@ -74,7 +73,12 @@ export class FilesController {
   }
 
   @Post('/copy')
-  async copy(@Body() copyDto: CopyDto): Promise<SuccessDto> {
+  async copy(
+    @Body() copyDto: CopyDto,
+    @Req() req: Request,
+  ): Promise<SuccessDto> {
+    console.log(req);
+
     await this.filesService.copy(copyDto);
 
     return { message: 'success' };

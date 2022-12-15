@@ -6,14 +6,11 @@ import {
 } from 'react'
 import { StyledFileBlock } from './styled'
 
-import { FileType, useFileViewerContext } from '../../../context/file-viewer'
+import { FileType, useFileViewerContext } from '../../../context/file-viewer-context'
 import { getIcon } from '../../../utils/file-info/get-file-icon'
 import { getDate } from '../../../utils/file-info/get-file-date'
 import { getExt } from '../../../utils/file-info/get-file-ext'
 import { getSize } from '../../../utils/file-info/get-file-size'
-import { endpoints } from '../../../api/endpoints'
-import { server_host } from '../../../api/init'
-import { download_file } from '../../../api'
 
 interface FileBlockProps {
   file: FileType;
@@ -22,16 +19,17 @@ interface FileBlockProps {
 }
 
 const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
-  const { goNext, downloadFile } = useFileViewerContext()
-  // const onContextMenuHandler: MouseEventHandler = (e) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   onContextMenu(
-  //     file.path,
-  //     e.clientX + document.documentElement.scrollLeft,
-  //     e.clientY + document.documentElement.scrollTop
-  //   );
-  // };
+  const { goNext, downloadFile, clearSelectedFiles, selectFiles } = useFileViewerContext()
+
+  const onContextMenuHandler: MouseEventHandler = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onContextMenu(
+      file.path,
+      e.clientX + document.documentElement.scrollLeft,
+      e.clientY + document.documentElement.scrollTop
+    )
+  }
 
   const onDoubleClicked: MouseEventHandler<HTMLAnchorElement> = async (e) => {
     if (file.isDir) {
@@ -43,10 +41,14 @@ const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
     await downloadFile(file.path, file.title)
   }
 
-  // const onClicked: MouseEventHandler = (e) => {
-  //   e.preventDefault();
-  //   selectedFile(path, e.ctrlKey, isDir);
-  // };
+  const onClicked: MouseEventHandler = (e) => {
+    e.preventDefault()
+
+    if (!e.ctrlKey) {
+      clearSelectedFiles()
+    }
+    selectFiles([file])
+  }
 
   // const onDragStart: DragEventHandler<HTMLAnchorElement> = (e) => {
   //   if (!selected) {
@@ -93,14 +95,15 @@ const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
       // style={{
       //   cursor: loading ? "wait" : "default",
       // }}
-      // onClick={onClicked}
+      onClick={onClicked}
+      selected={selected}
       // onDrop={onDropped}
       onDoubleClick={onDoubleClicked}
-    // onDragStart={onDragStart}
-    // onDragEnd={() => {
-    //   changeLocalDrag(false);
-    // }}
-    // onContextMenu={onContextMenuHandler}
+      // onDragStart={onDragStart}
+      // onDragEnd={() => {
+      //   changeLocalDrag(false);
+      // }}
+      onContextMenu={onContextMenuHandler}
     >
       <div className="main-inf">
         <div className="image-container">

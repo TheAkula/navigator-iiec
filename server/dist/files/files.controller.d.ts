@@ -1,5 +1,5 @@
 /// <reference types="multer" />
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { CopyDto } from './dtos/req/copy.dto';
 import { DeleteDto } from './dtos/req/delete.dto';
 import { GetFileDto } from './dtos/req/get-file.dto';
@@ -19,5 +19,5 @@ export declare class FilesController {
     delete(deleteDto: DeleteDto): Promise<SuccessDto>;
     move(moveDto: MoveDto): Promise<SuccessDto>;
     rename(renameDto: RenameDto): Promise<SuccessDto>;
-    copy(copyDto: CopyDto): Promise<SuccessDto>;
+    copy(copyDto: CopyDto, req: Request): Promise<SuccessDto>;
 }

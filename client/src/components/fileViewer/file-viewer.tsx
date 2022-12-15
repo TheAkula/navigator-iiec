@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react'
+import { MouseEventHandler, useEffect, useState } from 'react'
+import { ContextMenuMode, useContextMenuContext } from '../../context/context-menu-context'
 import {
   FileType,
   FileViewerFilter,
   Filter,
   FilterState,
   useFileViewerContext,
-} from '../../context/file-viewer'
+} from '../../context/file-viewer-context'
 import BackFileBlock from './backFileBlock'
-import { ContextMenu } from './contextMenu'
+import { ContextMenu } from './contextMenu/context-menu'
 import FileBlock from './fileBlock/file-block'
 import Header from './header'
 import { StyledFileViewer } from './styled'
@@ -75,19 +76,32 @@ export const FileViewer = () => {
     addToBuffer,
     clearBuffer,
     buffer,
+    selectedFiles,
     toggleFilter,
+    selectFiles,
   } = useFileViewerContext()
-  const [showContextMenu, setShowContextMenu] = useState(false)
-  const [contextMenuCoords, setContextMenuCoords] = useState<[number, number]>([
-    0, 0,
-  ])
+  const { show, setShowContextMenu, setCoords, setContextMenuMode } = useContextMenuContext()
 
   useEffect(() => {
     openDirectory(path)
   }, [])
 
-  const onContextMenu = () => {
+  useEffect(() => {
+    document.addEventListener('click', () => {
+      setShowContextMenu(false)
+    })
+  }, [])
+
+  const onContextMenu: MouseEventHandler = (e) => {
     // eslint-disable-next-line no-console
+    e.stopPropagation()
+    e.preventDefault()
+    setShowContextMenu(true)
+    setContextMenuMode(ContextMenuMode.WORKSPACE)
+    setCoords([
+      e.clientX + document.documentElement.scrollLeft,
+      e.clientY + document.documentElement.scrollTop
+    ])
   }
 
   const onContextMenuFile = (path: string[], x: number, y: number) => {
@@ -95,13 +109,14 @@ export const FileViewer = () => {
 
     if (findedFile) {
       setShowContextMenu(true)
-      setContextMenuCoords(() => [x, y])
+      setContextMenuMode(ContextMenuMode.FILE)
+      setCoords([x, y])
 
-      const selectedFile = buffer.find((f) => f.path.join() === path.join())
+      const selectedFile = selectedFiles.find((f) => f.path.join() === path.join())
 
       if (!selectedFile) {
         clearBuffer()
-        addToBuffer([findedFile])
+        selectFiles([findedFile])
       }
     }
   }
@@ -130,22 +145,9 @@ export const FileViewer = () => {
       <Header filters={filters} clicked={toggleFilter} />
       <BackFileBlock />
       {fileList}
-      {/* {showContextMenu && (
-        <ContextMenu
-          onDeleteFile={onDeleteFile}
-          onCopyFiles={onCopyFiles}
-          onCutFiles={onCutFiles}
-          files={selectedFiles}
-          setLoading={setLoading}
-          closeContextMenu={onCloseContextMenu}
-          onRenameFile={onRenameFile}
-          isHaveCopiedFiles={!!copiedFiles}
-          onCreate={onCreate}
-          {...contextMenu!}
-          onUpdate={update}
-          onPaste={onContextMenuPaste}
-        />
-      )} */}
+      {show && (
+        <ContextMenu />
+      )}
       {/* {modal && (
         <Modal onAgree={modal.onAgree} onCancel={modal.onCancel}>
           {modal.content}

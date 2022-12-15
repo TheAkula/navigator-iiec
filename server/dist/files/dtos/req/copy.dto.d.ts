@@ -3,5 +3,5 @@ export declare class CopyItemDto {
 }
 export declare class CopyDto {
     files: CopyItemDto[];
-    to: string[];
+    to?: string[];
 }
