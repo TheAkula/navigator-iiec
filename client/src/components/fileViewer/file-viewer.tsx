@@ -1,4 +1,5 @@
-import { MouseEventHandler, useEffect, useState } from 'react'
+import { MouseEventHandler, useEffect, useRef, useState } from 'react'
+import { poll } from '../../api'
 import { ContextMenuMode, useContextMenuContext } from '../../context/context-menu-context'
 import {
   FileType,
@@ -73,27 +74,48 @@ export const FileViewer = () => {
     files,
     openDirectory,
     filters,
-    addToBuffer,
     clearBuffer,
-    buffer,
     selectedFiles,
     toggleFilter,
+    clearSelectedFiles,
     selectFiles,
   } = useFileViewerContext()
   const { show, setShowContextMenu, setCoords, setContextMenuMode } = useContextMenuContext()
+  const [timer, setTimer] = useState<NodeJS.Timer>()
+
+  useEffect(() => {
+    clearInterval(timer)
+    const t = poll(openDirectory, 10, 1000, path)
+    setTimer(t)
+
+    return () => {
+      clearInterval(timer)
+    }
+  }, [path])
 
   useEffect(() => {
     openDirectory(path)
   }, [])
 
   useEffect(() => {
-    document.addEventListener('click', () => {
+    function closeContextMenu() {
       setShowContextMenu(false)
-    })
+    }
+
+    function clearSelected() {
+      clearSelectedFiles()
+    }
+
+    document.addEventListener('click', closeContextMenu)
+    document.addEventListener('click', clearSelected)
+
+    return () => {
+      document.removeEventListener('click', closeContextMenu)
+      document.removeEventListener('click', clearSelected)
+    }
   }, [])
 
   const onContextMenu: MouseEventHandler = (e) => {
-    // eslint-disable-next-line no-console
     e.stopPropagation()
     e.preventDefault()
     setShowContextMenu(true)
@@ -125,7 +147,7 @@ export const FileViewer = () => {
 
   if (files && files.length) {
     fileList = getSortedFiles(files, filters).map((file, i) => {
-      const selected = buffer.find((f) => {
+      const selected = selectedFiles.find((f) => {
         return f.path.join() === file.path.join()
       })
 

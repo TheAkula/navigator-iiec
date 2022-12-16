@@ -7,8 +7,12 @@ export interface UploadFilesRequest {
   dest: string[]
 }
 
+export interface DeleteFileItem {
+  path: string[]
+}
+
 export interface DeleteFilesRequest {
-  files: string[][]
+  files: DeleteFileItem[]
 }
 
 export interface MoveFilesItem {

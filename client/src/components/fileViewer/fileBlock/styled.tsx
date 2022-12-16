@@ -19,7 +19,7 @@ export const StyledFileBlock = styled.a<StyledFileBlockProps>`
   }
 
   :hover {
-    background-color: #bee7ff7e;
+    background-color: ${({ selected }) => selected ? '#8fcef37e' : '#bee7ff7e'};
   }
 
   span {

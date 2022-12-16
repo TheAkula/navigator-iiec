@@ -4,7 +4,7 @@ import { useFileViewerContext } from '../../../context/file-viewer-context'
 import { ContextMenuMode, useContextMenuContext } from '../../../context/context-menu-context'
 
 export const ContextMenu = () => {
-  const { copyFiles, cutFiles, pasteFiles, path, selectedFiles } = useFileViewerContext()
+  const { copyFiles, cutFiles, pasteFiles, path, deleteFiles, downloadFile, selectedFiles } = useFileViewerContext()
   const { mode, coords, setShowContextMenu } = useContextMenuContext()
 
   const contextMenuOperation = <T extends unknown[]>(cb: (...args: T) => void) =>
@@ -25,52 +25,47 @@ export const ContextMenu = () => {
     pasteFiles(path)
   })
 
-  // const renameFile = () => {
-  //   onRenameFile(files[0].path)
-  //   closeContextMenu()
-  // }
+  const onDelete = contextMenuOperation(() => {
+    deleteFiles()
+  })
 
-  // const update = () => {
-  //   onUpdate()
-  //   closeContextMenu()
-  // }
+  const onDownload = contextMenuOperation(() => {
+    if (selectedFiles.length === 1 && !selectedFiles[0].isDir) {
+      downloadFile(selectedFiles[0].path, selectedFiles[0].title)
+    }
+  })
 
   return (
     <StyledContextMenu
       style={{ left: coords[0] + 'px', top: coords[1] + 'px' }}
       id="context-menu"
-    // onClick={(e) => e.stopPropagation()}
     >
       {mode === ContextMenuMode.FILE ? (
         <>
-          {/* <div className="context-menu-block" onClick={onDeleteFile}>
+          <div className="context-menu-block" onClick={onDelete}>
             <span>Удалить</span>
-          </div> */}
+          </div>
           <div className="context-menu-block" onClick={onCut}>
             <span>Вырезать</span>
           </div>
           <div className="context-menu-block" onClick={onCopy}>
             <span>Копировать</span>
           </div>
-          {/* {selectedFiles.length === 1 && (
-            <div className="context-menu-block" onClick={renameFile}>
-              <span>Переименовать</span>
-            </div>
-          )} */}
+          {selectedFiles.length === 1 && !selectedFiles[0].isDir &&
+            <div className="context-menu-block" onClick={onDownload}>
+              <span>Скачать</span>
+            </div>}
         </>
       ) : (
         <>
           <div className="context-menu-block">
             <span>Создать</span>
           </div>
-          {/* <div className="context-menu-block" onClick={update}>
-            <span>Обновить</span>
-          </div> */}
-          {(
-            <div className="context-menu-block" onClick={onPaste}>
-              <span>Вставить</span>
-            </div>
-          )}
+
+          <div className="context-menu-block" onClick={onPaste}>
+            <span>Вставить</span>
+          </div>
+
         </>
       )}
     </StyledContextMenu>

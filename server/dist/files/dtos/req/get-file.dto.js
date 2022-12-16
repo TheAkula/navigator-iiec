@@ -14,6 +14,7 @@ const class_validator_1 = require("class-validator");
 class GetFileDto {
 }
 __decorate([
+    (0, class_validator_1.IsString)({ each: true }),
     (0, class_validator_1.IsArray)(),
     __metadata("design:type", Array)
 ], GetFileDto.prototype, "path", void 0);

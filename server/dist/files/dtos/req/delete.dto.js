@@ -10,12 +10,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeleteDto = void 0;
+const common_1 = require("@nestjs/common");
+const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
+class DeleteItemDto {
+}
+__decorate([
+    (0, class_validator_1.IsString)({ each: true }),
+    (0, class_validator_1.IsArray)(),
+    __metadata("design:type", Array)
+], DeleteItemDto.prototype, "path", void 0);
 class DeleteDto {
 }
 __decorate([
-    (0, class_validator_1.IsArray)({ each: true }),
-    (0, class_validator_1.IsString)({ each: true }),
+    (0, class_validator_1.IsArray)(),
+    (0, class_transformer_1.Type)(() => DeleteItemDto),
+    (0, class_transformer_1.Transform)(({ value }) => {
+        try {
+            return Array.isArray(value) ? value.map((v) => JSON.parse(v)) : value;
+        }
+        catch (err) {
+            throw new common_1.BadRequestException(err);
+        }
+    }),
     __metadata("design:type", Array)
 ], DeleteDto.prototype, "files", void 0);
 exports.DeleteDto = DeleteDto;

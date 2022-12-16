@@ -66,7 +66,7 @@ let FilesService = class FilesService {
     }
     async delete({ files }) {
         for (const file of files) {
-            const filePath = this.getPath(...file);
+            const filePath = this.getPath(...file.path);
             const isDir = (0, fs_1.statSync)(filePath);
             if (isDir) {
                 await new Promise(() => {
@@ -115,7 +115,6 @@ let FilesService = class FilesService {
         });
     }
     async copy({ files, to = [] }) {
-        console.log(files);
         for (const file of files) {
             if (file.from[file.from.length - 2] === to[file.from.length - 1]) {
                 throw new common_1.BadRequestException('Конечная папка, в которую следует поместить файлы, является дочерней для папки, в которой они находятся.');

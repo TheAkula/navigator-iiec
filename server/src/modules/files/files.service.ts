@@ -101,7 +101,7 @@ export class FilesService {
 
   async delete({ files }: DeleteDto): Promise<void> {
     for (const file of files) {
-      const filePath = this.getPath(...file);
+      const filePath = this.getPath(...file.path);
       const isDir = statSync(filePath);
 
       if (isDir) {
@@ -177,8 +177,6 @@ export class FilesService {
   }
 
   async copy({ files, to = [] }: CopyDto): Promise<void> {
-    console.log(files);
-
     for (const file of files) {
       if (file.from[file.from.length - 2] === to[file.from.length - 1]) {
         throw new BadRequestException(

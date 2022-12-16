@@ -30,7 +30,9 @@ export const upload_files = async ({ files, dest }: UploadFilesRequest) => {
 }
 
 export const delete_files = async (req: DeleteFilesRequest) => {
-  return api.post<SuccessResponse>(endpoints.delete, req)
+  return api.delete<SuccessResponse>(endpoints.delete, {
+    params: req,
+  })
 }
 
 export const move_files = async (req: MoveFilesRequest) => {

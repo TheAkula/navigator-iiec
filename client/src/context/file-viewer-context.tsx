@@ -113,10 +113,8 @@ const FileViewerContext = createContext<FileViewerContextValue>({
   updateMode: () => { },
   uploadFiles: () => Promise.resolve(),
   deleteFiles: () => Promise.resolve(),
-  // moveFiles: () => { },
   renameFile: () => Promise.resolve(),
   copyFiles: () => { },
-  // copyFilesRequest: () => Promise.resolve(),
   cutFiles: () => { },
   openDirectory: () => Promise.resolve(),
   downloadFile: () => Promise.resolve(),
@@ -246,8 +244,8 @@ export const FileViewerContextProvider = ({ children }: Props) => {
   })
 
   const deleteFiles = request(async () => {
-    if (buffer.length) {
-      await delete_files({ files: buffer.map((f) => f.path) })
+    if (selectedFiles.length) {
+      await delete_files({ files: selectedFiles.map((f) => ({ path: f.path })) })
       clearBuffer()
     }
   })

@@ -52,7 +52,7 @@ export class FilesController {
   }
 
   @Delete('/delete')
-  async delete(@Body() deleteDto: DeleteDto): Promise<SuccessDto> {
+  async delete(@Query() deleteDto: DeleteDto): Promise<SuccessDto> {
     await this.filesService.delete(deleteDto);
 
     return { message: 'success' };
@@ -77,8 +77,6 @@ export class FilesController {
     @Body() copyDto: CopyDto,
     @Req() req: Request,
   ): Promise<SuccessDto> {
-    console.log(req);
-
     await this.filesService.copy(copyDto);
 
     return { message: 'success' };

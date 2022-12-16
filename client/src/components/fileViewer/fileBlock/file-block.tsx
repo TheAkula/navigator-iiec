@@ -11,6 +11,7 @@ import { getIcon } from '../../../utils/file-info/get-file-icon'
 import { getDate } from '../../../utils/file-info/get-file-date'
 import { getExt } from '../../../utils/file-info/get-file-ext'
 import { getSize } from '../../../utils/file-info/get-file-size'
+import { useContextMenuContext } from '../../../context/context-menu-context'
 
 interface FileBlockProps {
   file: FileType;
@@ -20,10 +21,15 @@ interface FileBlockProps {
 
 const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
   const { goNext, downloadFile, clearSelectedFiles, selectFiles } = useFileViewerContext()
+  const { setShowContextMenu } = useContextMenuContext()
 
   const onContextMenuHandler: MouseEventHandler = (e) => {
     e.preventDefault()
     e.stopPropagation()
+
+    if (!selected) {
+      clearSelectedFiles()
+    }
     onContextMenu(
       file.path,
       e.clientX + document.documentElement.scrollLeft,
@@ -43,6 +49,9 @@ const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
 
   const onClicked: MouseEventHandler = (e) => {
     e.preventDefault()
+    e.stopPropagation()
+    // FIXME: should not be at here
+    setShowContextMenu(false)
 
     if (!e.ctrlKey) {
       clearSelectedFiles()
@@ -70,16 +79,6 @@ const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
   //   const files = [...e.dataTransfer!.files];
   //   if (isDir) {
   //     onDrop(title, files);
-  //   }
-  // };
-
-  // const onBlured: FocusEventHandler<HTMLInputElement> = (e) => {
-  //   renamed(e.target.value);
-  // };
-
-  // const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
-  //   if (e.key === "Enter") {
-  //     (e.target as HTMLInputElement).blur();
   //   }
   // };
 

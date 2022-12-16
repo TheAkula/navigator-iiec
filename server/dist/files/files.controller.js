@@ -52,7 +52,6 @@ let FilesController = class FilesController {
         return { message: 'success' };
     }
     async copy(copyDto, req) {
-        console.log(req);
         await this.filesService.copy(copyDto);
         return { message: 'success' };
     }
@@ -83,7 +82,7 @@ __decorate([
 ], FilesController.prototype, "uploadFile", null);
 __decorate([
     (0, common_1.Delete)('/delete'),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [delete_dto_1.DeleteDto]),
     __metadata("design:returntype", Promise)
