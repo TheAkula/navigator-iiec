@@ -1,7 +1,33 @@
 {
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true    // ESLint auto format on save
+  "workbench.colorTheme": "Default Dark+",
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "[typescriptreact]": {
+  "editor.defaultFormatter": "vscode.typescript-language-features"
   },
-  "editor.formatOnSave": true,      // Prettier auto format on save
+  "[java]": {
+  "editor.defaultFormatter": "redhat.java"
+  },
+  "[javascript]": {
+  "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[html]": {
+  "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[typescript]": {
+  "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode"
-}
+  },
+  "diffEditor.ignoreTrimWhitespace": false,
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.codeActionsOnSave": {
+  "source.fixAll.eslint": true,
+  "source.fixAll": true,
+  "eslint.autoFixOnSave": true
+  },
+  "eslint.validate": ["javascript", "typescript"],
+  "eslint.alwaysShowStatus": true,
+  "[jsonc]": {
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.formatOnSave": true
+  }

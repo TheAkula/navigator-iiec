@@ -246,7 +246,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
   const deleteFiles = request(async () => {
     if (selectedFiles.length) {
       await delete_files({ files: selectedFiles.map((f) => ({ path: f.path })) })
-      clearBuffer()
+      clearSelectedFiles()
     }
   })
 
@@ -263,9 +263,9 @@ export const FileViewerContextProvider = ({ children }: Props) => {
   })
 
   const renameFile = request(async (newName: string) => {
-    if (buffer.length === 1) {
+    if (selectedFiles.length === 1) {
       await rename_file({ newName, path: buffer[0].path })
-      clearBuffer()
+      clearSelectedFiles()
     }
   })
 

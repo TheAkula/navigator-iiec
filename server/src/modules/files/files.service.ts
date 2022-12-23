@@ -3,6 +3,7 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import {
   copyFile,
   copyFileSync,
@@ -17,7 +18,7 @@ import {
   statSync,
   unlink,
 } from 'fs';
-import { extname, join } from 'path';
+import { extname, join, dirname } from 'path';
 import { ApiConfigService } from '../api-config/api-config.service';
 import { CopyDto } from './dtos/req/copy.dto';
 import { DeleteDto } from './dtos/req/delete.dto';
@@ -33,7 +34,11 @@ export class FilesService {
   constructor(private apiConfigService: ApiConfigService) {}
 
   getPath(...paths: string[]): string {
-    return join(this.apiConfigService.getLocalPath(), ...paths);
+    return join(
+      dirname(require.main.filename),
+      this.apiConfigService.getLocalPath(),
+      ...paths,
+    );
   }
 
   async readDir({ path = [] }: ReadDirDto): Promise<FileType[]> {
