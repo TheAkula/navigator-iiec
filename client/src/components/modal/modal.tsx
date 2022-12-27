@@ -1,30 +1,24 @@
-import React, { useRef } from 'react'
-import {
-  StyledModal,
-  Background,
-  WrapperButtons,
-  ButtonAgree,
-  ButtonCancel,
-} from './styled'
+import { ReactNode } from 'react'
+import { StyledModal, Background } from './styled'
+
+type SetShowModal = (show: boolean) => void
 
 interface ModalProps {
-  onAgree: () => void
-  onCancel: () => void
-  children?: React.ReactNode
+  show: boolean
+  setShowModal: SetShowModal
+  children?: ReactNode | ((func: SetShowModal) => ReactNode)
 }
 
-export const Modal = ({ children, onAgree, onCancel }: ModalProps) => {
-  const modalRef = useRef<HTMLDivElement>(null)
-
+export const Modal = ({ children, show, setShowModal }: ModalProps) => {
   return (
-    <Background>
-      <StyledModal ref={modalRef}>
-        {children}
-        <WrapperButtons>
-          <ButtonAgree onClick={onAgree}>Ок</ButtonAgree>
-          <ButtonCancel onClick={onCancel}>Отмена</ButtonCancel>
-        </WrapperButtons>
-      </StyledModal>
-    </Background>
+    <>
+      {show && (
+        <Background onClick={() => setShowModal(false)}>
+          <StyledModal onClick={(e) => e.stopPropagation()}>
+            {typeof children === 'function' ? children(setShowModal) : children}
+          </StyledModal>
+        </Background>
+      )}
+    </>
   )
 }

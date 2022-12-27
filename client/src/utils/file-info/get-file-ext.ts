@@ -1,4 +1,4 @@
-import { FileType } from '../../context/file-viewer-context'
+import { FileType } from '../../types'
 
 export const getExt = (file: FileType) => {
   if (file.isDir) {

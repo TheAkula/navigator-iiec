@@ -5,5 +5,4 @@ export interface FileType {
   title: string;
   path: string[];
   mtime: number;
-  fullPath: string;
 }

@@ -8,6 +8,8 @@ import {
 } from 'react'
 import {
   copy_files,
+  create_dir,
+  create_file,
   delete_files,
   download_file,
   move_files,
@@ -15,16 +17,7 @@ import {
   rename_file,
   upload_files,
 } from '../api/files'
-
-export interface FileType {
-  size: number;
-  isDir: boolean;
-  ext: string;
-  title: string;
-  path: string[];
-  mtime: number;
-  fullPath: string;
-}
+import { FileType } from '../types'
 
 export enum MainMode {
   FILE_VIEWER,
@@ -43,42 +36,42 @@ export enum FilterState {
   DESC,
 }
 
-export type FileViewerFilter = Record<Filter, [FilterState, number]>;
+export type FileViewerFilter = Record<Filter, [FilterState, number]>
 
 interface FileViewerContextValue {
-  buffer: FileType[];
-  nativeBuffer: File[];
-  path: string[];
-  mode: MainMode;
-  files: FileType[];
-  loading: boolean;
-  error: Error | null;
-  filters: FileViewerFilter;
-  selectedFiles: FileType[];
-  selectFiles: (files: FileType[]) => void;
-  clearSelectedFiles: () => void;
-  removeFromSelectedFiles: (file: FileType) => void;
-  toggleFilter: (filter: Filter) => void;
-  addToBuffer: (files: FileType[]) => void;
-  removeFromBuffer: (files: FileType[]) => void;
-  clearBuffer: () => void;
-  goNext: (dir: string) => Promise<void>;
-  goBack: () => Promise<void>;
-  getPrevPath: () => string[];
-  addToNativeBuffer: (files: File[]) => void;
-  clearNativeBuffer: () => void;
-  updateMode: (mode: MainMode) => void;
-  uploadFiles: (dest: string[]) => Promise<void>;
-  deleteFiles: () => Promise<void>;
-  // moveFilesRequest: (dest: string[]) => Promise<void>;
-  // moveFiles: () => void;
-  renameFile: (newName: string) => Promise<void>;
-  copyFiles: () => void;
-  // copyFilesRequest: (dest: string[]) => Promise<void>;
-  cutFiles: () => void;
-  pasteFiles: (dest: string[]) => void;
-  openDirectory: (path: string[]) => Promise<void>;
-  downloadFile: (path: string[], title: string) => Promise<void>;
+  buffer: FileType[]
+  nativeBuffer: File[]
+  path: string[]
+  mode: MainMode
+  files: FileType[]
+  loading: boolean
+  error: Error | null
+  filters: FileViewerFilter
+  selectedFiles: FileType[]
+  selectFiles: (files: FileType[]) => void
+  clearSelectedFiles: () => void
+  removeFromSelectedFiles: (file: FileType) => void
+  toggleFilter: (filter: Filter) => void
+  addToBuffer: (files: FileType[]) => void
+  removeFromBuffer: (files: FileType[]) => void
+  clearBuffer: () => void
+  goNext: (dir: string) => Promise<void>
+  goBack: () => Promise<void>
+  getPrevPath: () => string[]
+  addToNativeBuffer: (files: File[]) => void
+  clearNativeBuffer: () => void
+  updateMode: (mode: MainMode) => void
+  uploadFiles: (dest: string[]) => Promise<void>
+  deleteFiles: () => Promise<void>
+  createDir: (name: string) => Promise<void>
+  createFile: (name: string) => Promise<void>
+  renameFile: (newName: string) => Promise<void>
+  copyFiles: () => void
+  cutFiles: () => void
+  pasteFiles: () => void
+  openDirectory: (path: string[]) => Promise<void>
+  downloadFile: (path: string[], title: string) => Promise<void>
+  updateDirectory: () => Promise<void>
 }
 
 const FileViewerContext = createContext<FileViewerContextValue>({
@@ -97,32 +90,35 @@ const FileViewerContext = createContext<FileViewerContextValue>({
     [Filter.SIZE]: [FilterState.ASC, 3],
   },
   /* eslint-disable @typescript-eslint/no-empty-function */
-  selectFiles: () => { },
-  pasteFiles: () => { },
-  removeFromSelectedFiles: () => { },
-  clearSelectedFiles: () => { },
-  toggleFilter: () => { },
+  selectFiles: () => {},
+  pasteFiles: () => {},
+  removeFromSelectedFiles: () => {},
+  clearSelectedFiles: () => {},
+  toggleFilter: () => {},
   goBack: () => Promise.resolve(),
   goNext: () => Promise.resolve(),
   getPrevPath: () => [],
-  removeFromBuffer: () => { },
-  addToBuffer: () => { },
-  clearBuffer: () => { },
-  addToNativeBuffer: () => { },
-  clearNativeBuffer: () => { },
-  updateMode: () => { },
+  removeFromBuffer: () => {},
+  addToBuffer: () => {},
+  clearBuffer: () => {},
+  addToNativeBuffer: () => {},
+  clearNativeBuffer: () => {},
+  updateMode: () => {},
   uploadFiles: () => Promise.resolve(),
   deleteFiles: () => Promise.resolve(),
   renameFile: () => Promise.resolve(),
-  copyFiles: () => { },
-  cutFiles: () => { },
+  copyFiles: () => {},
+  cutFiles: () => {},
   openDirectory: () => Promise.resolve(),
   downloadFile: () => Promise.resolve(),
+  createDir: () => Promise.resolve(),
+  createFile: () => Promise.resolve(),
+  updateDirectory: () => Promise.resolve(),
   /* eslint-enable @typescript-eslint/no-empty-function */
 })
 
 interface Props {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export enum BufferAction {
@@ -148,7 +144,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
   })
 
   const selectFiles = (files: FileType[]) => {
-    setSelectedFiles(prevFiles => [...prevFiles, ...files])
+    setSelectedFiles((prevFiles) => [...prevFiles, ...files])
   }
 
   const clearSelectedFiles = () => {
@@ -156,7 +152,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
   }
 
   const removeFromSelectedFiles = (file: FileType) => {
-    setSelectedFiles(prevFiles => prevFiles.filter(f => f === file))
+    setSelectedFiles((prevFiles) => prevFiles.filter((f) => f === file))
   }
 
   const toggleFilter = (filter: Filter) => {
@@ -182,25 +178,36 @@ export const FileViewerContextProvider = ({ children }: Props) => {
 
       return {
         ...incrementedFilters,
-        [filter]: [incrementedFilters[filter][0] === FilterState.ASC ? FilterState.DESC : FilterState.ASC, incrementedFilters[filter][1]]
+        [filter]: [
+          incrementedFilters[filter][0] === FilterState.ASC
+            ? FilterState.DESC
+            : FilterState.ASC,
+          incrementedFilters[filter][1],
+        ],
       }
     })
   }
 
-  const request = useCallback(
+  const request =
     <T extends unknown[]>(cb: (...args: T) => Promise<void>) =>
-      async (...args: T) => {
-        setLoading(true)
-        setError(null)
+    async (...args: T) => {
+      setLoading(true)
+      setError(null)
 
-        try {
-          await cb(...args)
-        } catch (err) {
-          setError(err as AxiosError)
-        }
-      },
-    []
-  )
+      try {
+        await cb(...args)
+      } catch (err) {
+        setError(err as AxiosError)
+      }
+    }
+
+  const updateDirectory = useCallback(async () => {
+    const response = await open_directory({ path })
+
+    if (response.config.params.path.join() === path.join()) {
+      setFiles(() => response.data)
+    }
+  }, [path])
 
   const openDirectory = request(async (path: string[]) => {
     const respone = await open_directory({ path })
@@ -245,7 +252,9 @@ export const FileViewerContextProvider = ({ children }: Props) => {
 
   const deleteFiles = request(async () => {
     if (selectedFiles.length) {
-      await delete_files({ files: selectedFiles.map((f) => ({ path: f.path })) })
+      await delete_files({
+        files: selectedFiles.map((f) => ({ path: f.path })),
+      })
       clearSelectedFiles()
     }
   })
@@ -269,16 +278,24 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     }
   })
 
-  const copyFilesRequest = request(async (dest: string[]) => {
+  const copyFilesRequest = request(async (to: string[]) => {
     if (buffer.length) {
       await copy_files({
-        dest,
+        to,
         files: buffer.map((f) => ({
           from: f.path,
         })),
       })
       clearBuffer()
     }
+  })
+
+  const createDir = request(async (name: string) => {
+    create_dir({ name, path })
+  })
+
+  const createFile = request(async (name: string) => {
+    create_file({ name, path })
   })
 
   const addToBuffer = useCallback((files: FileType[]) => {
@@ -291,7 +308,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
         const findedFile = files.find((f) => f.path === file.path)
 
         return !findedFile
-      })
+      }),
     )
   }, [])
 
@@ -299,7 +316,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
 
   const addToNativeBuffer = useCallback(
     (files: File[]) => setNativeBuffer(() => files),
-    []
+    [],
   )
 
   const clearNativeBuffer = useCallback(() => setBuffer(() => []), [])
@@ -322,11 +339,11 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     clearSelectedFiles()
   }
 
-  const pasteFiles = async (dest: string[]) => {
+  const pasteFiles = async () => {
     if (bufferAction === BufferAction.COPY) {
-      await copyFilesRequest(dest)
+      await copyFilesRequest(path)
     } else if (bufferAction === BufferAction.CUT) {
-      await moveFilesRequest(dest)
+      await moveFilesRequest(path)
     }
 
     clearBuffer()
@@ -344,6 +361,9 @@ export const FileViewerContextProvider = ({ children }: Props) => {
         files,
         filters,
         selectedFiles,
+        updateDirectory,
+        createDir,
+        createFile,
         cutFiles,
         pasteFiles,
         selectFiles,

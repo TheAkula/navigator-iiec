@@ -6,4 +6,6 @@ export const endpoints = {
   move: 'move/',
   rename: 'rename/',
   copy: 'copy/',
+  createDir: 'create-dir/',
+  createFile: 'create-file/',
 }

@@ -2,6 +2,8 @@ import { endpoints } from '../endpoints'
 import { api } from '../init'
 import {
   CopyFilesRequest,
+  CreateDirRequest,
+  CreateFileRequest,
   DeleteFilesRequest,
   DownloadRequest,
   MoveFilesRequest,
@@ -51,4 +53,12 @@ export const download_file = async (req: DownloadRequest) => {
   return api.get<string>(endpoints.downloadFile, {
     params: req,
   })
+}
+
+export const create_dir = async (req: CreateDirRequest) => {
+  return api.post<SuccessResponse>(endpoints.createDir, req)
+}
+
+export const create_file = async (req: CreateFileRequest) => {
+  return api.post<SuccessResponse>(endpoints.createFile, req)
 }

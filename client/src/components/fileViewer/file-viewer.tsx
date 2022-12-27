@@ -1,13 +1,16 @@
 import { MouseEventHandler, useEffect, useState } from 'react'
 import { poll } from '../../api'
-import { ContextMenuMode, useContextMenuContext } from '../../context/context-menu-context'
 import {
-  FileType,
+  ContextMenuMode,
+  useContextMenuContext,
+} from '../../context/context-menu-context'
+import {
   FileViewerFilter,
   Filter,
   FilterState,
   useFileViewerContext,
 } from '../../context/file-viewer-context'
+import { FileType } from '../../types'
 import BackFileBlock from './backFileBlock'
 import { ContextMenu } from './contextMenu/context-menu'
 import FileBlock from './fileBlock/file-block'
@@ -52,7 +55,7 @@ const getSortedFiles = (files: FileType[], filters: FileViewerFilter) => {
       const sortedValue = getSortedValue(
         filters[filter][0],
         a[sortKey],
-        b[sortKey]
+        b[sortKey],
       )
 
       if (sortedValue) {
@@ -79,13 +82,15 @@ export const FileViewer = () => {
     toggleFilter,
     clearSelectedFiles,
     selectFiles,
+    updateDirectory,
   } = useFileViewerContext()
-  const { show, setShowContextMenu, setCoords, setContextMenuMode } = useContextMenuContext()
+  const { setShowContextMenu, setCoords, setContextMenuMode } =
+    useContextMenuContext()
   const [timer, setTimer] = useState<NodeJS.Timer>()
 
   useEffect(() => {
     clearInterval(timer)
-    const t = poll(openDirectory, 10, 1000, path)
+    const t = poll(updateDirectory, 10, 1000, path)
     setTimer(t)
 
     return () => {
@@ -122,7 +127,7 @@ export const FileViewer = () => {
     setContextMenuMode(ContextMenuMode.WORKSPACE)
     setCoords([
       e.clientX + document.documentElement.scrollLeft,
-      e.clientY + document.documentElement.scrollTop
+      e.clientY + document.documentElement.scrollTop,
     ])
   }
 
@@ -134,7 +139,9 @@ export const FileViewer = () => {
       setContextMenuMode(ContextMenuMode.FILE)
       setCoords([x, y])
 
-      const selectedFile = selectedFiles.find((f) => f.path.join() === path.join())
+      const selectedFile = selectedFiles.find(
+        (f) => f.path.join() === path.join(),
+      )
 
       if (!selectedFile) {
         clearBuffer()
@@ -154,7 +161,7 @@ export const FileViewer = () => {
       return (
         <FileBlock
           selected={!!selected}
-          key={file.fullPath}
+          key={file.path.join()}
           file={file}
           onContextMenu={onContextMenuFile}
         />
@@ -165,16 +172,9 @@ export const FileViewer = () => {
   return (
     <StyledFileViewer onContextMenu={onContextMenu}>
       <Header filters={filters} clicked={toggleFilter} />
-      <BackFileBlock />
+      {!!path.length && <BackFileBlock />}
       {fileList}
-      {show && (
-        <ContextMenu />
-      )}
-      {/* {modal && (
-        <Modal onAgree={modal.onAgree} onCancel={modal.onCancel}>
-          {modal.content}
-        </Modal>
-      )} */}
+      <ContextMenu />
     </StyledFileViewer>
   )
 }

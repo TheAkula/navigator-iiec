@@ -6,8 +6,8 @@ import { GlobalStyle } from './theme'
 import { ThemeProvider } from 'styled-components'
 import { theme } from './theme'
 
-const container = document.getElementById('root')
-const root = createRoot(container!)
+const rootContainer = document.getElementById('root')!
+const root = createRoot(rootContainer)
 
 root.render(
   <ThemeProvider theme={theme}>
@@ -15,5 +15,5 @@ root.render(
     <Router>
       <App />
     </Router>
-  </ThemeProvider>
+  </ThemeProvider>,
 )

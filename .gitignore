@@ -1,0 +1,6 @@
+# files
+files/**/*
+!files/**/*.gitkeep
+!files/for-students
+!files/for-all
+!files/for-teachers

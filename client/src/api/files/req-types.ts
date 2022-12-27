@@ -35,9 +35,19 @@ export interface CopyFilesItem {
 
 export interface CopyFilesRequest {
   files: CopyFilesItem[]
-  dest: string[]
+  to: string[]
 }
 
 export interface DownloadRequest {
   path: string[]
+}
+
+export interface CreateDirRequest {
+  path: string[]
+  name: string
+}
+
+export interface CreateFileRequest {
+  path: string[]
+  name: string
 }

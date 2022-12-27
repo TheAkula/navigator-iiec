@@ -1,13 +1,36 @@
 import { StyledContextMenu } from './styled'
-import { SelectedFile } from '../../main'
 import { useFileViewerContext } from '../../../context/file-viewer-context'
-import { ContextMenuMode, useContextMenuContext } from '../../../context/context-menu-context'
+import {
+  ContextMenuMode,
+  useContextMenuContext,
+} from '../../../context/context-menu-context'
+import { CreateDirModal } from '../../modals/create-dir-modal'
+import { CreateFileModal } from '../../modals'
+import { useState } from 'react'
+import { Modal } from '../../modal'
+
+enum CreateModalMode {
+  DIR,
+  FILE,
+}
 
 export const ContextMenu = () => {
-  const { copyFiles, cutFiles, pasteFiles, path, deleteFiles, downloadFile, selectedFiles } = useFileViewerContext()
-  const { mode, coords, setShowContextMenu } = useContextMenuContext()
+  const {
+    copyFiles,
+    cutFiles,
+    pasteFiles,
+    deleteFiles,
+    downloadFile,
+    selectedFiles,
+    buffer,
+  } = useFileViewerContext()
+  const { mode, coords, setShowContextMenu, show } = useContextMenuContext()
+  const [showModal, setShowModal] = useState(false)
+  const [createModalMode, setCreateModalMode] =
+    useState<CreateModalMode | null>(null)
 
-  const contextMenuOperation = <T extends unknown[]>(cb: (...args: T) => void) =>
+  const contextMenuOperation =
+    <T extends unknown[]>(cb: (...args: T) => void) =>
     (...args: T) => {
       cb(...args)
       setShowContextMenu(false)
@@ -22,7 +45,7 @@ export const ContextMenu = () => {
   })
 
   const onPaste = contextMenuOperation(() => {
-    pasteFiles(path)
+    pasteFiles()
   })
 
   const onDelete = contextMenuOperation(() => {
@@ -35,39 +58,66 @@ export const ContextMenu = () => {
     }
   })
 
+  const onCreateDir = contextMenuOperation(() => {
+    setCreateModalMode(CreateModalMode.DIR)
+    setShowModal(true)
+  })
+
+  const onCreateFile = contextMenuOperation(() => {
+    setCreateModalMode(CreateModalMode.FILE)
+    setShowModal(true)
+  })
+
   return (
-    <StyledContextMenu
-      style={{ left: coords[0] + 'px', top: coords[1] + 'px' }}
-      id="context-menu"
-    >
-      {mode === ContextMenuMode.FILE ? (
-        <>
-          <div className="context-menu-block" onClick={onDelete}>
-            <span>Удалить</span>
+    <>
+      {show && (
+        <StyledContextMenu
+          style={{ left: coords[0] + 'px', top: coords[1] + 'px' }}
+          id="context-menu"
+        >
+          {mode === ContextMenuMode.FILE ? (
+            <>
+              <div className="context-menu-block" onClick={onDelete}>
+                <span>Удалить</span>
+              </div>
+              <div className="context-menu-block" onClick={onCut}>
+                <span>Вырезать</span>
+              </div>
+              <div className="context-menu-block" onClick={onCopy}>
+                <span>Копировать</span>
+              </div>
+              {selectedFiles.length === 1 && !selectedFiles[0].isDir && (
+                <div className="context-menu-block" onClick={onDownload}>
+                  <span>Скачать</span>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              {!!buffer.length && (
+                <div className="context-menu-block" onClick={onPaste}>
+                  <span>Вставить</span>
+                </div>
+              )}
+            </>
+          )}
+          <div className="context-menu-block" onClick={onCreateDir}>
+            <span>Создать папку</span>
           </div>
-          <div className="context-menu-block" onClick={onCut}>
-            <span>Вырезать</span>
+          <div className="context-menu-block" onClick={onCreateFile}>
+            <span>Создать файл</span>
           </div>
-          <div className="context-menu-block" onClick={onCopy}>
-            <span>Копировать</span>
-          </div>
-          {selectedFiles.length === 1 && !selectedFiles[0].isDir &&
-            <div className="context-menu-block" onClick={onDownload}>
-              <span>Скачать</span>
-            </div>}
-        </>
-      ) : (
-        <>
-          <div className="context-menu-block">
-            <span>Создать</span>
-          </div>
-
-          <div className="context-menu-block" onClick={onPaste}>
-            <span>Вставить</span>
-          </div>
-
-        </>
+        </StyledContextMenu>
       )}
-    </StyledContextMenu>
+      <Modal show={showModal} setShowModal={(v: boolean) => setShowModal(v)}>
+        {(f) =>
+          createModalMode === CreateModalMode.DIR ? (
+            <CreateDirModal setShow={f} />
+          ) : createModalMode === CreateModalMode.FILE ? (
+            <CreateFileModal setShow={f} />
+          ) : null
+        }
+      </Modal>
+    </>
   )
 }
