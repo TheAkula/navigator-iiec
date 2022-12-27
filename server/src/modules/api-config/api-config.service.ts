@@ -23,4 +23,8 @@ export class ApiConfigService {
   getUploadDest(): string {
     return this.getAsString('UPLOAD_DEST');
   }
+
+  getJwtSecret(): string {
+    return this.getAsString('JWT_SECRET');
+  }
 }

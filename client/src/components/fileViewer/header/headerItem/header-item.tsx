@@ -1,6 +1,6 @@
 import { StyledHeaderItem } from './styled'
 import { ArrowIcon } from '../../../../icons'
-import { Filter, FilterState } from '../../../../context/file-viewer'
+import { Filter, FilterState } from '../../../../context/file-viewer-context'
 
 type HeaderItemProps = {
   clicked: (type: Filter) => void;

@@ -1,7 +1,7 @@
-import { FileType } from '../../context/file-viewer'
+import { FileType } from '../../types'
 
-export type OpenDirectoryResponse = FileType[];
+export type OpenDirectoryResponse = FileType[]
 
 export interface SuccessResponse {
-  message: string;
+  message: string
 }

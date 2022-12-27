@@ -1,8 +1,5 @@
 import { StyledMainMenu } from './styled'
 import Logo from '../../../assets/images/logo 1.svg'
-import { FileType, SelectedFile } from '..'
-import { Dispatch, SetStateAction } from 'react'
-import { MainRoutes } from '../../../routes'
 import { FileViewer } from '../../fileViewer/file-viewer'
 
 export const MainMenu = () => {

@@ -1,7 +1,7 @@
 import { StyledFileBlock } from '../fileBlock/styled'
 import FolderIcon from '../../../assets/images/folder.png'
 import { MouseEventHandler } from 'react'
-import { useFileViewerContext } from '../../../context/file-viewer'
+import { useFileViewerContext } from '../../../context/file-viewer-context'
 
 const BackFileBlock = () => {
   const { goBack } = useFileViewerContext()
@@ -16,7 +16,6 @@ const BackFileBlock = () => {
 
   return (
     <StyledFileBlock
-      // className={selected ? 'selected file-block' : 'file-block'}
       onClick={onClicked}
       onDoubleClick={onDoubleClicked}
     >

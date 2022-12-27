@@ -1,7 +1,25 @@
+import { BadRequestException } from '@nestjs/common';
+import { Transform, Type } from 'class-transformer';
 import { IsArray, IsString } from 'class-validator';
+import { HaveAccess } from 'src/decorators/have-access.decorator';
+import { FileAccessRight } from 'src/shared/types';
+
+class DeleteItemDto {
+  @IsString({ each: true })
+  @IsArray()
+  @HaveAccess(FileAccessRight.WRITE)
+  path: string[];
+}
 
 export class DeleteDto {
-  @IsArray({ each: true })
-  @IsString({ each: true })
-  files: string[][];
+  @IsArray()
+  @Type(() => DeleteItemDto)
+  @Transform(({ value }) => {
+    try {
+      return Array.isArray(value) ? value.map((v) => JSON.parse(v)) : value;
+    } catch (err) {
+      throw new BadRequestException(err);
+    }
+  })
+  files: DeleteItemDto[];
 }

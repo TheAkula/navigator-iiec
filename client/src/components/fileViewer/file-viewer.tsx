@@ -1,13 +1,18 @@
-import { useEffect, useState } from 'react'
+import { MouseEventHandler, useEffect, useState } from 'react'
+import { poll } from '../../api'
 import {
-  FileType,
+  ContextMenuMode,
+  useContextMenuContext,
+} from '../../context/context-menu-context'
+import {
   FileViewerFilter,
   Filter,
   FilterState,
   useFileViewerContext,
-} from '../../context/file-viewer'
+} from '../../context/file-viewer-context'
+import { FileType } from '../../types'
 import BackFileBlock from './backFileBlock'
-import { ContextMenu } from './contextMenu'
+import { ContextMenu } from './contextMenu/context-menu'
 import FileBlock from './fileBlock/file-block'
 import Header from './header'
 import { StyledFileViewer } from './styled'
@@ -50,7 +55,7 @@ const getSortedFiles = (files: FileType[], filters: FileViewerFilter) => {
       const sortedValue = getSortedValue(
         filters[filter][0],
         a[sortKey],
-        b[sortKey]
+        b[sortKey],
       )
 
       if (sortedValue) {
@@ -72,22 +77,58 @@ export const FileViewer = () => {
     files,
     openDirectory,
     filters,
-    addToBuffer,
     clearBuffer,
-    buffer,
+    selectedFiles,
     toggleFilter,
+    clearSelectedFiles,
+    selectFiles,
+    updateDirectory,
   } = useFileViewerContext()
-  const [showContextMenu, setShowContextMenu] = useState(false)
-  const [contextMenuCoords, setContextMenuCoords] = useState<[number, number]>([
-    0, 0,
-  ])
+  const { setShowContextMenu, setCoords, setContextMenuMode } =
+    useContextMenuContext()
+  const [timer, setTimer] = useState<NodeJS.Timer>()
+
+  useEffect(() => {
+    clearInterval(timer)
+    const t = poll(updateDirectory, 10, 1000, path)
+    setTimer(t)
+
+    return () => {
+      clearInterval(timer)
+    }
+  }, [path])
 
   useEffect(() => {
     openDirectory(path)
   }, [])
 
-  const onContextMenu = () => {
-    // eslint-disable-next-line no-console
+  useEffect(() => {
+    function closeContextMenu() {
+      setShowContextMenu(false)
+    }
+
+    function clearSelected() {
+      clearSelectedFiles()
+    }
+
+    document.addEventListener('click', closeContextMenu)
+    document.addEventListener('click', clearSelected)
+
+    return () => {
+      document.removeEventListener('click', closeContextMenu)
+      document.removeEventListener('click', clearSelected)
+    }
+  }, [])
+
+  const onContextMenu: MouseEventHandler = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    setShowContextMenu(true)
+    setContextMenuMode(ContextMenuMode.WORKSPACE)
+    setCoords([
+      e.clientX + document.documentElement.scrollLeft,
+      e.clientY + document.documentElement.scrollTop,
+    ])
   }
 
   const onContextMenuFile = (path: string[], x: number, y: number) => {
@@ -95,13 +136,16 @@ export const FileViewer = () => {
 
     if (findedFile) {
       setShowContextMenu(true)
-      setContextMenuCoords(() => [x, y])
+      setContextMenuMode(ContextMenuMode.FILE)
+      setCoords([x, y])
 
-      const selectedFile = buffer.find((f) => f.path.join() === path.join())
+      const selectedFile = selectedFiles.find(
+        (f) => f.path.join() === path.join(),
+      )
 
       if (!selectedFile) {
         clearBuffer()
-        addToBuffer([findedFile])
+        selectFiles([findedFile])
       }
     }
   }
@@ -110,14 +154,14 @@ export const FileViewer = () => {
 
   if (files && files.length) {
     fileList = getSortedFiles(files, filters).map((file, i) => {
-      const selected = buffer.find((f) => {
+      const selected = selectedFiles.find((f) => {
         return f.path.join() === file.path.join()
       })
 
       return (
         <FileBlock
           selected={!!selected}
-          key={file.fullPath}
+          key={file.path.join()}
           file={file}
           onContextMenu={onContextMenuFile}
         />
@@ -128,29 +172,9 @@ export const FileViewer = () => {
   return (
     <StyledFileViewer onContextMenu={onContextMenu}>
       <Header filters={filters} clicked={toggleFilter} />
-      <BackFileBlock />
+      {!!path.length && <BackFileBlock />}
       {fileList}
-      {/* {showContextMenu && (
-        <ContextMenu
-          onDeleteFile={onDeleteFile}
-          onCopyFiles={onCopyFiles}
-          onCutFiles={onCutFiles}
-          files={selectedFiles}
-          setLoading={setLoading}
-          closeContextMenu={onCloseContextMenu}
-          onRenameFile={onRenameFile}
-          isHaveCopiedFiles={!!copiedFiles}
-          onCreate={onCreate}
-          {...contextMenu!}
-          onUpdate={update}
-          onPaste={onContextMenuPaste}
-        />
-      )} */}
-      {/* {modal && (
-        <Modal onAgree={modal.onAgree} onCancel={modal.onCancel}>
-          {modal.content}
-        </Modal>
-      )} */}
+      <ContextMenu />
     </StyledFileViewer>
   )
 }

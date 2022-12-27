@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 
-export const StyledFileBlock = styled.a`
+interface StyledFileBlockProps {
+  selected?: boolean
+}
+
+export const StyledFileBlock = styled.a<StyledFileBlockProps>`
   display: grid;
   grid-template-columns: 1fr 150px 140px 120px;
   align-items: center;
@@ -8,13 +12,14 @@ export const StyledFileBlock = styled.a`
   border-bottom: 2px solid #c9c9c9;
   text-decoration: none;
   color: currentColor;
+  background-color: ${({ selected }) => selected ? '#8fcef37e' : 'inherit'};
 
   > div {
     padding: 0px 10px;
   }
 
   :hover {
-    background-color: #bee7ff7e;
+    background-color: ${({ selected }) => selected ? '#8fcef37e' : '#bee7ff7e'};
   }
 
   span {
@@ -36,10 +41,6 @@ export const StyledFileBlock = styled.a`
     input {
       border: 1px solid #6d6d6d;
     }
-  }
-
-  &.selected {
-    background-color: #8fcef37e;
   }
 
   .image-container {
