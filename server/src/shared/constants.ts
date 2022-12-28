@@ -4,7 +4,7 @@ import { FileAccess, FileAccessRight } from './types';
 
 export const PATHS: FileAccess[] = [
   {
-    path: '/home/nikolay/Projects/navigator-iiec/files/for-teachers/',
+    path: 'for-teachers/',
     roles: [
       {
         role: RoleType.TEACHER,
@@ -13,7 +13,7 @@ export const PATHS: FileAccess[] = [
     ],
   },
   {
-    path: '/home/nikolay/Projects/navigator-iiec/files/for-all',
+    path: 'for-all/',
     roles: [
       {
         role: RoleType.TEACHER,
@@ -26,7 +26,7 @@ export const PATHS: FileAccess[] = [
     ],
   },
   {
-    path: '/home/nikolay/Projects/navigator-iiec/files/for-students/',
+    path: 'for-students/',
     roles: [
       {
         role: RoleType.TEACHER,

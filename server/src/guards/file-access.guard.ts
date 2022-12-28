@@ -58,7 +58,8 @@ export function FileAccessGuard(dto: object, place: DtoPlace) {
         const path = this.filesService.getPath(...obj[property.name]);
 
         for (const p of PATHS) {
-          if (path.startsWith(p.path)) {
+          const accessPath = this.filesService.getPath(p.path);
+          if (path.startsWith(accessPath)) {
             const roleIndex = p.roles.findIndex((r) => r.role === user.role);
 
             if (roleIndex === -1) {
