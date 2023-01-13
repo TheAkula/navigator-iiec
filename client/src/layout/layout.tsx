@@ -1,5 +1,5 @@
 import { Footer, Main, Header } from '../components'
-import { LayoutWrapper } from './styled'
+import { LayoutWrapper } from '../components/styled'
 
 export const Layout = () => {
   return (
