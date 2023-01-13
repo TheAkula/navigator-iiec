@@ -5,13 +5,14 @@ import {
   Get,
   Post,
   Query,
+  Req,
   Res,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { createReadStream } from 'fs';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { CopyDto } from './dtos/req/copy.dto';
@@ -27,6 +28,7 @@ import { FilesService } from './files.service';
 import { DtoPlace, FileAccessGuard } from 'src/guards/file-access.guard';
 import { CreateDirDto } from './dtos/req/create-dir.dto';
 import { CreateFileDto } from './dtos/req/create-file.dto';
+import { diskStorage } from 'multer';
 
 // TODO: add auth on client and then uncomment this
 // @UseGuards(JwtAuthGuard)
@@ -49,7 +51,13 @@ export class FilesController {
 
   // @UseGuards(FileAccessGuard(UploadFilesDto, DtoPlace.BODY))
   @Post('/upload')
-  @UseInterceptors(FilesInterceptor('files'))
+  @UseInterceptors(
+    FilesInterceptor('files', 10, {
+      storage: diskStorage({
+        destination: './uploads',
+      }),
+    }),
+  )
   async uploadFile(
     @UploadedFiles() files: Express.Multer.File[],
     @Body() uploadFilesDto: UploadFilesDto,
@@ -104,6 +112,6 @@ export class FilesController {
   async createFile(@Body() createFileDto: CreateFileDto): Promise<SuccessDto> {
     await this.filesService.createFile(createFileDto);
 
-    return { message: 'ok' };
+    return { message: 'success' };
   }
 }

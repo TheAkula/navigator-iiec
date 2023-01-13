@@ -20,7 +20,6 @@
     "lint": "eslint --ext .js,.ts,.jsx,.tsx src",
     "format": "yarn run lint --fix & yarn prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
   },
-  "proxy": "http://localhost:3001",
   "browserslist": {
     "production": [
       ">0.2%",

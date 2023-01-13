@@ -4,14 +4,14 @@ import {
   ContextMenuMode,
   useContextMenuContext,
 } from '../../../context/context-menu-context'
-import { CreateDirModal } from '../../modals/create-dir-modal'
-import { CreateFileModal } from '../../modals'
-import { useState } from 'react'
+import { CreateFileModal, CreateDirModal, UploadFilesModal } from '../../modals'
+import { ChangeEvent, useState } from 'react'
 import { Modal } from '../../modal'
 
-enum CreateModalMode {
+enum ModalMode {
   DIR,
   FILE,
+  UPLOAD,
 }
 
 export const ContextMenu = () => {
@@ -22,12 +22,13 @@ export const ContextMenu = () => {
     deleteFiles,
     downloadFile,
     selectedFiles,
+    addToNativeBuffer,
+    clearNativeBuffer,
     buffer,
   } = useFileViewerContext()
   const { mode, coords, setShowContextMenu, show } = useContextMenuContext()
   const [showModal, setShowModal] = useState(false)
-  const [createModalMode, setCreateModalMode] =
-    useState<CreateModalMode | null>(null)
+  const [modalMode, setModalMode] = useState<ModalMode | null>(null)
 
   const contextMenuOperation =
     <T extends unknown[]>(cb: (...args: T) => void) =>
@@ -59,13 +60,34 @@ export const ContextMenu = () => {
   })
 
   const onCreateDir = contextMenuOperation(() => {
-    setCreateModalMode(CreateModalMode.DIR)
+    setModalMode(ModalMode.DIR)
     setShowModal(true)
   })
 
   const onCreateFile = contextMenuOperation(() => {
-    setCreateModalMode(CreateModalMode.FILE)
+    setModalMode(ModalMode.FILE)
     setShowModal(true)
+  })
+
+  const onUpload = contextMenuOperation(() => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.multiple = true
+
+    // FIXME: **** typescript
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    input.onchange = (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        addToNativeBuffer([...e.target.files])
+        setShowModal(true)
+        setModalMode(ModalMode.UPLOAD)
+      } else {
+        clearNativeBuffer()
+      }
+    }
+
+    input.click()
   })
 
   return (
@@ -107,14 +129,19 @@ export const ContextMenu = () => {
           <div className="context-menu-block" onClick={onCreateFile}>
             <span>Создать файл</span>
           </div>
+          <div className="context-menu-block" onClick={onUpload}>
+            <span>Загрузить файлы</span>
+          </div>
         </StyledContextMenu>
       )}
       <Modal show={showModal} setShowModal={(v: boolean) => setShowModal(v)}>
         {(f) =>
-          createModalMode === CreateModalMode.DIR ? (
+          modalMode === ModalMode.DIR ? (
             <CreateDirModal setShow={f} />
-          ) : createModalMode === CreateModalMode.FILE ? (
+          ) : modalMode === ModalMode.FILE ? (
             <CreateFileModal setShow={f} />
+          ) : modalMode === ModalMode.UPLOAD ? (
+            <UploadFilesModal setShow={f} />
           ) : null
         }
       </Modal>
