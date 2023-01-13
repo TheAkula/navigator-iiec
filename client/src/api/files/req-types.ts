@@ -26,7 +26,7 @@ export interface MoveFilesRequest {
 
 export interface RenameFileRequest {
   path: string[]
-  newName: string
+  new_name: string
 }
 
 export interface CopyFilesItem {

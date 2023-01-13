@@ -25,6 +25,7 @@ export const ContextMenu = () => {
     addToNativeBuffer,
     clearNativeBuffer,
     buffer,
+    changeRenamedFile,
   } = useFileViewerContext()
   const { mode, coords, setShowContextMenu, show } = useContextMenuContext()
   const [showModal, setShowModal] = useState(false)
@@ -90,6 +91,10 @@ export const ContextMenu = () => {
     input.click()
   })
 
+  const onRename = contextMenuOperation(() => {
+    changeRenamedFile()
+  })
+
   return (
     <>
       {show && (
@@ -101,6 +106,9 @@ export const ContextMenu = () => {
             <>
               <div className="context-menu-block" onClick={onDelete}>
                 <span>Удалить</span>
+              </div>
+              <div className="context-menu-block" onClick={onRename}>
+                <span>Переименовать</span>
               </div>
               <div className="context-menu-block" onClick={onCut}>
                 <span>Вырезать</span>

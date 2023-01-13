@@ -16,8 +16,16 @@ interface FileBlockProps {
 }
 
 const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
-  const { goNext, downloadFile, clearSelectedFiles, selectFiles } =
-    useFileViewerContext()
+  const {
+    goNext,
+    downloadFile,
+    clearSelectedFiles,
+    selectFiles,
+    renamedFile,
+    renameFile,
+    renamedValue,
+    changeRenamedValue,
+  } = useFileViewerContext()
   const { setShowContextMenu } = useContextMenuContext()
 
   const onContextMenuHandler: MouseEventHandler = (e) => {
@@ -56,6 +64,15 @@ const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
     selectFiles([file])
   }
 
+  const onRename = async () => {
+    await renameFile()
+
+    changeRenamedValue('')
+  }
+
+  const isRename = renamedFile.join() === file.path.join()
+  const filename = file.title.slice(0, file.title.lastIndexOf(file.ext))
+
   return (
     <StyledFileBlock
       onClick={onClicked}
@@ -68,12 +85,26 @@ const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
           <img src={getIcon(file.ext, file.isDir)} alt={file.title} />
         </div>
 
-        <span>
-          {/* TODO: add better title size clipping */}
-          {file.title.length > 18
-            ? file.title.slice(0, 18) + '...'
-            : file.title}
-        </span>
+        {isRename ? (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              onRename()
+            }}
+          >
+            <input
+              value={renamedValue}
+              onBlur={onRename}
+              autoFocus
+              onChange={(e) => changeRenamedValue(e.target.value)}
+            />
+          </form>
+        ) : (
+          <span>
+            {/* TODO: add better title size clipping */}
+            {filename.length > 18 ? filename.slice(0, 18) + '...' : filename}
+          </span>
+        )}
       </div>
       <div>
         <span className="date">{getDate(file.mtime)}</span>

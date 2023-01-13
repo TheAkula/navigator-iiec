@@ -49,6 +49,10 @@ interface FileViewerContextValue {
   error: Error | null
   filters: FileViewerFilter
   selectedFiles: FileType[]
+  renamedFile: string[]
+  renamedValue: string
+  changeRenamedFile: () => void
+  changeRenamedValue: (value: string) => void
   changeLocalPath: (localPath: string[]) => void
   selectFiles: (files: FileType[]) => void
   clearSelectedFiles: () => void
@@ -67,7 +71,7 @@ interface FileViewerContextValue {
   deleteFiles: () => Promise<void>
   createDir: (name: string) => Promise<void>
   createFile: (name: string) => Promise<void>
-  renameFile: (newName: string) => Promise<void>
+  renameFile: () => Promise<void>
   copyFiles: () => void
   cutFiles: () => void
   pasteFiles: () => void
@@ -92,7 +96,11 @@ const FileViewerContext = createContext<FileViewerContextValue>({
     [Filter.TIME]: [FilterState.ASC, 2],
     [Filter.SIZE]: [FilterState.ASC, 3],
   },
+  renamedFile: [],
+  renamedValue: '',
   /* eslint-disable @typescript-eslint/no-empty-function */
+  changeRenamedFile: () => {},
+  changeRenamedValue: () => {},
   changeLocalPath: () => {},
   selectFiles: () => {},
   pasteFiles: () => {},
@@ -141,10 +149,12 @@ export const FileViewerContextProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
   const [bufferAction, setBufferAction] = useState<BufferAction>()
+  const [renamedFile, setRenamedFile] = useState<string[]>([])
+  const [renamedValue, setRenamedValue] = useState<string>('')
   const [filters, setFilters] = useState<FileViewerFilter>({
-    [Filter.EXT]: [FilterState.ASC, 2],
     [Filter.TITLE]: [FilterState.ASC, 0],
     [Filter.TIME]: [FilterState.ASC, 1],
+    [Filter.EXT]: [FilterState.ASC, 2],
     [Filter.SIZE]: [FilterState.ASC, 3],
   })
 
@@ -279,10 +289,15 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     }
   })
 
-  const renameFile = request(async (newName: string) => {
-    if (selectedFiles.length === 1) {
-      await rename_file({ newName, path: buffer[0].path })
+  const renameFile = request(async () => {
+    if (renamedFile.length) {
+      const file = files.find((f) => f.path.join() === renamedFile.join())
+      await rename_file({
+        new_name: renamedValue + (file?.ext || ''),
+        path: renamedFile,
+      })
       clearSelectedFiles()
+      setRenamedFile([])
     }
   })
 
@@ -361,6 +376,18 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     setLocalPath(localPath)
   }
 
+  const changeRenamedFile = () => {
+    if (selectFiles.length === 1) {
+      setRenamedFile(selectedFiles[0].path)
+    }
+  }
+
+  const changeRenamedValue = (value: string) => {
+    if (renamedFile.length) {
+      setRenamedValue(value)
+    }
+  }
+
   return (
     <FileViewerContext.Provider
       value={{
@@ -374,6 +401,10 @@ export const FileViewerContextProvider = ({ children }: Props) => {
         filters,
         selectedFiles,
         localPath,
+        renamedFile,
+        renamedValue,
+        changeRenamedFile,
+        changeRenamedValue,
         changeLocalPath,
         updateDirectory,
         createDir,
