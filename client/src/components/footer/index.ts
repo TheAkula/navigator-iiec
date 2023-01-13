@@ -1,2 +1,2 @@
 export { Footer } from './footer'
-export * from './styled'
+export * from './types'

@@ -40,4 +40,8 @@ export const GlobalStyle = createGlobalStyle<ThemeType>`
     -khtml-user-select: none;
     user-select: none;
   }
+
+  a {
+    text-decoration: none;
+  }
 `

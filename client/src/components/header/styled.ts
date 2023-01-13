@@ -12,15 +12,6 @@ export const StyledHeader = styled.header`
   color: #fff;
 `
 
-export const StyledLogo = styled.div`
-  width: 191px;
-  height: 44px;
-
-  img {
-    height: 100%;
-  }
-`
-
 export const StyledNavigationItem = styled(NavLink)`
   height: 100%;
   width: 255px;

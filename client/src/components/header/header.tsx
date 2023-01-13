@@ -3,7 +3,6 @@ import {
   StyledNavigation,
   StyledNavigationItem,
   StyledAddress,
-  StyledLogo,
 } from './styled'
 import Marker from '../../assets/images/map 1.svg'
 import LogoImage from '../../assets/images/logo.svg'
@@ -12,6 +11,7 @@ import {
   MainMode,
   useFileViewerContext,
 } from '../../context/file-viewer-context'
+import { StyledLogo } from '../styled'
 
 export const Header = () => {
   const { updateMode } = useFileViewerContext()
