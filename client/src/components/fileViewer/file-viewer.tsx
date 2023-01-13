@@ -74,6 +74,7 @@ const getSortedFiles = (files: FileType[], filters: FileViewerFilter) => {
 export const FileViewer = () => {
   const {
     path,
+    localPath,
     files,
     openDirectory,
     filters,
@@ -90,11 +91,12 @@ export const FileViewer = () => {
 
   useEffect(() => {
     clearInterval(timer)
+
     const t = poll(updateDirectory, 10, 1000, path)
     setTimer(t)
 
     return () => {
-      clearInterval(timer)
+      clearInterval(t)
     }
   }, [path])
 
@@ -172,7 +174,7 @@ export const FileViewer = () => {
   return (
     <StyledFileViewer onContextMenu={onContextMenu}>
       <Header filters={filters} clicked={toggleFilter} />
-      {!!path.length && <BackFileBlock />}
+      {!!localPath.length && <BackFileBlock />}
       {fileList}
       <ContextMenu />
     </StyledFileViewer>

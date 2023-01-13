@@ -3,27 +3,15 @@ import { MainMenu } from './main-menu'
 import { leftSidebarData } from './menu-types'
 import { MenuItem } from './menu-item'
 import { rightSidebarData } from './additionally-types'
-import { useFileViewerContext } from '../../context/file-viewer-context'
 
 export const Main = () => {
-  const { openDirectory } = useFileViewerContext()
-
-  const onChangePath = (path: string[]) => {
-    openDirectory(path)
-  }
-
   return (
     <StyledMain>
       <StyledMenu>
         <h3>Меню</h3>
         <ul>
           {leftSidebarData?.map((el) => (
-            <MenuItem
-              key={el.id}
-              roleLinks={el.roleLinks}
-              path={el.path}
-              changePath={onChangePath}
-            >
+            <MenuItem key={el.id} roleLinks={el.roleLinks} path={el.path}>
               <img src={el.imgUrl} alt="icon" />
               <p>{el.title}</p>
             </MenuItem>
@@ -37,13 +25,7 @@ export const Main = () => {
         <h3>Меню</h3>
         <ul>
           {rightSidebarData?.map((el) => (
-            <MenuItem
-              key={el.id}
-              path={el.path}
-              roleLinks={el.roleLinks}
-              changePath={onChangePath}
-              state={{ showFileViewer: true }}
-            >
+            <MenuItem key={el.id} path={el.path} roleLinks={el.roleLinks}>
               <img src={el.imgUrl} alt="icon" />
               <p>{el.title}</p>
             </MenuItem>

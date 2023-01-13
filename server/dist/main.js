@@ -12,9 +12,6 @@ async function bootstrap() {
     });
     app.useGlobalPipes(new common_1.ValidationPipe({
         transform: true,
-        transformOptions: {
-            exposeDefaultValues: true,
-        },
     }));
     await app.listen(3001);
 }

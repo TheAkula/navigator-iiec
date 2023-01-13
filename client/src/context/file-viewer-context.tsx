@@ -42,12 +42,14 @@ interface FileViewerContextValue {
   buffer: FileType[]
   nativeBuffer: File[]
   path: string[]
+  localPath: string[]
   mode: MainMode
   files: FileType[]
   loading: boolean
   error: Error | null
   filters: FileViewerFilter
   selectedFiles: FileType[]
+  changeLocalPath: (localPath: string[]) => void
   selectFiles: (files: FileType[]) => void
   clearSelectedFiles: () => void
   removeFromSelectedFiles: (file: FileType) => void
@@ -78,6 +80,7 @@ const FileViewerContext = createContext<FileViewerContextValue>({
   buffer: [],
   nativeBuffer: [],
   path: [],
+  localPath: [],
   mode: MainMode.ROUTES,
   files: [],
   loading: false,
@@ -90,6 +93,7 @@ const FileViewerContext = createContext<FileViewerContextValue>({
     [Filter.SIZE]: [FilterState.ASC, 3],
   },
   /* eslint-disable @typescript-eslint/no-empty-function */
+  changeLocalPath: () => {},
   selectFiles: () => {},
   pasteFiles: () => {},
   removeFromSelectedFiles: () => {},
@@ -131,6 +135,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
   const [nativeBuffer, setNativeBuffer] = useState<File[]>([])
   const [selectedFiles, setSelectedFiles] = useState<FileType[]>([])
   const [path, setPath] = useState<string[]>([])
+  const [localPath, setLocalPath] = useState<string[]>([])
   const [mode, setMode] = useState<MainMode>(MainMode.ROUTES)
   const [files, setFiles] = useState<FileType[]>([])
   const [loading, setLoading] = useState(false)
@@ -213,6 +218,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     const respone = await open_directory({ path })
     setFiles(respone.data)
     setPath(path)
+    setLocalPath([])
   })
 
   const downloadFile = request(async (path: string[], title: string) => {
@@ -231,6 +237,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
 
     setFiles(() => response.data)
     setPath((prev) => [...prev, dir])
+    setLocalPath((prev) => [...prev, dir])
   })
 
   const goBack = request(async () => {
@@ -240,6 +247,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
       })
       setFiles(respone.data)
       setPath((prevPath) => prevPath.slice(0, prevPath.length - 1))
+      setLocalPath((prevPath) => prevPath.slice(0, prevPath.length - 1))
     }
   })
 
@@ -349,6 +357,10 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     clearBuffer()
   }
 
+  const changeLocalPath = (localPath: string[]) => {
+    setLocalPath(localPath)
+  }
+
   return (
     <FileViewerContext.Provider
       value={{
@@ -361,6 +373,8 @@ export const FileViewerContextProvider = ({ children }: Props) => {
         files,
         filters,
         selectedFiles,
+        localPath,
+        changeLocalPath,
         updateDirectory,
         createDir,
         createFile,

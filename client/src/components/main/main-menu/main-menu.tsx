@@ -1,8 +1,15 @@
 import { StyledMainMenu } from './styled'
 import Logo from '../../../assets/images/logo 1.svg'
 import { FileViewer } from '../../fileViewer/file-viewer'
+import {
+  MainMode,
+  useFileViewerContext,
+} from '../../../context/file-viewer-context'
+import { MainRoutes } from '../../../routes'
 
 export const MainMenu = () => {
+  const { mode } = useFileViewerContext()
+
   return (
     <StyledMainMenu
       className="main-menu"
@@ -13,7 +20,7 @@ export const MainMenu = () => {
         backgroundSize: 'calc(100% - 100px)',
       }}
     >
-      <FileViewer />
+      {mode === MainMode.FILE_VIEWER ? <FileViewer /> : <MainRoutes />}
     </StyledMainMenu>
   )
 }

@@ -1,19 +1,36 @@
-import { StyledHeader, StyledNavigation, StyledNavigationItem, StyledAddress, StyledLogo } from './styled'
+import {
+  StyledHeader,
+  StyledNavigation,
+  StyledNavigationItem,
+  StyledAddress,
+  StyledLogo,
+} from './styled'
 import Marker from '../../assets/images/map 1.svg'
 import LogoImage from '../../assets/images/logo.svg'
 import { headerMenuData } from './types'
+import {
+  MainMode,
+  useFileViewerContext,
+} from '../../context/file-viewer-context'
 
 export const Header = () => {
+  const { updateMode } = useFileViewerContext()
+
+  const onClick = () => {
+    updateMode(MainMode.ROUTES)
+  }
+
   return (
     <StyledHeader>
-
       <StyledLogo>
         <img src={LogoImage} alt="Навигатор 2.0" />
       </StyledLogo>
 
       <StyledNavigation>
-        {headerMenuData?.map(el => (
-          <StyledNavigationItem key={el.id} to={el.path}>{el.title}</StyledNavigationItem>
+        {headerMenuData?.map((el) => (
+          <StyledNavigationItem onClick={onClick} key={el.id} to={el.path}>
+            {el.title}
+          </StyledNavigationItem>
         ))}
       </StyledNavigation>
 
@@ -24,8 +41,6 @@ export const Header = () => {
           <br /> республика Удмуртия, 426004
         </p>
       </StyledAddress>
-      
     </StyledHeader>
   )
 }
-
