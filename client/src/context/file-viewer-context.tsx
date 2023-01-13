@@ -61,7 +61,7 @@ interface FileViewerContextValue {
   addToNativeBuffer: (files: File[]) => void
   clearNativeBuffer: () => void
   updateMode: (mode: MainMode) => void
-  uploadFiles: (dest: string[]) => Promise<void>
+  uploadFiles: () => Promise<void>
   deleteFiles: () => Promise<void>
   createDir: (name: string) => Promise<void>
   createFile: (name: string) => Promise<void>
@@ -243,9 +243,9 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     }
   })
 
-  const uploadFiles = request(async (dest: string[]) => {
+  const uploadFiles = request(async () => {
     if (nativeBuffer.length) {
-      await upload_files({ files: nativeBuffer, dest })
+      await upload_files({ files: nativeBuffer, dest: path })
       clearNativeBuffer()
     }
   })

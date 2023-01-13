@@ -7,6 +7,7 @@ async function bootstrap() {
     cors: {
       origin: 'http://localhost:3000',
     },
+    abortOnError: false,
   });
 
   app.useGlobalPipes(

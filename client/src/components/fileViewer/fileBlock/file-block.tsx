@@ -65,7 +65,7 @@ const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
     >
       <div className="main-inf">
         <div className="image-container">
-          <img src={getIcon(file)} alt={file.title} />
+          <img src={getIcon(file.ext, file.isDir)} alt={file.title} />
         </div>
 
         <span>

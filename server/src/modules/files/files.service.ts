@@ -86,10 +86,16 @@ export class FilesService {
       files.map(async (file) => {
         await new Promise(() => {
           rename(
-            join(this.apiConfigService.getUploadDest(), file.filename),
-            this.getPath(...dest, file.filename),
+            join(
+              __dirname,
+              this.apiConfigService.getUploadDest(),
+              file.filename,
+            ),
+            this.getPath(...dest, file.originalname),
             (err) => {
               if (err) {
+                console.log(err);
+
                 throw new InternalServerErrorException(
                   'Произошла ошибка при загрузке файлов',
                 );

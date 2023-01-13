@@ -14,9 +14,8 @@ import AudioIcon from '../../assets/images/mp3.png'
 import ImageIcon from '../../assets/images/image.png'
 import FolderIcon from '../../assets/images/folder.png'
 import DocIcon from '../../assets/images/doc.png'
-import { FileType } from '../../types'
 
-export const getIcon = ({ ext, isDir }: FileType): string => {
+export const getIcon = (ext: string, isDir: boolean): string => {
   const extension = ext.replace('.', '')
 
   if (isDir) {
