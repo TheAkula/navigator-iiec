@@ -12,9 +12,11 @@ import {
   useFileViewerContext,
 } from '../../context/file-viewer-context'
 import { StyledLogo } from '../styled'
+import { useLocation } from 'react-router-dom'
 
 export const Header = () => {
   const { updateMode } = useFileViewerContext()
+  const location = useLocation()
 
   const onClick = () => {
     updateMode(MainMode.ROUTES)
@@ -22,25 +24,28 @@ export const Header = () => {
 
   return (
     <StyledHeader>
+
       <StyledLogo>
         <img src={LogoImage} alt="Навигатор 2.0" />
       </StyledLogo>
 
-      <StyledNavigation>
-        {headerMenuData?.map((el) => (
-          <StyledNavigationItem onClick={onClick} key={el.id} to={el.path}>
-            {el.title}
-          </StyledNavigationItem>
-        ))}
-      </StyledNavigation>
+      {location?.pathname !== '/method-support' && <>
+        <StyledNavigation>
+          {headerMenuData?.map((el) => (
+            <StyledNavigationItem onClick={onClick} key={el.id} to={el.path}>
+              {el.title}
+            </StyledNavigationItem>
+          ))}
+        </StyledNavigation>
 
-      <StyledAddress>
-        <img src={Marker} alt="marker" />
-        <p>
-          ул. Ленина, 68, Ижевск,
-          <br /> республика Удмуртия, 426004
-        </p>
-      </StyledAddress>
+        <StyledAddress>
+          <img src={Marker} alt="marker" />
+          <p>
+            ул. Ленина, 68, Ижевск,
+            <br /> республика Удмуртия, 426004
+          </p>
+        </StyledAddress></>}
+
     </StyledHeader>
   )
 }

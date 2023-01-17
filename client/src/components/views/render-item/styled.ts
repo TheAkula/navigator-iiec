@@ -7,7 +7,7 @@ export const StyledViewsComponent = styled.li`
     text-decoration: none;
     color: black;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 16px;
 
     :hover {
       color: #018ddc;

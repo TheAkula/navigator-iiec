@@ -54,5 +54,8 @@
     "eslint-plugin-react": "^7.31.11",
     "prettier": "^2.8.1",
     "react-dom": "^18.0.0"
+  },
+  "lint-staged": {
+    "*.{js,tsx,ts}": "eslint --fix"
   }
 }

@@ -18,11 +18,9 @@ const ContextMenuContext = createContext<ContextMenuContextValue>({
   mode: ContextMenuMode.WORKSPACE,
   show: false,
   coords: [0, 0],
-  /* eslint-disable @typescript-eslint/no-empty-function */
-  setContextMenuMode: () => { },
-  setShowContextMenu: () => { },
-  setCoords: () => { },
-  /* eslint-enable @typescript-eslint/no-empty-function */
+  setContextMenuMode: () => undefined,
+  setShowContextMenu: () => undefined,
+  setCoords: () => undefined,
 })
 
 interface Props {

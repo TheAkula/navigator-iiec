@@ -1,12 +1,17 @@
-import { Footer, Main, Header } from '../components'
 import { LayoutWrapper } from '../components/styled'
+import { Header } from '../components/header'
+import { Footer } from '../components/footer'
 
-export const Layout = () => {
+interface Props {
+  children: React.ReactNode
+}
+
+export const Layout = ({ children }: Props) => {
   return (
     <div>
       <Header />
       <LayoutWrapper>
-        <Main />
+        {children}
         <Footer />
       </LayoutWrapper>
     </div>

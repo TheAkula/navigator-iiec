@@ -12,9 +12,9 @@ export const leftSidebarData: SidebarTypes[] = [
   {
     id: '0',
     title: 'Комплексное методическое обеспечение',
-    path: '/metod-obr',
+    path: '/method-support',
     imgUrl: MetObr,
-    roleLinks: MenuItemType.Link,
+    roleLinks: MenuItemType.ExternalRef,
   },
   {
     id: '1',

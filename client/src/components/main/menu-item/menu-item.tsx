@@ -3,6 +3,7 @@ import {
   MainMode,
   useFileViewerContext,
 } from '../../../context/file-viewer-context'
+import { useContextMethodSupport } from '../../../context/method-support-context'
 import { MenuItemType } from '../types'
 import { StyledMenuA, StyledMenuLink } from './styled'
 
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export const MenuItem = ({ path, children, roleLinks }: Props) => {
+  const { setSupport } = useContextMethodSupport()
   const { openDirectory, updateMode } = useFileViewerContext()
   const stringPath = Array.isArray(path) ? path.join() : path
 
@@ -27,6 +29,10 @@ export const MenuItem = ({ path, children, roleLinks }: Props) => {
 
   const clickHandler = () => {
     updateMode(MainMode.ROUTES)
+
+    if (path === '/metod-obr') {
+      setSupport(true)
+    }
   }
 
   return (
@@ -37,7 +43,7 @@ export const MenuItem = ({ path, children, roleLinks }: Props) => {
         </StyledMenuLink>
       )}
       {roleLinks === MenuItemType.ExternalRef && (
-        <StyledMenuA onClick={clickHandler} href={stringPath} target="_blank">
+        <StyledMenuA onClick={clickHandler} href={stringPath} target="_blank" rel="noopener noreferrer">
           {children}
         </StyledMenuA>
       )}
