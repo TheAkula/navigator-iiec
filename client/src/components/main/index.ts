@@ -1,7 +1,4 @@
-export { Main } from './main'
 export { MainMenu } from './main-menu'
-export { MenuItem } from './menu-item'
 export * from './types'
-export * from './styled'
 export * from './menu-types'
 export * from './additionally-types'
