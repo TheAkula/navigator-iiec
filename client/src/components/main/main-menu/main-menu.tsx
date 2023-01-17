@@ -1,4 +1,3 @@
-import { StyledMainMenu } from './styled'
 import Logo from '../../../assets/images/logo 1.svg'
 import { FileViewer } from '../../fileViewer/file-viewer'
 import {
@@ -6,13 +5,13 @@ import {
   useFileViewerContext,
 } from '../../../context/file-viewer-context'
 import { MainRoutes } from '../../../routes'
+import { CenterBlock } from '../../../components'
 
 export const MainMenu = () => {
   const { mode } = useFileViewerContext()
 
   return (
-    <StyledMainMenu
-      className="main-menu"
+    <CenterBlock
       style={{
         backgroundImage: `url('${Logo}')`,
         backgroundPosition: 'center',
@@ -21,6 +20,6 @@ export const MainMenu = () => {
       }}
     >
       {mode === MainMode.FILE_VIEWER ? <FileViewer /> : <MainRoutes />}
-    </StyledMainMenu>
+    </CenterBlock>
   )
 }

@@ -1,5 +1,6 @@
-import { Footer, Main, Header } from '../components'
+import { Footer, Header } from '../components'
 import { LayoutWrapper } from '../components/styled'
+import { Main } from '../screens'
 
 export const Layout = () => {
   return (
@@ -12,4 +13,3 @@ export const Layout = () => {
     </div>
   )
 }
-
