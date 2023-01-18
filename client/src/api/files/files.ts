@@ -52,6 +52,7 @@ export const copy_files = async (req: CopyFilesRequest) => {
 export const download_file = async (req: DownloadRequest) => {
   return api.get<string>(endpoints.downloadFile, {
     params: req,
+    responseType: 'arraybuffer',
   })
 }
 

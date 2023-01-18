@@ -5,14 +5,13 @@ import {
   Get,
   Post,
   Query,
-  Req,
   Res,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { createReadStream } from 'fs';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { CopyDto } from './dtos/req/copy.dto';
@@ -40,6 +39,7 @@ export class FilesController {
   @Get('/download-file')
   getFile(@Res() res: Response, @Query() { path }: GetFileDto) {
     const file = createReadStream(this.filesService.getPath(...path));
+
     file.pipe(res);
   }
 
