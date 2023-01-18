@@ -36,9 +36,9 @@ export const StyledBlock = styled.div`
   border: 2px solid #c9c9c9;
   border-radius: 8px 8px 0px 0px;
   background-color: #c3c3f333;
-  padding-bottom: 15px;
   height: fit-content;
   flex: 0.25;
+  min-height: 621px;
 `
 
 export const CenterBlock = styled(StyledBlock)`

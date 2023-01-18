@@ -93,7 +93,7 @@ const SelectLabelButton = styled.button`
     padding: 10px 12px;
     transition: 0.3s ease;
     &:hover {
-    background-color: #eee;
+        background-color: #eee;
     }
 `
 
@@ -150,9 +150,8 @@ const DropdownItem = styled.div<DropdownItemStyled>`
     font-weight: 500;
     `}
     &:hover, :focus, :focus:hover {
-    background-color: #166edc;
-    color: #fafafa;
-    outline: none;
+        background-color: #daf2ff;
+        outline: none;
     }
 `
 
