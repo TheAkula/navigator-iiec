@@ -5,8 +5,6 @@ import styled from 'styled-components'
 import { Select } from '../select'
 
 export const MethodSupport = () => {
-
-
     return (
         <>
             <BlocksWrapper>

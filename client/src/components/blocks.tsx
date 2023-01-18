@@ -3,8 +3,8 @@ import styled from 'styled-components'
 
 export const BlocksWrapper = styled.div`
   gap: 30px;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
   padding: 30px;
 `
 
@@ -38,12 +38,12 @@ export const StyledBlock = styled.div`
   background-color: #c3c3f333;
   padding-bottom: 15px;
   height: fit-content;
-  flex: 1;
+  flex: 0.25;
 `
 
 export const CenterBlock = styled(StyledBlock)`
   height: 765px;
   overflow-y: auto;
   padding: 30px;
-  flex: 1.5;
+  flex: 0.5;
 `
