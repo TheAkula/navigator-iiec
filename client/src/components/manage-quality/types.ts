@@ -1,26 +1,6 @@
-import { Block, BlocksWrapper, CenterBlock } from '../components'
-import { IBlockItem, BlockItem } from '../components'
-import { FileViewer } from '../components/fileViewer/file-viewer'
-import { MenuItemType } from '../components/main'
+import { IBlockItem, MenuItemType } from '../../types'
 
-export const ManageQuality = () => {
-  return (
-    <BlocksWrapper>
-      <Block title="Меню">
-        <ul>
-          {items.map((item) => (
-            <BlockItem key={item.title} link={item} />
-          ))}
-        </ul>
-      </Block>
-      <CenterBlock>
-        <FileViewer />
-      </CenterBlock>
-    </BlocksWrapper>
-  )
-}
-
-const items: IBlockItem[] = [
+export const items: IBlockItem[] = [
   {
     path: '/',
     title: 'Программа эксперимента',

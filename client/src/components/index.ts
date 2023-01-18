@@ -1,7 +1,7 @@
 export { Header } from './header'
 export { Footer } from './footer'
 export { Modal } from './modal'
+export { MethodSupport } from './method-support'
 export { BlockItem } from './block-item'
-export type { IBlockItem } from './block-item'
 export * from './blocks'
 export * from './styled'

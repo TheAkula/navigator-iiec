@@ -13,7 +13,11 @@ import {
 } from '../../context/file-viewer-context'
 import { StyledLogo } from '../styled'
 
-export const Header = () => {
+interface Props {
+  isShowMenu: boolean
+}
+
+export const Header = ({ isShowMenu }: Props) => {
   const { updateMode } = useFileViewerContext()
 
   const onClick = () => {
@@ -22,17 +26,18 @@ export const Header = () => {
 
   return (
     <StyledHeader>
+
       <StyledLogo>
         <img src={LogoImage} alt="Навигатор 2.0" />
       </StyledLogo>
 
-      <StyledNavigation>
+      {isShowMenu && <StyledNavigation>
         {headerMenuData?.map((el) => (
           <StyledNavigationItem onClick={onClick} key={el.id} to={el.path}>
             {el.title}
           </StyledNavigationItem>
         ))}
-      </StyledNavigation>
+      </StyledNavigation>}
 
       <StyledAddress>
         <img src={Marker} alt="marker" />
@@ -41,6 +46,7 @@ export const Header = () => {
           <br /> республика Удмуртия, 426004
         </p>
       </StyledAddress>
+
     </StyledHeader>
   )
 }

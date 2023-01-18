@@ -1,8 +1,4 @@
-export enum MenuItemType {
-  Link,
-  FileManager,
-  ExternalRef,
-}
+import { MenuItemType } from '../../types/links'
 
 export interface SelectedFile {
   path: string

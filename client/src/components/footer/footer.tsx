@@ -20,12 +20,7 @@ export const Footer = () => {
         </Wrapper>
 
         <Line />
-        <DesignedWrapper>
-          <DesignedText>©Design by Artyom Sergunin</DesignedText>
-
-        </DesignedWrapper>
       </StyledFooter >
-
     </>
   )
 }
@@ -54,15 +49,4 @@ const StyledMenuItem = styled(Link)`
   font-size: 18px;
   line-height: 21px;
   color: #FFFFFF;
-`
-
-const DesignedWrapper = styled.div`
-  padding: 15px 0 10px;
-`
-
-const DesignedText = styled.span`
-  color: white;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 21px;
 `

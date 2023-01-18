@@ -1,15 +1,9 @@
 import { MouseEventHandler } from 'react'
 import { MainMode, useFileViewerContext } from '../context/file-viewer-context'
-import { MenuItemType } from './main/types'
 import styled, { css } from 'styled-components'
 import { Link } from 'react-router-dom'
+import { IBlockItem, MenuItemType } from '../types'
 
-export interface IBlockItem {
-  path: string[] | string
-  roleLinks: MenuItemType
-  title: string
-  img?: string
-}
 
 interface Props {
   link: IBlockItem

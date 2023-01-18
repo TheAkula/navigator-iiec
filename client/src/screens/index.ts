@@ -1,2 +1,3 @@
-export { ManageQuality } from './manage-quality'
-export { Main } from './main'
+export { MainScreen } from './main-screen'
+export { ManageQualityScreen } from './manage-quality-screen'
+export { MethodSupportScreen } from './method-support-screen'

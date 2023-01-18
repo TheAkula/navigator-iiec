@@ -50,4 +50,5 @@ export const StyledBlock = styled.div`
 export const CenterBlock = styled(StyledBlock)`
   height: 765px;
   overflow-y: auto;
+  padding: 30px;
 `
