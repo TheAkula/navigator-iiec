@@ -10,6 +10,10 @@ export const PATHS: FileAccess[] = [
         role: RoleType.TEACHER,
         rights: [FileAccessRight.READ, FileAccessRight.WRITE],
       },
+      {
+        role: RoleType.ADMIN,
+        rights: [FileAccessRight.READ, FileAccessRight.WRITE],
+      },
     ],
   },
   {
@@ -23,6 +27,10 @@ export const PATHS: FileAccess[] = [
         role: RoleType.STUDENT,
         rights: [FileAccessRight.READ],
       },
+      {
+        role: RoleType.ADMIN,
+        rights: [FileAccessRight.READ, FileAccessRight.WRITE],
+      },
     ],
   },
   {
@@ -34,6 +42,10 @@ export const PATHS: FileAccess[] = [
       },
       {
         role: RoleType.STUDENT,
+        rights: [FileAccessRight.READ, FileAccessRight.WRITE],
+      },
+      {
+        role: RoleType.ADMIN,
         rights: [FileAccessRight.READ, FileAccessRight.WRITE],
       },
     ],
