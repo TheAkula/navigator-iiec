@@ -1,10 +1,10 @@
 import React from 'react'
-import { Layout } from '../layout/layout'
 import { MethodSupport } from '../components/method-support'
+import { Layout } from '../layout'
 
 export const MethodSupportScreen = () => {
     return (
-        <Layout>
+        <Layout isShowMenu={false}>
             <MethodSupport />
         </Layout>
     )

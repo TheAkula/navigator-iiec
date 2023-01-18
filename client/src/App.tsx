@@ -1,15 +1,12 @@
-import { Main } from './components'
 import { ContextMenuContextProvider } from './context/context-menu-context'
 import { FileViewerContextProvider } from './context/file-viewer-context'
-import { Layout } from './layout'
+import { AdditionalyRouter } from './routes'
 
 function App() {
   return (
     <FileViewerContextProvider>
       <ContextMenuContextProvider>
-        <Layout>
-          <Main />
-        </Layout>
+        <AdditionalyRouter />
       </ContextMenuContextProvider>
     </FileViewerContextProvider>
   )

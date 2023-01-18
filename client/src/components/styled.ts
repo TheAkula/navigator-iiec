@@ -23,20 +23,6 @@ export const LayoutWrapper = styled.div`
   height: calc(100vh - 80px);
 `
 
-export const StyledMain = styled.main`
-  display: grid;
-  grid-template-columns: 420px minmax(500px, 960px) 420px;
-  gap: 30px;
-  justify-content: center;
-  max-width: 1920px;
-  padding: 30px;
-  margin: 0 auto;
-
-  @media screen and (max-width: 1620px) {
-    grid-template-columns: 340px minmax(500px, 960px) 340px;
-  }
-`
-
 export const StyledMenu = styled.div`
   border: 2px solid #c9c9c9;
   border-radius: 8px 8px 0px 0px;

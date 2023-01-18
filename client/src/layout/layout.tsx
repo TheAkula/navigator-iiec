@@ -4,12 +4,13 @@ import { Footer } from '../components/footer'
 
 interface Props {
   children: React.ReactNode
+  isShowMenu?: boolean
 }
 
-export const Layout = ({ children }: Props) => {
+export const Layout = ({ children, isShowMenu = true }: Props) => {
   return (
     <div>
-      <Header />
+      <Header isShowMenu={isShowMenu} />
       <LayoutWrapper>
         {children}
         <Footer />
@@ -17,4 +18,3 @@ export const Layout = ({ children }: Props) => {
     </div>
   )
 }
-

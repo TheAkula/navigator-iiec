@@ -2,7 +2,8 @@ import Documents from '../../assets/images/documents.svg'
 import Gateway from '../../assets/images/gateway-locked.svg'
 import Photo from '../../assets/images/photo.svg'
 import Video from '../../assets/images/video.svg'
-import { MenuItemType, SidebarTypes } from './types'
+import { MenuItemType } from '../../types'
+import { SidebarTypes } from './types'
 
 export const rightSidebarData: SidebarTypes[] = [
   {

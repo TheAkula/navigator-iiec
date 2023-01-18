@@ -1,31 +1,37 @@
 import React from 'react'
+import { methodSupportData, selectChoiceData } from './types'
+import { Block, BlockItem, BlocksWrapper, CenterBlock } from '../../components'
 import styled from 'styled-components'
-import { StyledMain, StyledMenu } from '../styled'
-import { SpecialityChoice } from './speciality-choice'
-import { methodSupportData } from './types'
+import { Select } from '../select'
 
 export const MethodSupport = () => {
-    return (
-        <StyledMain>
-            <StyledMenu>
-                <h3>Меню</h3>
-                <ul>
-                    {methodSupportData?.map((item) => (
-                        <MenuItem key={item.id}>{item.title}</MenuItem>
-                    ))}
-                </ul>
-            </StyledMenu>
 
-            <SpecialityChoice />
-        </StyledMain>
+
+    return (
+        <>
+            <BlocksWrapper>
+                <Block title="Меню">
+                    <ul>
+                        {methodSupportData.map((item) => (
+                            <BlockItem key={item.id} link={item} />
+                        ))}
+                    </ul>
+                </Block>
+                <CenterBlock>
+                    <ChoiceText>Выберите специальность:</ChoiceText>
+
+                    <Select label="10.02.05 Обеспечение информационной безопасности автоматизированных систем" values={selectChoiceData} />
+                </CenterBlock>
+            </BlocksWrapper>
+        </>
     )
 }
 
-const MenuItem = styled.li`
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    color: #333333;
+
+const ChoiceText = styled.p`
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+    margin-bottom: 10px;
 `

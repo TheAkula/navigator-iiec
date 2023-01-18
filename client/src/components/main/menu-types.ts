@@ -1,19 +1,20 @@
 import Event from '../../assets/images/event.svg'
 import Konsultant from '../../assets/images/konsultant-plus.svg'
 import Library from '../../assets/images/library.svg'
-import MetObr from '../../assets/images/metod-obr.svg'
+import MethodSupport from '../../assets/images/metod-obr.svg'
 import Web from '../../assets/images/optimize-web.svg'
 import Quality from '../../assets/images/quality.svg'
 import Timetable from '../../assets/images/timetable.svg'
-import { MenuItemType, SidebarTypes } from './types'
+import { SidebarTypes } from './types'
 import Phone from '../../assets/images/phone.svg'
+import { MenuItemType } from '../../types'
 
 export const leftSidebarData: SidebarTypes[] = [
   {
     id: '0',
     title: 'Комплексное методическое обеспечение',
     path: '/method-support',
-    imgUrl: MetObr,
+    imgUrl: MethodSupport,
     roleLinks: MenuItemType.ExternalRef,
   },
   {
@@ -26,9 +27,9 @@ export const leftSidebarData: SidebarTypes[] = [
   {
     id: '2',
     title: 'Менеджмент качества',
-    path: '/quality',
+    path: '/manage-quality',
     imgUrl: Quality,
-    roleLinks: MenuItemType.Link,
+    roleLinks: MenuItemType.ExternalRef,
   },
   {
     id: '3',
