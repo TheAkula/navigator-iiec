@@ -10,7 +10,7 @@ export const ManageQuality = () => {
             <Block title="Меню">
                 <ul>
                     {items.map((item) => (
-                        <BlockItem key={item.title} link={item} />
+                        <BlockItem key={item.title} link={item} border />
                     ))}
                 </ul>
             </Block>
