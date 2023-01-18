@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
 import arrow from '../assets/images/arrow.svg'
 
@@ -15,10 +15,11 @@ export const Select = ({
 }: Props) => {
     const [currentValue, setCurrentValue] = useState('')
     const [open, setOpen] = useState(false)
+    const selectBtnRef = useRef<HTMLButtonElement>(null)
     const dropdownRef = useRef<HTMLDivElement>(null)
 
     const handleOpen = () => {
-        setOpen(!open)
+        setOpen(prev => !prev)
     }
 
     const handleClose = () => {
@@ -38,29 +39,23 @@ export const Select = ({
         handleClose()
     }
 
-    // useEffect(() => {
-    //     /**
-    //      * Alert if clicked on outside of element
-    //      */
-    //     function handleClickOutside(event: any) {
-    //         if (dropdownRef.current && !dropdownRef.current.contains(event.target) && open) {
-    //             alert('You clicked outside of me!')
-    //         }
-    //     }
-    //     // Bind the event listener
-    //     document.addEventListener('mousedown', handleClickOutside)
+    useEffect(() => {
+        function handleClickOutside(event: Event) {
+            if (selectBtnRef.current && !selectBtnRef.current.contains(event.target as Node) && !(dropdownRef.current && dropdownRef.current.contains(event.target as Node))) {
+                setOpen(false)
+            }
+        }
 
+        document.addEventListener('mousedown', handleClickOutside)
 
-    //     return () => {
-    //         // Unbind the event listener on clean up
-    //         document.removeEventListener('mousedown', handleClickOutside)
-    //     }
-    // }, [dropdownRef])
-
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [selectBtnRef])
 
     return (
         <SelectContainer>
-            <SelectLabelButton onClick={handleOpen}>
+            <SelectLabelButton onClick={handleOpen} ref={selectBtnRef}>
                 <SelectLabel>{currentValue !== '' ? currentValue : label}</SelectLabel>
                 <ArrowImage active={open} src={arrow} alt='arrow' />
             </SelectLabelButton>
