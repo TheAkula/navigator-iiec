@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useFileViewerContext } from '../../context/file-viewer-context'
+import { BtnCancel, BtnCreate, Input, WrapperBtns } from './styles'
 
 interface Props {
   setShow: (show: boolean) => void
@@ -28,15 +29,15 @@ export const CreateFileModal = ({ setShow }: Props) => {
     <>
       <label htmlFor="file-name">Имя файла</label>
       <br />
-      <input
+      <Input
         id="file-name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <div>
-        <button onClick={onAgree}>Ок</button>
-        <button onClick={onCancel}>Отмена</button>
-      </div>
+      <WrapperBtns>
+        <BtnCreate onClick={onAgree}>Создать</BtnCreate>
+        <BtnCancel onClick={onCancel}>Отмена</BtnCancel>
+      </WrapperBtns>
     </>
   )
 }
