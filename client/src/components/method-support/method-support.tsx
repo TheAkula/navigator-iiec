@@ -10,8 +10,8 @@ export const MethodSupport = () => {
             <BlocksWrapper>
                 <Block title="Меню">
                     <ul>
-                        {methodSupportData.map((item) => (
-                            <BlockItem key={item.id} link={item} />
+                        {methodSupportData.map((item, id) => (
+                            <BlockItem isLast={methodSupportData.length - 1 === id} border key={item.id} link={item} />
                         ))}
                     </ul>
                 </Block>

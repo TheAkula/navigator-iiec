@@ -38,3 +38,9 @@ export const StyledMenu = styled.div`
     margin-bottom: 15px;
   }
 `
+
+export const Separator = styled.div`
+  background: #c9c9c9;
+  width: 100%;
+  height: 1px;
+`

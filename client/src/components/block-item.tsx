@@ -3,13 +3,16 @@ import { MainMode, useFileViewerContext } from '../context/file-viewer-context'
 import styled, { css } from 'styled-components'
 import { Link } from 'react-router-dom'
 import { IBlockItem, MenuItemType } from '../types'
+import { Separator } from './styled'
 
 
 interface Props {
   link: IBlockItem
+  border?: boolean
+  isLast?: boolean
 }
 
-export const BlockItem = ({ link }: Props) => {
+export const BlockItem = ({ link, border = false, isLast = false }: Props) => {
   const { openDirectory, updateMode } = useFileViewerContext()
   const stringPath = Array.isArray(link.path) ? link.path.join() : link.path
 
@@ -35,6 +38,8 @@ export const BlockItem = ({ link }: Props) => {
 
   return (
     <>
+      {border && <Separator />}
+
       {link.roleLinks === MenuItemType.Link && (
         <StyledMenuLink onClick={clickHandler} to={stringPath}>
           {itemContent}
@@ -48,6 +53,7 @@ export const BlockItem = ({ link }: Props) => {
       {link.roleLinks === MenuItemType.FileManager && (
         <StyledMenuA onClick={changeHandler}>{itemContent}</StyledMenuA>
       )}
+      {border && isLast && <Separator />}
     </>
   )
 }
