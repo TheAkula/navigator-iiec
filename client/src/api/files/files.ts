@@ -23,12 +23,14 @@ export const upload_files = async ({ files, dest }: UploadFilesRequest) => {
   const formData = new FormData()
 
   for (const file of files) {
-    formData.append('files', file)
+    formData.append('files', file, file.webkitRelativePath.replace(/\//g, '@'))
   }
 
-  formData.append('dest', JSON.stringify(dest))
-
-  return api.post<SuccessResponse>(endpoints.upload, formData)
+  return api.post<SuccessResponse>(endpoints.upload, formData, {
+    params: {
+      dest,
+    },
+  })
 }
 
 export const delete_files = async (req: DeleteFilesRequest) => {

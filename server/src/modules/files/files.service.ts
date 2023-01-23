@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import {
   copyFile,
   cp,
@@ -11,6 +7,7 @@ import {
   rename,
   rm,
   stat,
+  Stats,
   statSync,
   unlink,
   writeFile,
@@ -40,21 +37,25 @@ export class FilesService {
   }
 
   async readDir({ path = [] }: ReadDirDto): Promise<FileType[]> {
-    return new Promise<FileType[]>((res) => {
+    return new Promise<FileType[]>((res, reject) => {
       return readdir(this.getPath(...path), async (err, content) => {
         if (err) {
-          throw new InternalServerErrorException(
-            'Произошла ошибка при чтении папки',
+          reject(
+            new InternalServerErrorException(
+              'Произошла ошибка при чтении папки',
+            ),
           );
         }
         const files = [];
 
         for (const file of content) {
-          const some = await new Promise<FileType>((resolve) => {
+          const some = await new Promise<FileType>((resolve, reject) => {
             stat(this.getPath(...path, file), (err, stats) => {
-              if (err) {
-                throw new InternalServerErrorException(
-                  'Произошла ошибка при чтении папки',
+              if (err || !stats) {
+                reject(
+                  new InternalServerErrorException(
+                    'Произошла ошибка при чтении папки',
+                  ),
                 );
               }
 
@@ -78,76 +79,63 @@ export class FilesService {
     });
   }
 
-  async uploadFiles(
-    { dest }: UploadFilesDto,
-    files: Express.Multer.File[],
-  ): Promise<SuccessDto> {
+  async delete({ files = [] }: DeleteDto): Promise<void> {
     await Promise.all(
       files.map(async (file) => {
-        await new Promise(() => {
-          rename(
-            join(
-              __dirname,
-              this.apiConfigService.getUploadDest(),
-              file.filename,
-            ),
-            this.getPath(...dest, file.originalname),
-            (err) => {
-              if (err) {
-                console.log(err);
-
-                throw new InternalServerErrorException(
-                  'Произошла ошибка при загрузке файлов',
-                );
-              }
-            },
-          );
-        });
-      }),
-    );
-
-    return { message: 'success' };
-  }
-
-  async delete({ files }: DeleteDto): Promise<void[]> {
-    return Promise.all(
-      files.map((file) => {
-        return new Promise<void>(async () => {
+        await new Promise<void>(async (_, reject) => {
           const filePath = this.getPath(...file.path);
-          const stat = statSync(filePath);
+
+          let stat: Stats;
+          try {
+            stat = statSync(filePath);
+          } catch (err) {
+            return reject(new InternalServerErrorException('Файл не найден'));
+          }
 
           const { isDirectory } = stat;
 
           if (isDirectory.call(stat)) {
-            await new Promise(() =>
-              rm(filePath, { recursive: true, force: true }, (err) => {
-                if (err) {
-                  throw new InternalServerErrorException(
-                    'Произошла ошибка при удалении папки',
-                  );
-                }
-              }),
-            );
+            try {
+              await new Promise((_, reject) =>
+                rm(filePath, { recursive: true, force: true }, (err) => {
+                  if (err) {
+                    reject(
+                      new InternalServerErrorException(
+                        'Произошла ошибка при удалении папки',
+                      ),
+                    );
+                  }
+                }),
+              );
+            } catch (err) {
+              reject(err);
+            }
           } else {
-            await new Promise(() =>
-              unlink(filePath, (err) => {
-                if (err) {
-                  throw new InternalServerErrorException(
-                    'Произошла ошибка при удалении файла',
-                  );
-                }
-              }),
-            );
+            try {
+              await new Promise((_, reject) =>
+                unlink(filePath, (err) => {
+                  if (err) {
+                    reject(
+                      new InternalServerErrorException(
+                        'Произошла ошибка при удалении файла',
+                      ),
+                    );
+                  }
+                }),
+              );
+            } catch (err) {
+              reject(err);
+            }
           }
         });
       }),
     );
   }
 
-  async move({ dest, files }: MoveDto): Promise<void[]> {
-    return Promise.all(
+  async move({ dest, files }: MoveDto): Promise<void> {
+    await Promise.all(
       files.map(async (file) => {
-        await new Promise(() =>
+        await new Promise((_, reject) =>
           rename(
             this.getPath(...file.path),
             this.getPath(...dest, file.path[file.path.length - 1]),
@@ -155,8 +143,10 @@ export class FilesService {
               if (err) {
                 console.error(err);
 
-                throw new InternalServerErrorException(
-                  'Произошла ошибка при перемещении файла',
+                reject(
+                  new InternalServerErrorException(
+                    'Произошла ошибка при перемещении файла',
+                  ),
                 );
               }
             },
@@ -167,54 +157,72 @@ export class FilesService {
   }
 
   async rename({ path, new_name }: RenameDto): Promise<void> {
-    return rename(
-      this.getPath(...path),
-      this.getPath(...path.slice(0, path.length - 1).concat(new_name)),
-      (err) => {
-        if (err) {
-          throw new InternalServerErrorException(
-            'Произошла ошибка при переименовыании файла',
-          );
-        }
-      },
+    await new Promise((_, reject) =>
+      rename(
+        this.getPath(...path),
+        this.getPath(...path.slice(0, path.length - 1).concat(new_name)),
+        (err) => {
+          if (err) {
+            reject(
+              new InternalServerErrorException(
+                'Произошла ошибка при переименовыании файла',
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 
-  async copy({ files, to = [] }: CopyDto): Promise<void[]> {
-    return Promise.all(
+  async copy({ files, to = [] }: CopyDto): Promise<void> {
+    await Promise.all(
       files.map(async (file) => {
-        await new Promise(async () => {
+        await new Promise(async (_, reject) => {
           if (statSync(this.getPath(...file.from)).isFile()) {
-            await new Promise(() =>
-              copyFile(
-                this.getPath(...file.from),
-                this.getPath(...to, file.from[file.from.length - 1]),
-                (err) => {
-                  if (err) {
-                    console.error(err);
+            try {
+              await new Promise((_, reject) =>
+                copyFile(
+                  this.getPath(...file.from),
+                  this.getPath(...to, file.from[file.from.length - 1]),
+                  (err) => {
+                    if (err) {
+                      console.error(err);
 
-                    throw new BadRequestException(
-                      'Произошла ошибка при копировании файлов',
-                    );
-                  }
-                },
-              ),
-            );
-          } else {
-            await new Promise(() => {
-              return cp(
-                this.getPath(...file.from),
-                this.getPath(...to),
-                { recursive: true },
-                (err) => {
-                  if (err) {
-                    throw new InternalServerErrorException(
-                      'Произошла ошибка при копировании папки',
-                    );
-                  }
-                },
+                      reject(
+                        new InternalServerErrorException(
+                          'Произошла ошибка при копировании файлов',
+                        ),
+                      );
+                    }
+                  },
+                ),
               );
-            });
+            } catch (err) {
+              reject(err);
+            }
+          } else {
+            try {
+              await new Promise((_, reject) => {
+                return cp(
+                  this.getPath(...file.from),
+                  this.getPath(...to),
+                  { recursive: true },
+                  (err) => {
+                    if (err) {
+                      console.log(err);
+
+                      reject(
+                        new InternalServerErrorException(
+                          'Произошла ошибка при копировании папки',
+                        ),
+                      );
+                    }
+                  },
+                );
+              });
+            } catch (err) {
+              reject(err);
+            }
           }
         });
       }),
@@ -222,12 +230,14 @@ export class FilesService {
   }
 
   async createDir({ path, name }: CreateDirDto): Promise<void> {
-    return new Promise<void>(() => {
+    await new Promise<void>((_, reject) => {
       mkdir(this.getPath(...path, name), (err) => {
         if (err) {
           console.error(err);
-          throw new InternalServerErrorException(
-            'Произошла ошибка при создании папки',
+          reject(
+            new InternalServerErrorException(
+              'Произошла ошибка при создании папки',
+            ),
           );
         }
       });
@@ -235,12 +245,14 @@ export class FilesService {
   }
 
   async createFile({ path, name }: CreateDirDto): Promise<void> {
-    return new Promise<void>(() => {
+    await new Promise<void>((_, reject) => {
       writeFile(this.getPath(...path, name), '', (err) => {
         if (err) {
           console.error(err);
-          throw new InternalServerErrorException(
-            'Произошла ошибка при создании папки',
+          reject(
+            new InternalServerErrorException(
+              'Произошла ошибка при создании файла',
+            ),
           );
         }
       });

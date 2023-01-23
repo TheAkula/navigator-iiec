@@ -18,6 +18,7 @@ import {
   upload_files,
 } from '../api/files'
 import { FileType } from '../types'
+import { getName } from '../utils'
 
 export enum MainMode {
   FILE_VIEWER,
@@ -46,7 +47,7 @@ interface FileViewerContextValue {
   mode: MainMode
   files: FileType[]
   loading: boolean
-  error: Error | null
+  error: string | null
   filters: FileViewerFilter
   selectedFiles: FileType[]
   renamedFile: string[]
@@ -147,7 +148,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
   const [mode, setMode] = useState<MainMode>(MainMode.ROUTES)
   const [files, setFiles] = useState<FileType[]>([])
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<Error | null>(null)
+  const [error, setError] = useState<string | null>(null)
   const [bufferAction, setBufferAction] = useState<BufferAction>()
   const [renamedFile, setRenamedFile] = useState<string[]>([])
   const [renamedValue, setRenamedValue] = useState<string>('')
@@ -212,7 +213,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
       try {
         await cb(...args)
       } catch (err) {
-        setError(err as AxiosError)
+        setError((err as AxiosError).response?.data.message)
       }
     }
 
@@ -314,11 +315,11 @@ export const FileViewerContextProvider = ({ children }: Props) => {
   })
 
   const createDir = request(async (name: string) => {
-    create_dir({ name, path })
+    await create_dir({ name, path })
   })
 
   const createFile = request(async (name: string) => {
-    create_file({ name, path })
+    await create_file({ name, path })
   })
 
   const addToBuffer = useCallback((files: FileType[]) => {
@@ -378,6 +379,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
 
   const changeRenamedFile = () => {
     if (selectFiles.length === 1) {
+      setRenamedValue(getName(selectedFiles[0]))
       setRenamedFile(selectedFiles[0].path)
     }
   }
