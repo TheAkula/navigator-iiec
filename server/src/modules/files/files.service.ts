@@ -20,8 +20,6 @@ import { DeleteDto } from './dtos/req/delete.dto';
 import { MoveDto } from './dtos/req/move.dto';
 import { ReadDirDto } from './dtos/req/read-directory.dto';
 import { RenameDto } from './dtos/req/rename.dto';
-import { UploadFilesDto } from './dtos/req/upload-files.dto';
-import { SuccessDto } from './dtos/res/success.dto';
 import { FileType } from './file';
 
 @Injectable()
@@ -40,19 +38,22 @@ export class FilesService {
     return new Promise<FileType[]>((res, reject) => {
       return readdir(this.getPath(...path), async (err, content) => {
         if (err) {
-          reject(
+          console.log(err);
+
+          return reject(
             new InternalServerErrorException(
               'Произошла ошибка при чтении папки',
             ),
           );
         }
+
         const files = [];
 
         for (const file of content) {
           const some = await new Promise<FileType>((resolve, reject) => {
             stat(this.getPath(...path, file), (err, stats) => {
               if (err || !stats) {
-                reject(
+                return reject(
                   new InternalServerErrorException(
                     'Произошла ошибка при чтении папки',
                   ),
@@ -99,7 +100,7 @@ export class FilesService {
               await new Promise((_, reject) =>
                 rm(filePath, { recursive: true, force: true }, (err) => {
                   if (err) {
-                    reject(
+                    return reject(
                       new InternalServerErrorException(
                         'Произошла ошибка при удалении папки',
                       ),
@@ -115,7 +116,7 @@ export class FilesService {
               await new Promise((_, reject) =>
                 unlink(filePath, (err) => {
                   if (err) {
-                    reject(
+                    return reject(
                       new InternalServerErrorException(
                         'Произошла ошибка при удалении файла',
                       ),
@@ -143,7 +144,7 @@ export class FilesService {
               if (err) {
                 console.error(err);
 
-                reject(
+                return reject(
                   new InternalServerErrorException(
                     'Произошла ошибка при перемещении файла',
                   ),
@@ -163,7 +164,7 @@ export class FilesService {
         this.getPath(...path.slice(0, path.length - 1).concat(new_name)),
         (err) => {
           if (err) {
-            reject(
+            return reject(
               new InternalServerErrorException(
                 'Произошла ошибка при переименовыании файла',
               ),
@@ -188,7 +189,7 @@ export class FilesService {
                     if (err) {
                       console.error(err);
 
-                      reject(
+                      return reject(
                         new InternalServerErrorException(
                           'Произошла ошибка при копировании файлов',
                         ),
@@ -211,7 +212,7 @@ export class FilesService {
                     if (err) {
                       console.log(err);
 
-                      reject(
+                      return reject(
                         new InternalServerErrorException(
                           'Произошла ошибка при копировании папки',
                         ),
@@ -234,7 +235,7 @@ export class FilesService {
       mkdir(this.getPath(...path, name), (err) => {
         if (err) {
           console.error(err);
-          reject(
+          return reject(
             new InternalServerErrorException(
               'Произошла ошибка при создании папки',
             ),
