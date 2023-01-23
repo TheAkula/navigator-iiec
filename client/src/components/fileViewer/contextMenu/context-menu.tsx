@@ -75,12 +75,11 @@ export const ContextMenu = () => {
     input.type = 'file'
     input.multiple = true
 
-    // FIXME: **** typescript
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    input.onchange = (e: ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files) {
-        addToNativeBuffer([...e.target.files])
+    input.onchange = (e: Event) => {
+      const files = (e.target as HTMLInputElement).files
+
+      if (files) {
+        addToNativeBuffer([...files])
         setShowModal(true)
         setModalMode(ModalMode.UPLOAD)
       } else {
@@ -97,12 +96,11 @@ export const ContextMenu = () => {
     input.multiple = true
     input.webkitdirectory = true
 
-    // FIXME: **** typescript
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    input.onchange = (e: ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files) {
-        addToNativeBuffer([...e.target.files])
+    input.onchange = (e: Event) => {
+      const files = (e.target as HTMLInputElement).files
+
+      if (files) {
+        addToNativeBuffer([...files])
         setShowModal(true)
         setModalMode(ModalMode.UPLOAD)
       } else {
