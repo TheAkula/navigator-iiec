@@ -9,7 +9,9 @@ export const Footer = () => {
     <>
       <StyledFooter>
         <Wrapper>
-          <StyledLogo><img src={LogoImage} alt="Навигатор 2.0" /></StyledLogo>
+          <StyledLogo>
+            <img src={LogoImage} alt="Навигатор 2.0" />
+          </StyledLogo>
           <StyledFooterMenu>
             {dataFooter?.map((el) => (
               <StyledMenuItem to={el.href} key={el.id}>
@@ -20,12 +22,10 @@ export const Footer = () => {
         </Wrapper>
 
         <Line />
-      </StyledFooter >
+      </StyledFooter>
     </>
   )
 }
-
-
 
 const StyledFooter = styled.footer`
   text-align: center;
@@ -40,7 +40,7 @@ const StyledFooterMenu = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: space-between;  
+  justify-content: space-between;
   padding: 30px 45px 20px;
 `
 
@@ -48,5 +48,5 @@ const StyledMenuItem = styled(Link)`
   font-weight: 500;
   font-size: 18px;
   line-height: 21px;
-  color: #FFFFFF;
+  color: #ffffff;
 `

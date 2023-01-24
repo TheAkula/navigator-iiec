@@ -161,7 +161,7 @@ export const ContextMenu = () => {
             <span>Загрузить файлы</span>
           </div>
           <div className="context-menu-block" onClick={onUploadFolders}>
-            <span>Загрузить папки</span>
+            <span>Загрузить папку</span>
           </div>
         </StyledContextMenu>
       )}

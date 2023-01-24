@@ -14,20 +14,23 @@ function sortFilesToFolders(files: File[]): FileTree {
   for (let i = 0; i < files.length; ++i) {
     const file = files[i]
 
+    if (file.webkitRelativePath.length === 0) {
+      result[file.name] = file
+      continue
+    }
+
     const path = file.webkitRelativePath.split(/\//g)
 
-    let elem
+    let elem = result
 
     for (let j = 0; j < path.length - 1; ++j) {
       if (!path[j].length) continue
-
-      if (!elem) elem = result
 
       if (!(path[j] in elem)) {
         ;(elem as FileTree)[path[j]] = {}
       }
 
-      elem = (elem as FileTree)[path[j]]
+      elem = (elem as FileTree)[path[j]] as FileTree
     }
 
     ;(elem as FileTree)[path[path.length - 1]] = file
@@ -49,6 +52,8 @@ export const UploadFilesModal = ({ setShow }: Props) => {
     setShow(false)
   }
 
+  const onHide = () => {}
+
   const files = sortFilesToFolders(nativeBuffer)
 
   return (
@@ -58,7 +63,7 @@ export const UploadFilesModal = ({ setShow }: Props) => {
         <br />
         <FilesWrapper>
           {Object.entries(files).map(([key, value]) => (
-            <FileOrFolder file={value} name={key} />
+            <FileOrFolder key={key} file={value} name={key} />
           ))}
         </FilesWrapper>
       </ModalWrapper>

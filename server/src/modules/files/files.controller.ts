@@ -54,7 +54,7 @@ export class FilesController {
   @UseGuards(FileAccessGuard(UploadFilesDto, DtoPlace.BODY))
   @Post('/upload')
   @UseInterceptors(
-    FilesInterceptor('files', 20, {
+    FilesInterceptor('files', undefined, {
       storage: diskStorage({
         async destination(req, file, callback) {
           const relativePath = file.originalname.replace(/@/g, sep);

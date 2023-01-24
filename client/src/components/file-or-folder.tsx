@@ -44,19 +44,16 @@ export const FileOrFolder = ({ file, name }: Props) => {
   return (
     <Folder onClick={showHandler}>
       <FolderInfo>
-        <span></span>
         <ImageContainer>
           <img src={FolderIcon} alt={name} />
         </ImageContainer>
         <span>{name}</span>
       </FolderInfo>
-      {showFiles && (
-        <FileList>
-          {Object.entries(file).map(([key, f]) => {
-            return <FileOrFolder key={key} file={f} name={key} />
-          })}
-        </FileList>
-      )}
+      <FileList show={showFiles}>
+        {Object.entries(file).map(([key, f]) => {
+          return <FileOrFolder key={key} file={f} name={key} />
+        })}
+      </FileList>
     </Folder>
   )
 }
@@ -88,11 +85,15 @@ const FileInfo = styled.div`
   gap: 15px;
 `
 
-const FileList = styled.div`
-  display: flex;
+interface FileListProps {
+  show?: boolean
+}
+
+const FileList = styled.div<FileListProps>`
   flex-direction: column;
   max-height: 50%;
   margin-left: 10px;
+  display: ${({ show }) => (show ? 'flex' : 'none')};
 `
 
 const ImageContainer = styled.div`

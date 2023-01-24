@@ -23,7 +23,11 @@ export const upload_files = async ({ files, dest }: UploadFilesRequest) => {
   const formData = new FormData()
 
   for (const file of files) {
-    formData.append('files', file, file.webkitRelativePath.replace(/\//g, '@'))
+    const filename =
+      file.webkitRelativePath.length === 0
+        ? file.name
+        : file.webkitRelativePath.replace(/\//g, '@')
+    formData.append('files', file, filename)
   }
 
   return api.post<SuccessResponse>(endpoints.upload, formData, {
