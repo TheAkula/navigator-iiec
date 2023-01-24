@@ -3,10 +3,31 @@ import { rightSidebarData } from '../components/main/additionally-types'
 import { Block, BlockItem, BlocksWrapper } from '../components'
 import { MainMenu } from '../components/main'
 import { Layout } from '../layout'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router'
+import { RightHeader } from '../types'
 
 export const MainScreen = () => {
+  const navigate = useNavigate()
+
+  const hasJWTtoken = () => {
+    let flag = false
+
+    localStorage.getItem('token') ? flag = true : flag = false
+
+    return flag
+  }
+
+  useEffect(() => {
+    if (!hasJWTtoken()) {
+      navigate('/login')
+    } else {
+      navigate('/')
+    }
+  }, [])
+
   return (
-    <Layout>
+    <Layout rightHeader={RightHeader.ADDRESS}>
       <BlocksWrapper>
         <Block title="Меню">
           <ul>

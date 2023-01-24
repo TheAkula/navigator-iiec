@@ -4,3 +4,4 @@ files/**/*
 !files/for-students
 !files/for-all
 !files/for-teachers
+node_modules

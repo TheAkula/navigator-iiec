@@ -1,20 +1,21 @@
 import { LayoutWrapper } from '../components/styled'
 import { Header } from '../components/header'
 import { Footer } from '../components/footer'
+import { RightHeader } from '../types'
 
 interface Props {
   children: React.ReactNode
   isShowMenu?: boolean
+  rightHeader: RightHeader
 }
 
-export const Layout = ({ children, isShowMenu = true }: Props) => {
+export const Layout = ({ children, isShowMenu = true, rightHeader }: Props) => {
   return (
-    <div>
-      <Header isShowMenu={isShowMenu} />
+    <>
       <LayoutWrapper>
         {children}
         <Footer />
       </LayoutWrapper>
-    </div>
+    </>
   )
 }

@@ -8,4 +8,5 @@ export const endpoints = {
   copy: 'copy/',
   createDir: 'create-dir/',
   createFile: 'create-file/',
+  login: 'auth/login',
 }
