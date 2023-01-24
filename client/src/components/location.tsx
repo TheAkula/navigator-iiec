@@ -1,6 +1,5 @@
 import styled from 'styled-components'
-import location from '../../assets/images/map 1.svg'
-
+import location from '../assets/images/map 1.svg'
 
 export const Location = () => {
     return (

@@ -10,15 +10,14 @@ import {
   useFileViewerContext,
 } from '../../context/file-viewer-context'
 import { StyledLogo } from '../styled'
-import { useContextUser } from '../../context/user-context'
 
 interface Props {
-  isShowMenu: boolean
+  isShowMenu?: boolean
+  children: React.ReactNode
 }
 
-export const Header = ({ isShowMenu }: Props) => {
+export const Header = ({ isShowMenu = true, children }: Props) => {
   const { updateMode } = useFileViewerContext()
-  const { currentUser } = useContextUser()
 
   const onClick = () => {
     updateMode(MainMode.ROUTES)
@@ -38,6 +37,8 @@ export const Header = ({ isShowMenu }: Props) => {
           </StyledNavigationItem>
         ))}
       </StyledNavigation>}
+
+      {children}
 
     </StyledHeader >
   )

@@ -1,11 +1,10 @@
 import { leftSidebarData } from '../components/main/menu-types'
 import { rightSidebarData } from '../components/main/additionally-types'
-import { Block, BlockItem, BlocksWrapper } from '../components'
+import { Authorization, Block, BlockItem, BlocksWrapper, Header } from '../components'
 import { MainMenu } from '../components/main'
 import { Layout } from '../layout'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
-import { RightHeader } from '../types'
 
 export const MainScreen = () => {
   const navigate = useNavigate()
@@ -24,45 +23,52 @@ export const MainScreen = () => {
     } else {
       navigate('/')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
-    <Layout rightHeader={RightHeader.ADDRESS}>
-      <BlocksWrapper>
-        <Block title="Меню">
-          <ul>
-            {leftSidebarData?.map((el) => (
-              <BlockItem
-                key={el.id}
-                link={{
-                  path: el.path,
-                  roleLinks: el.roleLinks,
-                  title: el.title,
-                  img: el.imgUrl,
-                }}
-              />
-            ))}
-          </ul>
-        </Block>
+    <div>
+      <Header>
+        <Authorization />
+      </Header>
 
-        <MainMenu />
+      <Layout>
+        <BlocksWrapper>
+          <Block title="Меню">
+            <ul>
+              {leftSidebarData?.map((el) => (
+                <BlockItem
+                  key={el.id}
+                  link={{
+                    path: el.path,
+                    roleLinks: el.roleLinks,
+                    title: el.title,
+                    img: el.imgUrl,
+                  }}
+                />
+              ))}
+            </ul>
+          </Block>
 
-        <Block title="Дополнительно">
-          <ul>
-            {rightSidebarData?.map((el) => (
-              <BlockItem
-                key={el.id}
-                link={{
-                  path: el.path,
-                  roleLinks: el.roleLinks,
-                  title: el.title,
-                  img: el.imgUrl,
-                }}
-              />
-            ))}
-          </ul>
-        </Block>
-      </BlocksWrapper>
-    </Layout>
+          <MainMenu />
+
+          <Block title="Дополнительно">
+            <ul>
+              {rightSidebarData?.map((el) => (
+                <BlockItem
+                  key={el.id}
+                  link={{
+                    path: el.path,
+                    roleLinks: el.roleLinks,
+                    title: el.title,
+                    img: el.imgUrl,
+                  }}
+                />
+              ))}
+            </ul>
+          </Block>
+        </BlocksWrapper>
+      </Layout>
+    </div>
   )
 }
