@@ -75,12 +75,11 @@ export const ContextMenu = () => {
     input.type = 'file'
     input.multiple = true
 
-    // FIXME: **** typescript
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    input.onchange = (e: ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files) {
-        addToNativeBuffer([...e.target.files])
+    input.onchange = (e: Event) => {
+      const files = (e.target as HTMLInputElement).files
+
+      if (files) {
+        addToNativeBuffer([...files])
         setShowModal(true)
         setModalMode(ModalMode.UPLOAD)
       } else {
@@ -90,6 +89,27 @@ export const ContextMenu = () => {
 
     input.click()
   })
+
+  const onUploadFolders = () => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.multiple = true
+    input.webkitdirectory = true
+
+    input.onchange = (e: Event) => {
+      const files = (e.target as HTMLInputElement).files
+
+      if (files) {
+        addToNativeBuffer([...files])
+        setShowModal(true)
+        setModalMode(ModalMode.UPLOAD)
+      } else {
+        clearNativeBuffer()
+      }
+    }
+
+    input.click()
+  }
 
   const onRename = contextMenuOperation(() => {
     changeRenamedFile()
@@ -139,6 +159,9 @@ export const ContextMenu = () => {
           </div>
           <div className="context-menu-block" onClick={onUpload}>
             <span>Загрузить файлы</span>
+          </div>
+          <div className="context-menu-block" onClick={onUploadFolders}>
+            <span>Загрузить папки</span>
           </div>
         </StyledContextMenu>
       )}

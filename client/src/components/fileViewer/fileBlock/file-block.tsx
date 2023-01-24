@@ -8,6 +8,7 @@ import { getExt } from '../../../utils/file-info/get-file-ext'
 import { getSize } from '../../../utils/file-info/get-file-size'
 import { useContextMenuContext } from '../../../context/context-menu-context'
 import { FileType } from '../../../types'
+import { getName } from '../../../utils'
 
 interface FileBlockProps {
   file: FileType
@@ -71,7 +72,7 @@ const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
   }
 
   const isRename = renamedFile.join() === file.path.join()
-  const filename = file.title.slice(0, file.title.lastIndexOf(file.ext))
+  const filename = getName(file)
 
   return (
     <StyledFileBlock

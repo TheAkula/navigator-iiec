@@ -24,15 +24,6 @@ export const StyledModal = styled.div`
   padding: 40px 50px 20px;
   z-index: 200;
   border-radius: 10px;
-
-  p {
-    text-align: center;
-  }
-
-  div {
-    display: flex;
-    justify-content: space-between;
-  }
 `
 
 export const Background = styled.div`

@@ -1,0 +1,5 @@
+export { getDate } from './get-file-date'
+export { getExt } from './get-file-ext'
+export { getIcon } from './get-file-icon'
+export { getName } from './get-file-name'
+export { getSize } from './get-file-size'

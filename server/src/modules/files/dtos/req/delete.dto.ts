@@ -1,4 +1,3 @@
-import { BadRequestException } from '@nestjs/common';
 import { Transform, Type } from 'class-transformer';
 import { IsArray, IsString } from 'class-validator';
 import { HaveAccess } from 'src/decorators/have-access.decorator';
@@ -18,7 +17,7 @@ export class DeleteDto {
     try {
       return Array.isArray(value) ? value.map((v) => JSON.parse(v)) : value;
     } catch (err) {
-      throw new BadRequestException(err);
+      return value;
     }
   })
   files: DeleteItemDto[];

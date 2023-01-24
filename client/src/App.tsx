@@ -1,3 +1,4 @@
+import { FileViewerErrorBoundary } from './components'
 import { ContextMenuContextProvider } from './context/context-menu-context'
 import { FileViewerContextProvider } from './context/file-viewer-context'
 import { UserProvider } from './context/user-context'
@@ -11,6 +12,7 @@ function App() {
           <AdditionalyRouter />
         </UserProvider>
       </ContextMenuContextProvider>
+      <FileViewerErrorBoundary />
     </FileViewerContextProvider>
   )
 }

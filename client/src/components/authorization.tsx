@@ -1,11 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
+import { useContextUser } from '../context/user-context'
+
 
 export const Authorization = () => {
     const logoutAccount = () => {
         localStorage.removeItem('token')
     }
+
+
 
     return (
         <>
@@ -15,6 +19,7 @@ export const Authorization = () => {
                         Войти
                     </ButtonAuth>
                 </Link>
+
                 <Link to='login' onClick={logoutAccount}>
                     <ButtonExit>
                         Выйти
@@ -45,7 +50,7 @@ const ButtonExit = styled.button`
   background-color: #ff5353;
 `
 
-export const StyledBtns = styled.div`
+const StyledBtns = styled.div`
   display: flex;
   gap: 20px;
   align-items: center;

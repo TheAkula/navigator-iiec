@@ -28,6 +28,8 @@ import { DtoPlace, FileAccessGuard } from 'src/guards/file-access.guard';
 import { CreateDirDto } from './dtos/req/create-dir.dto';
 import { CreateFileDto } from './dtos/req/create-file.dto';
 import { diskStorage } from 'multer';
+import { dirname, join, sep } from 'path';
+import { ensureDir } from 'src/utils';
 
 //  TODO: add auth on client and then uncomment this
 @UseGuards(JwtAuthGuard)
@@ -52,18 +54,35 @@ export class FilesController {
   @UseGuards(FileAccessGuard(UploadFilesDto, DtoPlace.BODY))
   @Post('/upload')
   @UseInterceptors(
-    FilesInterceptor('files', 10, {
+    FilesInterceptor('files', 20, {
       storage: diskStorage({
-        destination: './uploads',
+        async destination(req, file, callback) {
+          const relativePath = file.originalname.replace(/@/g, sep);
+
+          const index = relativePath.lastIndexOf(sep);
+          const fileDir = join(
+            dirname(require.main.filename),
+            '../../files',
+            ...(req.query.dest as string[]),
+            relativePath.substring(0, index),
+          );
+
+          await ensureDir(fileDir);
+
+          return callback(null, fileDir);
+        },
+        filename(_, file, callback) {
+          return callback(
+            null,
+            file.originalname.substring(file.originalname.lastIndexOf('@') + 1),
+          );
+        },
       }),
     }),
   )
   async uploadFile(
-    @UploadedFiles() files: Express.Multer.File[],
-    @Body() uploadFilesDto: UploadFilesDto,
+    @Query() uploadFilesDto: UploadFilesDto,
   ): Promise<SuccessDto> {
-    await this.filesService.uploadFiles(uploadFilesDto, files);
-
     return { message: 'success' };
   }
 

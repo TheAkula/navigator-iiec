@@ -58,10 +58,16 @@ export const Lab: User = {
   role: RoleType.STUDENT,
 };
 
-export const Admin: User = {
-  login: 'admin',
-  password: 'admin',
+export const Teacher: User = {
+  login: 'prepod',
+  password: 'prepod',
   role: RoleType.TEACHER,
 };
 
-export const USERS = [Lab, Admin];
+export const Admin: User = {
+  login: 'admin',
+  password: 'admin',
+  role: RoleType.ADMIN,
+};
+
+export const USERS = [Lab, Admin, Teacher];
