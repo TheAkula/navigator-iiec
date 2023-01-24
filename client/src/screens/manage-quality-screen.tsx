@@ -1,11 +1,18 @@
+import { Authorization, Header } from '../components'
 import { ManageQuality } from '../components/manage-quality'
 import { Layout } from '../layout'
 
 export const ManageQualityScreen = () => {
   return (
-    <Layout isShowMenu={false}>
-      <ManageQuality />
-    </Layout>
+    <div>
+      <Header>
+        <Authorization />
+      </Header>
+
+      <Layout>
+        <ManageQuality />
+      </Layout>
+    </div>
   )
 }
 

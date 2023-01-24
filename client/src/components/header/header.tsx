@@ -2,9 +2,7 @@ import {
   StyledHeader,
   StyledNavigation,
   StyledNavigationItem,
-  StyledAddress,
 } from './styled'
-import Marker from '../../assets/images/map 1.svg'
 import LogoImage from '../../assets/images/logo.svg'
 import { headerMenuData } from './types'
 import {
@@ -14,10 +12,11 @@ import {
 import { StyledLogo } from '../styled'
 
 interface Props {
-  isShowMenu: boolean
+  isShowMenu?: boolean
+  children: React.ReactNode
 }
 
-export const Header = ({ isShowMenu }: Props) => {
+export const Header = ({ isShowMenu = true, children }: Props) => {
   const { updateMode } = useFileViewerContext()
 
   const onClick = () => {
@@ -39,14 +38,8 @@ export const Header = ({ isShowMenu }: Props) => {
         ))}
       </StyledNavigation>}
 
-      <StyledAddress>
-        <img src={Marker} alt="marker" />
-        <p>
-          ул. Ленина, 68, Ижевск,
-          <br /> республика Удмуртия, 426004
-        </p>
-      </StyledAddress>
+      {children}
 
-    </StyledHeader>
+    </StyledHeader >
   )
 }

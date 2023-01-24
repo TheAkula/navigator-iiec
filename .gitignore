@@ -5,3 +5,4 @@ files/**/*
 !files/for-all
 !files/for-teachers
 !files/for-admins
+node_modules

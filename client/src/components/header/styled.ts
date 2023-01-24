@@ -35,12 +35,6 @@ export const StyledNavigationItem = styled(NavLink)`
   }
 `
 
-export const StyledAddress = styled.div`
-  display: flex;
-  gap: 10px;
-  align-items: center;
-`
-
 export const StyledNavigation = styled.nav`
   height: 100%;
   display: flex;
