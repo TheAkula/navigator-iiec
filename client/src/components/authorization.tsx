@@ -1,30 +1,28 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 import { useContextUser } from '../context/user-context'
 
 
 export const Authorization = () => {
+    const navigate = useNavigate()
+
     const logoutAccount = () => {
+
         localStorage.removeItem('token')
+        navigate('/login')
     }
 
-
+    const token = useContextUser()
 
     return (
         <>
             <StyledBtns>
-                <Link to='login'>
-                    <ButtonAuth>
-                        Войти
-                    </ButtonAuth>
-                </Link>
-
-                <Link to='login' onClick={logoutAccount}>
+                {token && <div onClick={logoutAccount}>
                     <ButtonExit>
                         Выйти
                     </ButtonExit>
-                </Link>
+                </div>}
+
             </StyledBtns>
         </>
     )
@@ -36,12 +34,6 @@ const stylesBtn = css`
   padding: 10px 30px;
   font-size: 16px;
   color: white;
-`
-
-const ButtonAuth = styled.button`
-  ${stylesBtn}
-  background-color: #009af1;
-  border: 1px solid white;
 `
 
 const ButtonExit = styled.button`

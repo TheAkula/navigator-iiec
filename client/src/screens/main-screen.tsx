@@ -18,11 +18,7 @@ export const MainScreen = () => {
   }
 
   useEffect(() => {
-    if (!hasJWTtoken()) {
-      navigate('/login')
-    } else {
-      navigate('/')
-    }
+    !hasJWTtoken() ? navigate('/login') : navigate('/')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
