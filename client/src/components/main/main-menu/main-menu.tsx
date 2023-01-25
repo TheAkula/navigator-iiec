@@ -5,7 +5,7 @@ import {
     useFileViewerContext,
 } from '../../../context/file-viewer-context'
 import { CenterBlock } from '../../../components'
-import { MainRoutes } from '../../../routes'
+import { Outlet } from 'react-router'
 
 export const MainMenu = () => {
     const { mode } = useFileViewerContext()
@@ -19,7 +19,7 @@ export const MainMenu = () => {
                 backgroundSize: 'calc(100% - 100px)',
             }}
         >
-            {mode === MainMode.FILE_VIEWER ? <FileViewer /> : <MainRoutes />}
+            {mode === MainMode.FILE_VIEWER ? <FileViewer /> : <Outlet />}
         </CenterBlock>
     )
 }

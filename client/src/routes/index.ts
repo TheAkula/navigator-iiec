@@ -1,2 +1,1 @@
-export { AdditionalyRouter } from './additionaly-routes'
-export { MainRoutes } from './mainRoutes'
+export { MainRoutes } from './main-routes'

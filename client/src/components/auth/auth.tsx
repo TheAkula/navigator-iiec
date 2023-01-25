@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import styled from 'styled-components'
 import { setAuthToken } from '../../api/init'
 import { login } from '../../api/login'
+import { useContextUser } from '../../context/user-context'
 import { Separator } from '../styled'
 
 export const Auth = () => {
@@ -10,6 +11,7 @@ export const Auth = () => {
         username: '',
         password: '',
     })
+    const { setCurrentUser } = useContextUser()
 
     const [errors, setErrors] = useState({ username: '', password: '' })
     const navigate = useNavigate()
@@ -21,6 +23,7 @@ export const Auth = () => {
                 [e.target.name]: e.target.value
             }
         })
+
     }
 
     const checkedError = () => {
@@ -47,12 +50,19 @@ export const Auth = () => {
                 password: valuesForm.password
             }).then(response => {
                 const token = response.data.token
-
+                setCurrentUser(token)
                 localStorage.setItem('token', JSON.stringify(token))
 
                 setAuthToken(token)
                 navigate('/')
+
+            }).catch((error) => {
+                setErrors({
+                    username: 'Неверный логин или пароль',
+                    password: 'Неверный логин или пароль',
+                })
             })
+
         }
     }
 
@@ -71,10 +81,10 @@ export const Auth = () => {
                                 <ErrorMessage>{errors.username && errors.username}</ErrorMessage>
                             </WrapperField>
                             <WrapperField>
-                                <Input name='password' required placeholder='Пароль' value={valuesForm.password} type="text" onChange={(e) => onUpdateField(e)} />
+                                <Input name='password' required placeholder='Пароль' value={valuesForm.password} type="password" onChange={(e) => onUpdateField(e)} />
                                 <ErrorMessage>{errors.password && errors.password}</ErrorMessage>
                             </WrapperField>
-                            <Button type='submit'>ВОЙТИ</Button>
+                            <Button disabled={!(valuesForm.password && valuesForm.username)} type='submit'>ВОЙТИ</Button>
                         </WrapperFields>
                     </form>
                 </Container>
@@ -143,6 +153,10 @@ const Button = styled.button`
     border: none;
     font-family: 'Roboto';
     cursor: pointer;
+
+    &:disabled {
+        background-color: grey;
+    }
 `
 
 const WrapperField = styled.div`
