@@ -6,3 +6,8 @@ files/**/*
 !files/for-teachers
 !files/for-admins
 node_modules
+
+# IDE
+
+# emacs
+**/#*#

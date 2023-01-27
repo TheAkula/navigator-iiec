@@ -6,8 +6,17 @@ export const api = axios.create({
   baseURL: server_host,
 })
 
-export const setAuthToken = (token: string) => {
-  if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-  } else delete axios.defaults.headers.common['Authorization']
-}
+api.interceptors.request.use(
+  (config) => {
+
+    if (config.headers) {
+      config.headers['Authorization'] =
+        'Bearer ' + localStorage.getItem('token')
+    }
+
+    return config
+  },
+  (error) => {
+    Promise.reject(error)
+  },
+)

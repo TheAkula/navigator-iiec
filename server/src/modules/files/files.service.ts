@@ -178,7 +178,7 @@ export class FilesService {
   async copy({ files, to = [] }: CopyDto): Promise<void> {
     await Promise.all(
       files.map(async (file) => {
-        await new Promise(async (_, reject) => {
+        return await new Promise(async (res, reject) => {
           if (statSync(this.getPath(...file.from)).isFile()) {
             try {
               await new Promise((_, reject) =>
@@ -206,7 +206,7 @@ export class FilesService {
               await new Promise((_, reject) => {
                 return cp(
                   this.getPath(...file.from),
-                  this.getPath(...to),
+                  this.getPath(...to, file.from[file.from.length - 1]),
                   { recursive: true },
                   (err) => {
                     if (err) {
@@ -225,6 +225,7 @@ export class FilesService {
               reject(err);
             }
           }
+          res(undefined);
         });
       }),
     );

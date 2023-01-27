@@ -1,4 +1,3 @@
-import React from 'react'
 import { Route, Routes } from 'react-router'
 import { Home, Requests, Student } from '../components/views'
 import { MainScreen, ManageQualityScreen } from '../screens'
@@ -6,7 +5,6 @@ import { AuthScreen } from '../screens/auth-screen'
 import { MethodSupportScreen } from '../screens/method-support-screen'
 
 export const MainRoutes = () => {
-
   return (
     <Routes>
       <Route path="/" element={<MainScreen />}>
@@ -17,7 +15,7 @@ export const MainRoutes = () => {
       <Route path="/method-support" element={<MethodSupportScreen />} />
       <Route path="/manage-quality" element={<ManageQualityScreen />} />
 
-      <Route path='/login' element={<AuthScreen />} />
+      <Route path="/login" element={<AuthScreen />} />
     </Routes>
   )
 }
