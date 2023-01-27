@@ -1,12 +1,11 @@
 import { PipeTransform, Injectable, ArgumentMetadata, Inject, InternalServerErrorException, ForbiddenException } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
-import { Reflect } from 'src/utils';
-import { Request } from 'express'
+import { Reflect, Property } from 'src/utils';
+import { Request } from 'express';
 import { User } from 'src/modules/users/user.model';
 import { FilesService } from 'src/modules/files/files.service';
 import { PATHS } from 'src/shared/constants';
 import { FileAccessRight } from 'src/shared/types';
-import { Property } from 'src/utils/reflect';
 
 @Injectable()
 export class FileAccessPipe implements PipeTransform {

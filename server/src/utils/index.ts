@@ -1,2 +1,2 @@
 export { ensureDir } from './ensure-dir';
-export { Reflect } from './reflect';
+export { Reflect, Property } from './reflect';

@@ -6,10 +6,9 @@ import {
   Post,
   Query,
   Res,
-  UploadedFiles,
   UseGuards,
-    UseInterceptors,
-    UsePipes,
+  UseInterceptors,
+  UsePipes,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
@@ -25,7 +24,6 @@ import { UploadFilesDto } from './dtos/req/upload-files.dto';
 import { SuccessDto } from './dtos/res/success.dto';
 import { FileType } from './file';
 import { FilesService } from './files.service';
-import { DtoPlace, FileAccessGuard } from 'src/guards/file-access.guard';
 import { CreateDirDto } from './dtos/req/create-dir.dto';
 import { CreateFileDto } from './dtos/req/create-file.dto';
 import { diskStorage } from 'multer';

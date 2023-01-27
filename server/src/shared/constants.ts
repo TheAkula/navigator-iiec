@@ -50,6 +50,15 @@ export const PATHS: FileAccess[] = [
       },
     ],
   },
+    {
+      path: 'for-admins/',
+      roles: [
+	  {
+	      role: RoleType.ADMIN,
+	      rights: [FileAccessRight.READ, FileAccessRight.WRITE],
+	  },
+      ],
+  }
 ];
 
 export const Lab: User = {
