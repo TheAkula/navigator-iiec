@@ -7,16 +7,16 @@ export class MoveItemDto {
   @IsString({ each: true })
   @IsArray()
   @HaveAccess(FileAccessRight.WRITE)
-  path: string[];
+  path: string[] = [];
 }
 
 export class MoveDto {
   @IsString({ each: true })
   @IsArray()
   @HaveAccess(FileAccessRight.WRITE)
-  dest: string[];
+  dest: string[] = [];
 
   @IsArray()
   @Type(() => MoveItemDto)
-  files: MoveItemDto[];
+  files: MoveItemDto[] = [];
 }

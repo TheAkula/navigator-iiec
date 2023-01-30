@@ -6,5 +6,5 @@ export class GetFileDto {
   @IsString({ each: true })
   @IsArray()
   @HaveAccess(FileAccessRight.READ)
-  path: string[];
+  path: string[] = [];
 }

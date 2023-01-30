@@ -4,7 +4,6 @@ import {
   IsArray,
   IsDefined,
   IsNotEmpty,
-  IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
@@ -15,7 +14,7 @@ export class CopyItemDto {
   @IsString({ each: true })
   @IsArray()
   @HaveAccess(FileAccessRight.READ)
-  from: string[];
+  from: string[] = [];
 }
 
 export class CopyDto {
@@ -25,11 +24,10 @@ export class CopyDto {
   @IsDefined()
   @Type(() => CopyItemDto)
   @ValidateNested({ each: true })
-  files: CopyItemDto[];
+  files: CopyItemDto[] = [];
 
   @IsString({ each: true })
-  @IsOptional()
   @IsArray()
   @HaveAccess(FileAccessRight.WRITE)
-  to?: string[];
+  to: string[] = [];
 }

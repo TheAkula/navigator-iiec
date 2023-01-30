@@ -6,7 +6,7 @@ export class RenameDto {
   @IsString({ each: true })
   @IsArray()
   @HaveAccess(FileAccessRight.WRITE)
-  path: string[];
+  path: string[] = [];
 
   @IsString()
   new_name: string;

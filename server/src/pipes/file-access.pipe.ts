@@ -24,11 +24,12 @@ export class FileAccessPipe implements PipeTransform {
             }
 
             const path = this.filesService.getPath(...obj[metadata.name], '/');
-
+	    let foundPath = false;
             for (const p of PATHS) {
                 const accessPath = this.filesService.getPath(p.path);
 
                 if (path.startsWith(accessPath)) {
+		    foundPath = true;
                     const roleIndex = p.roles.findIndex((r) => r.role === user.role);
 
                     if (roleIndex === -1) {
@@ -45,6 +46,10 @@ export class FileAccessPipe implements PipeTransform {
                     }
                 }
             }
+
+	    if (!foundPath) {
+		throw new ForbiddenException('For this user not allowed such operations in current path')		
+	    }
         }
     }
 

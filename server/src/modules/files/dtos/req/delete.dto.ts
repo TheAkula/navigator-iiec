@@ -7,7 +7,7 @@ class DeleteItemDto {
   @IsString({ each: true })
   @IsArray()
   @HaveAccess(FileAccessRight.WRITE)
-  path: string[];
+  path: string[] = [];
 }
 
 export class DeleteDto {
@@ -20,5 +20,5 @@ export class DeleteDto {
       return value;
     }
   })
-  files: DeleteItemDto[];
+  files: DeleteItemDto[] = [];
 }

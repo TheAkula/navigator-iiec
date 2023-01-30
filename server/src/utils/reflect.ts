@@ -1,3 +1,5 @@
+import { InternalServerErrorException } from "@nestjs/common";
+
 export interface Property {
   name: string;
   value: unknown;
@@ -84,6 +86,10 @@ export class Reflect {
   }
 
     static processMetadataRecursive<T extends object>(obj: T, metadataType: string, func: (obj: object, metadata: Property) => void): void {
+	if (Object.keys(obj).length === 0) {
+	    throw new InternalServerErrorException()
+	}
+
 	if (Array.isArray(obj)) {
 	    for (const nes_obj of obj) {
 		this.processMetadataRecursive(nes_obj, metadataType, func);

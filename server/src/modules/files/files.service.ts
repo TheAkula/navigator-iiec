@@ -35,7 +35,7 @@ export class FilesService {
         );
     }
 
-    async readDir({ path = [] }: ReadDirDto): Promise<FileType[]> {
+    async readDir({ path }: ReadDirDto): Promise<FileType[]> {
         return new Promise<FileType[]>((res, reject) => {
             return readdir(this.getPath(...path), async (err, content) => {
                 if (err) {
@@ -82,7 +82,7 @@ export class FilesService {
         });
     }
 
-    async delete({ files = [] }: DeleteDto): Promise<void> {
+    async delete({ files }: DeleteDto): Promise<void> {
         await Promise.all(
             files.map(async (file) => {
                 await new Promise<void>(async (res, reject) => {
@@ -185,7 +185,7 @@ export class FilesService {
         );
     }
 
-    async copy({ files, to = [] }: CopyDto): Promise<void> {
+    async copy({ files, to }: CopyDto): Promise<void> {
         await Promise.all(
             files.map(async (file) => {
                 return new Promise<void>(async (res, reject) => {

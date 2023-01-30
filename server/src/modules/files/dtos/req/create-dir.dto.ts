@@ -9,5 +9,5 @@ export class CreateDirDto {
   @IsString({ each: true })
   @IsArray()
   @HaveAccess(FileAccessRight.WRITE)
-  path: string[];
+  path: string[] = [];
 }
