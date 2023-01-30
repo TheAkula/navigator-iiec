@@ -146,7 +146,7 @@ export const FileViewer = () => {
       )
 
       if (!selectedFile) {
-        clearBuffer()
+        clearSelectedFiles()
         selectFiles([findedFile])
       }
     }

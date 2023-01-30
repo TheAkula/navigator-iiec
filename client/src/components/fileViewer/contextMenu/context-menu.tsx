@@ -90,7 +90,7 @@ export const ContextMenu = () => {
     input.click()
   })
 
-  const onUploadFolders = () => {
+    const onUploadFolders = contextMenuOperation(() => {
     const input = document.createElement('input')
     input.type = 'file'
     input.multiple = true
@@ -109,7 +109,7 @@ export const ContextMenu = () => {
     }
 
     input.click()
-  }
+    })
 
   const onRename = contextMenuOperation(() => {
     changeRenamedFile()
