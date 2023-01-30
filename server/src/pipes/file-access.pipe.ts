@@ -10,7 +10,7 @@ import { FileAccessRight } from 'src/shared/types';
 @Injectable()
 export class FileAccessPipe implements PipeTransform {
     constructor(@Inject(REQUEST) private readonly req: Request,
-        private filesService: FilesService) {}
+        private filesService: FilesService) { }
 
     private filePathValidate(obj: object, metadata: Property) {
         if (metadata) {
