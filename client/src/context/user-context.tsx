@@ -1,5 +1,4 @@
 import React, { useState, useEffect, createContext, SetStateAction, Dispatch, useContext } from 'react'
-import { useNavigate } from 'react-router'
 import { AuthScreen } from '../screens/auth-screen'
 
 interface AuthContext {
@@ -18,7 +17,6 @@ interface Props {
 
 export const UserProvider = ({ children }: Props) => {
     const [currentUser, setCurrentUser] = useState<string | undefined>(undefined)
-    const navigate = useNavigate()
 
     const isAuthenticated = () => {
         const user = localStorage.getItem('token')
@@ -26,7 +24,6 @@ export const UserProvider = ({ children }: Props) => {
         if (!user) {
             return
         }
-        navigate('/')
 
         return user
     }

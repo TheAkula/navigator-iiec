@@ -7,11 +7,16 @@ import { MethodSupportScreen } from '../screens/method-support-screen'
 export const MainRoutes = () => {
   return (
     <Routes>
+
       <Route path="/" element={<MainScreen />}>
         <Route path="/" element={<Home />} />
         <Route path="/requests" element={<Requests />} />
         <Route path="/student" element={<Student />} />
+        <Route path='/photos' element={<Home />} />
+        <Route path='/videos' element={<Home />} />
+        <Route path='/gateway' element={<Home />} />
       </Route>
+
       <Route path="/method-support" element={<MethodSupportScreen />} />
       <Route path="/manage-quality" element={<ManageQualityScreen />} />
 
