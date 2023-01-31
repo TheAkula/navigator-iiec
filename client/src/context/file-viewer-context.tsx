@@ -54,6 +54,8 @@ interface FileViewerContextValue {
   renamedValue: string
   uploadProgress: number
   showUploadProgress: boolean
+	downloadProgress: number
+  showDownloadProgress: boolean
   changeRenamedFile: () => void
   changeRenamedValue: (value: string) => void
   changeLocalPath: (localPath: string[]) => void
@@ -103,6 +105,8 @@ const FileViewerContext = createContext<FileViewerContextValue>({
   renamedValue: '',
   uploadProgress: 0,
   showUploadProgress: false,
+	downloadProgress: 0,
+	showDownloadProgress: false,
   /* eslint-disable @typescript-eslint/no-empty-function */
   changeRenamedFile: () => {},
   changeRenamedValue: () => {},
@@ -164,7 +168,9 @@ export const FileViewerContextProvider = ({ children }: Props) => {
   })
   const [uploadProgress, setUploadProgress] = useState<number>(0)
   const [showUploadProgress, setShowUploadProgress] = useState(false)
-
+	const [downloadProgress, setDownloadProgress] = useState<number>(0)
+	const [showDownloadProgress, setShowDownloadProgress] = useState(false)
+	
   const selectFiles = (files: FileType[]) => {
     setSelectedFiles((prevFiles) => [...prevFiles, ...files])
   }
@@ -240,7 +246,11 @@ export const FileViewerContextProvider = ({ children }: Props) => {
   })
 
   const downloadFile = request(async (path: string[], title: string) => {
-    const res = await download_file({ path })
+		setShowDownloadProgress(true)
+		const res = await download_file({ path }, (progressEvent) => {
+			setDownloadProgress(progressEvent.loaded / progressEvent.total)
+		})
+		setShowDownloadProgress(false)
     const blob = new Blob([res.data])
 
     const link = document.createElement('a')
@@ -269,16 +279,15 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     }
   })
 
-  const onUploadFilesProgress = (progressEvent: any) => {
-		setUploadProgress(progressEvent.loaded / progressEvent.total)
-  }
-
   const uploadFiles = request(async () => {
 		setShowUploadProgress(true)
 		
     if (nativeBuffer.length) {
-			await upload_files({ files: nativeBuffer, dest: path }, onUploadFilesProgress)
-			setTimeout(() => setShowUploadProgress(false))
+			await upload_files({ files: nativeBuffer, dest: path }, (progressEvent: any) => {
+				console.log(progressEvent)
+				setUploadProgress(progressEvent.loaded / progressEvent.total)
+			})
+			setShowUploadProgress(false)
 			clearNativeBuffer()
 		}
 	})
@@ -421,6 +430,8 @@ export const FileViewerContextProvider = ({ children }: Props) => {
         renamedValue,
 				showUploadProgress,
 				uploadProgress,
+				downloadProgress,
+				showDownloadProgress,
         changeRenamedFile,
         changeRenamedValue,
         changeLocalPath,

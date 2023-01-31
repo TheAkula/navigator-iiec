@@ -49,7 +49,6 @@ export const move_files = async (req: MoveFilesRequest) => {
   return api.post<SuccessResponse>(endpoints.move, req)
 }
 
-
 export const rename_file = async (req: RenameFileRequest) => {
   return api.post<SuccessResponse>(endpoints.rename, req)
 }
@@ -58,10 +57,12 @@ export const copy_files = async (req: CopyFilesRequest) => {
   return api.post<SuccessResponse>(endpoints.copy, req)
 }
 
-export const download_file = async (req: DownloadRequest) => {
+export const download_file = async (req: DownloadRequest,
+																		onDownloadProgress: (progressEvent: any) => void) => {
   return api.get<string>(endpoints.downloadFile, {
     params: req,
-    responseType: 'arraybuffer',
+    responseType: 'stream',
+		onDownloadProgress,
   })
 }
 

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -12,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
-import { createReadStream } from 'fs';
+import { createReadStream, Stats } from 'fs';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { CopyDto } from './dtos/req/copy.dto';
 import { DeleteDto } from './dtos/req/delete.dto';
@@ -30,6 +31,7 @@ import { diskStorage } from 'multer';
 import { dirname, join, sep } from 'path';
 import { ensureDir } from 'src/utils';
 import { FileAccessPipe } from 'src/pipes/file-access.pipe';
+import { statSync } from 'fs'
 
 @UseGuards(JwtAuthGuard)
 @UsePipes(FileAccessPipe)
@@ -39,8 +41,18 @@ export class FilesController {
 
   @Get('/download-file')
   getFile(@Res() res: Response, @Query() { path }: GetFileDto) {
-    const file = createReadStream(this.filesService.getPath(...path));
+		const filePath = this.filesService.getPath(...path)
 
+		let stats: Stats;
+		try {
+			stats = statSync(filePath)
+		} catch (err) {
+			throw new BadRequestException('Файл не найден')
+		}
+		
+    const file = createReadStream(filePath);
+		res.setHeader('Content-Length', stats.size);
+		
     file.pipe(res);
   }
 
@@ -107,7 +119,6 @@ export class FilesController {
   @Post('/copy')
   async copy(@Body() copyDto: CopyDto): Promise<SuccessDto> {
     await this.filesService.copy(copyDto);
-    console.log('copy');
 
     return { message: 'success' };
   }

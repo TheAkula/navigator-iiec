@@ -78,6 +78,8 @@ export const FileViewer = () => {
     files,
     uploadProgress,
     showUploadProgress,
+		downloadProgress,
+		showDownloadProgress,
     filters,
     selectedFiles,
     toggleFilter,
@@ -151,7 +153,7 @@ export const FileViewer = () => {
   let fileList = null
 
   if (files && files.length) {
-    fileList = getSortedFiles(files, filters).map((file, i) => {
+    fileList = getSortedFiles(files, filters).map((file) => {
       const selected = selectedFiles.find((f) => {
         return f.path.join() === file.path.join()
       })
@@ -170,6 +172,7 @@ export const FileViewer = () => {
   return (
     <StyledFileViewer onContextMenu={onContextMenu}>
 			{showUploadProgress && <div>{uploadProgress * 100}</div>}
+		  {showDownloadProgress && <div>{downloadProgress * 100}</div>}
       <Header filters={filters} clicked={toggleFilter} />
       {!!localPath.length && <BackFileBlock />}
       {fileList}
