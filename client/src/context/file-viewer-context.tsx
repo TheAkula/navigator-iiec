@@ -284,7 +284,6 @@ export const FileViewerContextProvider = ({ children }: Props) => {
 		
     if (nativeBuffer.length) {
 			await upload_files({ files: nativeBuffer, dest: path }, (progressEvent: any) => {
-				console.log(progressEvent)
 				setUploadProgress(progressEvent.loaded / progressEvent.total)
 			})
 			setShowUploadProgress(false)

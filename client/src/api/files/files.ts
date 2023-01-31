@@ -61,7 +61,7 @@ export const download_file = async (req: DownloadRequest,
 																		onDownloadProgress: (progressEvent: any) => void) => {
   return api.get<string>(endpoints.downloadFile, {
     params: req,
-    responseType: 'stream',
+    responseType: 'arraybuffer',
 		onDownloadProgress,
   })
 }
