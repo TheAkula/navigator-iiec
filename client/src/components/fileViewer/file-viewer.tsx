@@ -76,9 +76,9 @@ export const FileViewer = () => {
     path,
     localPath,
     files,
-    openDirectory,
+    uploadProgress,
+    showUploadProgress,
     filters,
-    clearBuffer,
     selectedFiles,
     toggleFilter,
     clearSelectedFiles,
@@ -99,10 +99,6 @@ export const FileViewer = () => {
       clearInterval(t)
     }
   }, [path])
-
-  useEffect(() => {
-    openDirectory(path)
-  }, [])
 
   useEffect(() => {
     function closeContextMenu() {
@@ -173,6 +169,7 @@ export const FileViewer = () => {
 
   return (
     <StyledFileViewer onContextMenu={onContextMenu}>
+			{showUploadProgress && <div>{uploadProgress * 100}</div>}
       <Header filters={filters} clicked={toggleFilter} />
       {!!localPath.length && <BackFileBlock />}
       {fileList}

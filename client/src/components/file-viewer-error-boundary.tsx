@@ -10,5 +10,5 @@ export const FileViewerErrorBoundary = () => {
     }
   }, [error])
 
-  return <></>
+  return null
 }

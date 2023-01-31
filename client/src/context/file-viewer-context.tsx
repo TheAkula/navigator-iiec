@@ -52,6 +52,8 @@ interface FileViewerContextValue {
   selectedFiles: FileType[]
   renamedFile: string[]
   renamedValue: string
+  uploadProgress: number
+  showUploadProgress: boolean
   changeRenamedFile: () => void
   changeRenamedValue: (value: string) => void
   changeLocalPath: (localPath: string[]) => void
@@ -99,6 +101,8 @@ const FileViewerContext = createContext<FileViewerContextValue>({
   },
   renamedFile: [],
   renamedValue: '',
+  uploadProgress: 0,
+  showUploadProgress: false,
   /* eslint-disable @typescript-eslint/no-empty-function */
   changeRenamedFile: () => {},
   changeRenamedValue: () => {},
@@ -158,6 +162,8 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     [Filter.EXT]: [FilterState.ASC, 2],
     [Filter.SIZE]: [FilterState.ASC, 3],
   })
+  const [uploadProgress, setUploadProgress] = useState<number>(0)
+  const [showUploadProgress, setShowUploadProgress] = useState(false)
 
   const selectFiles = (files: FileType[]) => {
     setSelectedFiles((prevFiles) => [...prevFiles, ...files])
@@ -221,13 +227,14 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     const response = await open_directory({ path })
 
     if (response.config.params.path.join() === path.join()) {
-      setFiles(() => response.data)
+	setFiles(() => response.data)
     }
   }, [path])
 
   const openDirectory = request(async (path: string[]) => {
     const respone = await open_directory({ path })
     setFiles(respone.data)
+    setMode(MainMode.FILE_VIEWER)
     setPath(path)
     setLocalPath([])
   })
@@ -262,12 +269,19 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     }
   })
 
+  const onUploadFilesProgress = (progressEvent: any) => {
+		setUploadProgress(progressEvent.loaded / progressEvent.total)
+  }
+
   const uploadFiles = request(async () => {
+		setShowUploadProgress(true)
+		
     if (nativeBuffer.length) {
-      await upload_files({ files: nativeBuffer, dest: path })
-      clearNativeBuffer()
-    }
-  })
+			await upload_files({ files: nativeBuffer, dest: path }, onUploadFilesProgress)
+			setTimeout(() => setShowUploadProgress(false))
+			clearNativeBuffer()
+		}
+	})
 
   const deleteFiles = request(async () => {
     if (selectedFiles.length) {
@@ -405,6 +419,8 @@ export const FileViewerContextProvider = ({ children }: Props) => {
         localPath,
         renamedFile,
         renamedValue,
+				showUploadProgress,
+				uploadProgress,
         changeRenamedFile,
         changeRenamedValue,
         changeLocalPath,

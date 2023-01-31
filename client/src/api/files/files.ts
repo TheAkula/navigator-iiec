@@ -19,7 +19,8 @@ export const open_directory = async (req: OpenDirectoryRequest) => {
   })
 }
 
-export const upload_files = async ({ files, dest }: UploadFilesRequest) => {
+export const upload_files = async ({ files, dest }: UploadFilesRequest,
+				   onUploadProgress: (progressEvent: any) => void) => {
   const formData = new FormData()
 
   for (const file of files) {
@@ -32,8 +33,9 @@ export const upload_files = async ({ files, dest }: UploadFilesRequest) => {
 
   return api.post<SuccessResponse>(endpoints.upload, formData, {
     params: {
-      dest,
+			dest,
     },
+    onUploadProgress,
   })
 }
 
@@ -46,6 +48,7 @@ export const delete_files = async (req: DeleteFilesRequest) => {
 export const move_files = async (req: MoveFilesRequest) => {
   return api.post<SuccessResponse>(endpoints.move, req)
 }
+
 
 export const rename_file = async (req: RenameFileRequest) => {
   return api.post<SuccessResponse>(endpoints.rename, req)

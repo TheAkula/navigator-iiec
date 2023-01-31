@@ -20,8 +20,7 @@ export const BlockItem = ({ link, border = false, isLast = false }: Props) => {
     e.preventDefault()
 
     if (Array.isArray(link.path)) {
-      await openDirectory(link.path)
-      updateMode(MainMode.FILE_VIEWER)
+			openDirectory(link.path)
     }
   }
 
