@@ -233,7 +233,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     const response = await open_directory({ path })
 
     if (response.config.params.path.join() === path.join()) {
-	setFiles(() => response.data)
+			setFiles(() => response.data)
     }
   }, [path])
 
