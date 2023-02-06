@@ -1,5 +1,5 @@
 import { colors } from './colors'
-import { createGlobalStyle, DefaultTheme } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 import { Fonts } from './fonts'
 import RobotoRegular from '../assets/fonts/Roboto-Regular.ttf'
 import RobotoMediuam from '../assets/fonts/Roboto-Medium.ttf'
@@ -9,9 +9,9 @@ export type ThemeType = {
   theme: typeof theme
 }
 
-export const theme: DefaultTheme = {
-  ...colors,
-  ...Fonts,
+export const theme = {
+  colors,
+  fonts: Fonts,
 }
 
 export const GlobalStyle = createGlobalStyle<ThemeType>`

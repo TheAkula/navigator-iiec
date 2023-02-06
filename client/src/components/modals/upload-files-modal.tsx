@@ -52,7 +52,8 @@ export const UploadFilesModal = ({ setShow }: Props) => {
     setShow(false)
   }
 
-  const onHide = () => {}
+	// TODO: add func to remove files to upload
+  // const onHide = () => {}
 
   const files = sortFilesToFolders(nativeBuffer)
 

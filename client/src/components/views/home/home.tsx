@@ -1,4 +1,3 @@
-import React from 'react'
 import { RenderItem } from '../render-item'
 import { ViewsComponentsList } from '../styled'
 import { mainData } from './types'

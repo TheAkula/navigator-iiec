@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react'
+import { memo, MouseEventHandler } from 'react'
 import { StyledFileBlock } from './styled'
 
 import { useFileViewerContext } from '../../../context/file-viewer-context'
@@ -16,7 +16,7 @@ interface FileBlockProps {
   onContextMenu: (path: string[], x: number, y: number) => void
 }
 
-const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
+const FileBlock = memo(({ file, selected, onContextMenu }: FileBlockProps) => {
   const {
     goNext,
     downloadFile,
@@ -36,6 +36,7 @@ const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
     if (!selected) {
       clearSelectedFiles()
     }
+
     onContextMenu(
       file.path,
       e.clientX + document.documentElement.scrollLeft,
@@ -120,6 +121,6 @@ const FileBlock = ({ file, selected, onContextMenu }: FileBlockProps) => {
       )}
     </StyledFileBlock>
   )
-}
+})
 
 export default FileBlock

@@ -6,20 +6,21 @@ interface StyledFileBlockProps {
 
 export const StyledFileBlock = styled.a<StyledFileBlockProps>`
   display: grid;
-  grid-template-columns: 1fr 150px 140px 120px;
+  grid-template-columns: repeat(auto-fill, minmax(24%, 1fr));
   align-items: center;
   padding: 5px 0;
   border-bottom: 2px solid #c9c9c9;
   text-decoration: none;
   color: currentColor;
-  background-color: ${({ selected }) => selected ? '#8fcef37e' : 'inherit'};
+  background-color: ${({ selected }) => (selected ? '#8fcef37e' : 'inherit')};
 
   > div {
     padding: 0px 10px;
   }
 
   :hover {
-    background-color: ${({ selected }) => selected ? '#8fcef37e' : '#bee7ff7e'};
+    background-color: ${({ selected }) =>
+      selected ? '#8fcef37e' : '#bee7ff7e'};
   }
 
   span {

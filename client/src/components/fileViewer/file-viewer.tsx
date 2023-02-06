@@ -15,7 +15,8 @@ import BackFileBlock from './backFileBlock'
 import { ContextMenu } from './contextMenu/context-menu'
 import FileBlock from './fileBlock/file-block'
 import Header from './header'
-import { StyledFileViewer } from './styled'
+import { StatusHeader } from './status-header'
+import { FileViewerContent } from './styled'
 
 const getSortKey = (filter: Filter): keyof FileType => {
   switch (filter) {
@@ -76,10 +77,6 @@ export const FileViewer = () => {
     path,
     localPath,
     files,
-    uploadProgress,
-    showUploadProgress,
-		downloadProgress,
-		showDownloadProgress,
     filters,
     selectedFiles,
     toggleFilter,
@@ -123,6 +120,7 @@ export const FileViewer = () => {
   const onContextMenu: MouseEventHandler = (e) => {
     e.stopPropagation()
     e.preventDefault()
+		
     setShowContextMenu(true)
     setContextMenuMode(ContextMenuMode.WORKSPACE)
     setCoords([
@@ -170,13 +168,14 @@ export const FileViewer = () => {
   }
 
   return (
-    <StyledFileViewer onContextMenu={onContextMenu}>
-			{showUploadProgress && <div>{uploadProgress * 100}</div>}
-		  {showDownloadProgress && <div>{downloadProgress * 100}</div>}
+    <>
+      <StatusHeader />
       <Header filters={filters} clicked={toggleFilter} />
-      {!!localPath.length && <BackFileBlock />}
-      {fileList}
+      <FileViewerContent onContextMenu={onContextMenu}>
+        {!!localPath.length && <BackFileBlock />}
+        {fileList}
+      </FileViewerContent>
       <ContextMenu />
-    </StyledFileViewer>
+    </>
   )
 }

@@ -251,6 +251,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
 			setDownloadProgress(progressEvent.loaded / progressEvent.total)
 		})
 		setShowDownloadProgress(false)
+		setDownloadProgress(0)
     const blob = new Blob([res.data])
 
     const link = document.createElement('a')
@@ -287,6 +288,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
 				setUploadProgress(progressEvent.loaded / progressEvent.total)
 			})
 			setShowUploadProgress(false)
+			setUploadProgress(0)
 			clearNativeBuffer()
 		}
 	})
@@ -412,9 +414,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     }
   }
 
-  return (
-    <FileViewerContext.Provider
-      value={{
+	const contextValue: FileViewerContextValue = {
         loading,
         error,
         buffer,
@@ -458,8 +458,10 @@ export const FileViewerContextProvider = ({ children }: Props) => {
         deleteFiles,
         copyFiles,
         openDirectory,
-      }}
-    >
+      }
+
+  return (
+    <FileViewerContext.Provider value={contextValue}>
       {children}
     </FileViewerContext.Provider>
   )
