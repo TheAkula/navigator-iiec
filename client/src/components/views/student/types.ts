@@ -1,53 +1,54 @@
-interface StudentsTypes {
-  id: string
-  path: string
-  title: string
-}
+import { ILinkItem, MenuItemType } from '../../../types'
 
-export const StudentsData: StudentsTypes[] = [
+export const StudentsData: ILinkItem[] = [
   {
-    id: '0',
-    path: '/',
+    path: ['stud2'],
     title: 'Документы студентов',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '1',
+    // TODO: UNKNOWN_PATH
     path: '/',
     title: 'Организация учебного процесса',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '2',
-    path: '/',
+    path: 'https://ciur.ru/ipek/DocLib62/Forms/AllItems.aspx/',
     title: 'Образовательные ресурсы',
+    role: MenuItemType.ExternalRef,
   },
   {
-    id: '3',
-    path: '/',
+    path: ['labor'],
     title: 'Материалы для самостоятельной работы',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '4',
-    path: '/',
+    // TODO: delete
+    path: '\\\\192.168.0.102\\Навигатор\\stud\\testing.mht',
     title: 'Тестирование',
+    role: MenuItemType.ExternalRef,
   },
   {
-    id: '5',
-    path: '/',
+    path: ['практические работы'],
     title: 'Практические работы студентов',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '6',
+    // TODO: UNKNOWN_PATH
     path: '/',
     title: 'График учебного процесса',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '7',
+    // TODO: UNKNOWN_PATH
     path: '/',
     title: 'РУП по специальностям',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '8',
+    // TODO: UNKNOWN_PATH
     path: '/',
     title: 'Конкурсы профессионального мастерства',
+    role: MenuItemType.FileManager,
   },
 ]

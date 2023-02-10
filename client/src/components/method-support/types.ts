@@ -1,48 +1,35 @@
-import { MenuItemType } from '../../types'
+import { ILinkItem, MenuItemType } from '../../types'
 
-interface MethodSupportTypes {
-  id: string
-  title: string
-  path: string
-  roleLinks: MenuItemType
-}
-
-export const methodSupportData: MethodSupportTypes[] = [
+export const methodSupportData: ILinkItem[] = [
   {
-    id: '0',
     title: 'Стандарт',
     path: '/',
-    roleLinks: MenuItemType.FileManager,
+    role: MenuItemType.FileManager,
   },
   {
-    id: '1',
     title: 'ОПОП',
     path: '/',
-    roleLinks: MenuItemType.FileManager,
+    role: MenuItemType.FileManager,
   },
   {
-    id: '2',
     title: 'Учебные планы',
     path: '/',
-    roleLinks: MenuItemType.FileManager,
+    role: MenuItemType.FileManager,
   },
   {
-    id: '3',
     title: 'Дисциплины и модули ОПОП',
     path: '/',
-    roleLinks: MenuItemType.FileManager,
+    role: MenuItemType.FileManager,
   },
   {
-    id: '4',
     title: 'ГИА',
     path: '/',
-    roleLinks: MenuItemType.FileManager,
+    role: MenuItemType.FileManager,
   },
   {
-    id: '5',
     title: 'Практика',
     path: '/',
-    roleLinks: MenuItemType.FileManager,
+    role: MenuItemType.FileManager,
   },
 ]
 

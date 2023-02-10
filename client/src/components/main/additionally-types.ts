@@ -2,36 +2,31 @@ import Documents from '../../assets/images/documents.svg'
 import Gateway from '../../assets/images/gateway-locked.svg'
 import Photo from '../../assets/images/photo.svg'
 import Video from '../../assets/images/video.svg'
-import { MenuItemType } from '../../types'
-import { SidebarTypes } from './types'
+import { ISidebarLink, MenuItemType } from '../../types'
 
-export const rightSidebarData: SidebarTypes[] = [
+export const rightSidebarData: ISidebarLink[] = [
   {
-    id: '0',
     title: 'Документы преподавателей',
-    path: ['for-teachers'],
-    imgUrl: Documents,
-    roleLinks: MenuItemType.FileManager,
+    path: ['prepod$'],
+    img: Documents,
+    role: MenuItemType.FileManager,
   },
   {
-    id: '1',
     title: 'Фото',
-    path: '/photos',
-    imgUrl: Photo,
-    roleLinks: MenuItemType.Link,
+    path: ['фото$'],
+    img: Photo,
+    role: MenuItemType.FileManager,
   },
   {
-    id: '2',
     title: 'Видео',
-    path: '/videos',
-    imgUrl: Video,
-    roleLinks: MenuItemType.Link,
+    path: ['Video'],
+    img: Video,
+    role: MenuItemType.FileManager,
   },
   {
-    id: '3',
     title: 'Шлюз',
-    path: '/gateway',
-    imgUrl: Gateway,
-    roleLinks: MenuItemType.Link,
+    path: ['шлюз'],
+    img: Gateway,
+    role: MenuItemType.FileManager,
   },
 ]

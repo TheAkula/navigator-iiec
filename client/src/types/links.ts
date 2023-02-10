@@ -4,10 +4,12 @@ export enum MenuItemType {
   ExternalRef,
 }
 
-export interface IBlockItem {
-  id?: string
+export interface ILinkItem {
   path: string[] | string
-  roleLinks: MenuItemType
+  role: MenuItemType
   title: string
-  img?: string
+}
+
+export interface ISidebarLink extends ILinkItem {
+  img: string
 }

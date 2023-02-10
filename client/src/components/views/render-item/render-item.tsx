@@ -1,18 +1,15 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { ILinkItem } from '../../../types'
+import { LinkItem } from '../../link-item'
 import { StyledViewsComponent } from './styled'
 
 interface Props {
-    children: React.ReactNode
-    path: string
+  link: ILinkItem
 }
 
-export const RenderItem = ({ path, children }: Props) => {
-  return (
-    <StyledViewsComponent>
-      <Link to={path} className="link">
-        {children}
-      </Link>
-    </StyledViewsComponent>
-  )
+export const RenderItem = ({ link }: Props) => {
+  const renderItem = (title: string) => {
+    return <StyledViewsComponent>{title}</StyledViewsComponent>
+  }
+
+  return <LinkItem link={link} renderItem={renderItem} />
 }

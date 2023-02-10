@@ -50,15 +50,105 @@ export const PATHS: FileAccess[] = [
       },
     ],
   },
-    {
-      path: 'for-admins/',
-      roles: [
-	  {
-	      role: RoleType.ADMIN,
-	      rights: [FileAccessRight.READ, FileAccessRight.WRITE],
-	  },
-      ],
-  }
+  {
+    path: 'for-admins/',
+    roles: [
+      {
+        role: RoleType.ADMIN,
+        rights: [FileAccessRight.READ, FileAccessRight.WRITE],
+      },
+    ],
+  },
+  {
+    path: 'smk&/',
+    roles: [
+      {
+        role: RoleType.TEACHER,
+        rights: [FileAccessRight.READ],
+      },
+      {
+        role: RoleType.ADMIN,
+        rights: [FileAccessRight.READ, FileAccessRight.WRITE],
+      },
+    ],
+  },
+  {
+    path: 'stud2',
+    roles: [
+      {
+        role: RoleType.STUDENT,
+        rights: [FileAccessRight.READ, FileAccessRight.WRITE],
+      },
+      {
+        role: RoleType.TEACHER,
+        rights: [FileAccessRight.READ, FileAccessRight.WRITE],
+      },
+      {
+        role: RoleType.ADMIN,
+        rights: [FileAccessRight.READ, FileAccessRight.WRITE],
+      },
+    ],
+  },
+  {
+    path: 'labor',
+    roles: [
+      {
+        role: RoleType.STUDENT,
+        rights: [FileAccessRight.READ],
+      },
+      {
+        role: RoleType.TEACHER,
+        rights: [FileAccessRight.WRITE, FileAccessRight.READ],
+      },
+      {
+        role: RoleType.ADMIN,
+        rights: [FileAccessRight.READ, FileAccessRight.WRITE],
+      },
+    ],
+  },
+  {
+    path: 'prepod$',
+    roles: [
+      {
+        role: RoleType.TEACHER,
+        rights: [FileAccessRight.READ, FileAccessRight.WRITE],
+      },
+      {
+        role: RoleType.ADMIN,
+        rights: [FileAccessRight.READ, FileAccessRight.WRITE],
+      },
+    ],
+  },
+  {
+    path: 'kmo$',
+    roles: [
+      {
+        role: RoleType.TEACHER,
+        rights: [FileAccessRight.READ],
+      },
+      {
+        role: RoleType.ADMIN,
+        rights: [FileAccessRight.READ, FileAccessRight.WRITE],
+      },
+    ],
+  },
+  {
+    path: 'РЗ$',
+    roles: [
+      {
+        role: RoleType.TEACHER,
+        rights: [FileAccessRight.READ],
+      },
+      {
+        role: RoleType.ADMIN,
+        rights: [FileAccessRight.READ, FileAccessRight.WRITE],
+      },
+      {
+        role: RoleType.STUDENT,
+        rights: [FileAccessRight.READ],
+      },
+    ],
+  },
 ];
 
 export const Lab: User = {

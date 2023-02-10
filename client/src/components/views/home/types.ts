@@ -1,78 +1,75 @@
-interface MainTypes {
-  id: string
-  path: string
-  title: string
-}
+import { ILinkItem, MenuItemType } from '../../../types'
 
-export const mainData: MainTypes[] = [
+// TODO: make list links
+export const mainData: ILinkItem[] = [
   {
-    id: '0',
-    path: '/',
+    path: '\\\\192.168.0.102\\ЦСП$\\Политика 2016-2017.pdf',
     title: 'Политика и цели колледжа в области качества',
+    role: MenuItemType.ExternalRef,
   },
   {
-    id: '1',
     title: 'Кабинеты колледжа',
     path: '/',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '2',
-    path: '/',
+    path: 'https://profedutop50.ru',
     title: 'Профессиональное образование ТОП-50',
+    role: MenuItemType.ExternalRef,
   },
   {
-    id: '3',
     path: '/',
     title: 'Организационные и нормативно-правовые документы',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '4',
     path: '/',
     title: 'Учебная работа',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '5',
     path: '/',
     title: 'Методическая работа',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '6',
-    path: '/',
+    path: ['учебные_лаборатории_и_мастерские$'],
     title: 'Учебные лаборатории и мастерские',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '7',
-    path: '/',
+    path: ['трудоустройство$'],
     title: 'Трудоустройство',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '8',
     path: '/',
     title: 'Воспитательная работа',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '9',
     path: '/',
     title: 'Библиотека',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '10',
     path: '/',
     title: 'Безопасность, охрана труда',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '11',
     path: '/',
     title: 'Отдел кадров',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '12',
     path: '/',
     title: 'Профориентационная работа, реклама колледжа',
+    role: MenuItemType.FileManager,
   },
   {
-    id: '13',
     path: '/',
     title: 'Конференции, олимпиады, конкурсы, предметные декады',
+    role: MenuItemType.FileManager,
   },
 ]

@@ -1,23 +1,22 @@
-interface RequestsTypes {
-  id: string
-  path: string
-  title: string
-}
+import { ILinkItem, MenuItemType } from '../../../types'
 
-export const requestsData: RequestsTypes[] = [
+export const requestsData: ILinkItem[] = [
   {
-    id: '0',
+    // TODO: UNKNOWN_PATH
     path: '/',
     title: 'Компьютеры, оргтехника',
+    role: MenuItemType.ExternalRef,
   },
   {
-    id: '1',
+    // TODO: UNKNOWN_PATH
     path: '/',
     title: 'Электрик, Сантехник, Плотник',
+    role: MenuItemType.ExternalRef,
   },
   {
-    id: '2',
+    // TODO: UNKNOWN_PATH
     path: '/',
     title: 'Заказать справку об обучении',
+    role: MenuItemType.ExternalRef,
   },
 ]

@@ -5,65 +5,58 @@ import MethodSupport from '../../assets/images/metod-obr.svg'
 import Web from '../../assets/images/optimize-web.svg'
 import Quality from '../../assets/images/quality.svg'
 import Timetable from '../../assets/images/timetable.svg'
-import { SidebarTypes } from './types'
 import Phone from '../../assets/images/phone.svg'
-import { MenuItemType } from '../../types'
+import { ISidebarLink, MenuItemType } from '../../types'
 
-export const leftSidebarData: SidebarTypes[] = [
+export const leftSidebarData: ISidebarLink[] = [
   {
-    id: '0',
     title: 'Комплексное методическое обеспечение',
     path: '/method-support',
-    imgUrl: MethodSupport,
-    roleLinks: MenuItemType.ExternalRef,
+    img: MethodSupport,
+    role: MenuItemType.ExternalRef,
   },
   {
-    id: '1',
     title: 'Расписание',
-    path: '/timetable',
-    imgUrl: Timetable,
-    roleLinks: MenuItemType.Link,
+    path: ['РЗ$'],
+    img: Timetable,
+    role: MenuItemType.FileManager,
   },
   {
-    id: '2',
     title: 'Менеджмент качества',
     path: '/manage-quality',
-    imgUrl: Quality,
-    roleLinks: MenuItemType.ExternalRef,
+    img: Quality,
+    role: MenuItemType.ExternalRef,
   },
   {
-    id: '3',
     title: 'Библиотека PROFSPO',
     path: 'https://profspo.ru/',
-    imgUrl: Library,
-    roleLinks: MenuItemType.ExternalRef,
+    img: Library,
+    role: MenuItemType.ExternalRef,
   },
   {
-    id: '4',
     title: 'Консультант Плюс',
     path: 'http://www.consultant.ru/',
-    imgUrl: Konsultant,
-    roleLinks: MenuItemType.ExternalRef,
+    img: Konsultant,
+    role: MenuItemType.ExternalRef,
   },
   {
-    id: '5',
     title: 'Официальный сайт колледжа',
     path: 'https://ciur.ru/ipek',
-    imgUrl: Web,
-    roleLinks: MenuItemType.ExternalRef,
+    img: Web,
+    role: MenuItemType.ExternalRef,
   },
   {
-    id: '6',
+    // TODO: UNKNOWN_PATH
     title: 'Телефонные абоненты ИПЭК',
-    path: '/phones',
-    imgUrl: Phone,
-    roleLinks: MenuItemType.Link,
+    path: '/',
+    img: Phone,
+    role: MenuItemType.ExternalRef,
   },
   {
-    id: '7',
+    // TODO: UNKNOWN_PATH
     title: 'Наша гордость',
-    path: '/our-pride',
-    imgUrl: Event,
-    roleLinks: MenuItemType.Link,
+    path: [''],
+    img: Event,
+    role: MenuItemType.FileManager,
   },
 ]

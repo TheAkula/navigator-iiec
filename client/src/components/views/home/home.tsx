@@ -5,10 +5,9 @@ import { mainData } from './types'
 export const Home = () => {
   return (
     <ViewsComponentsList>
-      {mainData?.map(el => (
-        <RenderItem key={el.id} path={el.path}>{el.title}</RenderItem>
+      {mainData?.map((el) => (
+        <RenderItem key={el.title} link={el} />
       ))}
     </ViewsComponentsList>
   )
 }
-
