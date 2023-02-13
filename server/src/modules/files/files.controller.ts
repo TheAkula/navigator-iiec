@@ -37,22 +37,22 @@ import { statSync } from 'fs'
 @UsePipes(FileAccessPipe)
 @Controller()
 export class FilesController {
-  constructor(private filesService: FilesService) {}
+  constructor(private filesService: FilesService) { }
 
   @Get('/download-file')
   getFile(@Res() res: Response, @Query() { path }: GetFileDto) {
-		const filePath = this.filesService.getPath(...path)
+    const filePath = this.filesService.getPath(...path)
 
-		let stats: Stats;
-		try {
-			stats = statSync(filePath)
-		} catch (err) {
-			throw new BadRequestException('Файл не найден')
-		}
-		
+    let stats: Stats;
+    try {
+      stats = statSync(filePath)
+    } catch (err) {
+      throw new BadRequestException('Файл не найден')
+    }
+
     const file = createReadStream(filePath);
-		res.setHeader('Content-Length', stats.size);
-		
+    res.setHeader('Content-Length', stats.size);
+
     file.pipe(res);
   }
 
@@ -66,22 +66,29 @@ export class FilesController {
     FilesInterceptor('files', undefined, {
       storage: diskStorage({
         async destination(req, file, callback) {
+          if (!req.query.dest) {
+            return;
+          }
+
+          file.originalname = Buffer.from(file.originalname, 'latin1')
+            .toString('utf8')
           const relativePath = file.originalname.replace(/@/g, sep);
 
           const index = relativePath.lastIndexOf(sep);
           const fileDir = join(
             dirname(require.main.filename),
-            '../../files',
+            process.env.LOCAL_PATH,
             ...(req.query.dest as string[]),
             relativePath.substring(0, index),
           );
 
+          console.log(fileDir)
           await ensureDir(fileDir);
 
-          return callback(null, fileDir);
+          callback(null, fileDir);
         },
         filename(_, file, callback) {
-          return callback(
+          callback(
             null,
             file.originalname.substring(file.originalname.lastIndexOf('@') + 1),
           );

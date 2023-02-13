@@ -1,9 +1,12 @@
+import { useFileViewerContext } from '../../context/file-viewer-context'
 import { Block, BlocksWrapper, CenterBlock } from '../blocks'
 import { FileViewer } from '../fileViewer/file-viewer'
 import { MainLinkItem } from '../main-link-item'
 import { items } from './types'
 
 export const ManageQuality = () => {
+  const { path } = useFileViewerContext()
+
   return (
     <BlocksWrapper>
       <Block title="Меню">
@@ -14,7 +17,7 @@ export const ManageQuality = () => {
         </ul>
       </Block>
       <CenterBlock>
-        <FileViewer />
+        {!!path.length && <FileViewer />}
       </CenterBlock>
     </BlocksWrapper>
   )
