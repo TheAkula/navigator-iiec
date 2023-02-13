@@ -23,3 +23,4 @@ export const MainMenu = () => {
     </CenterBlock>
   )
 }
+

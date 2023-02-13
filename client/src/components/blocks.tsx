@@ -44,4 +44,22 @@ export const StyledBlock = styled.div`
 export const CenterBlock = styled(StyledBlock)`
   height: 765px;
   flex: 0.5;
+  overflow: auto;
+  ::-webkit-scrollbar:horizontal {
+    height: 6px;
+    background-color: #f5f5f5;
+  }
+  ::-webkit-scrollbar-thumb:horizontal {
+    background-color: ${({ theme }) => theme.colors.light_grey};
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+    background-color: #f5f5f5;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.light_grey};
+    border-radius: 5px;
+  }
+
 `
