@@ -204,7 +204,42 @@ export const mainData: ILinkItem[] = [
       {
         path: '/',
         role: MenuItemType.FileManager,
-        title: '',
+        title: 'Реализация ФГОС по ТОП 50',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Методическая копилка',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Повышение квалификации',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Цикловые комиссии',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Педагогические и методические советы',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Методические разработки',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Студенческие чтения',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Методические семинары, конференции',
       },
     ],
   },
@@ -226,7 +261,42 @@ export const mainData: ILinkItem[] = [
       {
         path: '/',
         role: MenuItemType.FileManager,
-        title: '',
+        title: 'Концепция воспитания в колледже',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Психолого-педагогическое сопровождение',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Репортажи с тематических праздников колледжа',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Студенческий совет колледжа"',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Музей истории колледжа',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Спорт в колледже',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Деятельность творческих коллективов в колледже',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Расписание занятий творческих объединений и спортивных секций',
       },
     ],
   },
@@ -238,7 +308,12 @@ export const mainData: ILinkItem[] = [
       {
         path: '/',
         role: MenuItemType.FileManager,
-        title: '',
+        title: 'Электронная библиотека',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Анонсы новинок',
       },
     ],
   },
@@ -246,6 +321,18 @@ export const mainData: ILinkItem[] = [
     path: '/',
     title: 'Безопасность, охрана труда',
     role: MenuItemType.FileManager,
+    listSelect: [
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Безопасность',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Охрана труда',
+      },
+    ],
   },
   {
     path: '/',
@@ -255,7 +342,27 @@ export const mainData: ILinkItem[] = [
       {
         path: '/',
         role: MenuItemType.FileManager,
-        title: '',
+        title: 'Должностные инструкции работников колледжа',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Документы по аттестации работников колледжа',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Должностные инструкции работников колледжа',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Дни рождения сотрудников',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Фото сотрудников',
       },
     ],
   },
@@ -267,7 +374,12 @@ export const mainData: ILinkItem[] = [
       {
         path: '/',
         role: MenuItemType.FileManager,
-        title: '',
+        title: 'Рекламная информация',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Правила приема в колледж',
       },
     ],
   },
@@ -279,7 +391,27 @@ export const mainData: ILinkItem[] = [
       {
         path: '/',
         role: MenuItemType.FileManager,
-        title: '',
+        title: 'Конференции, форумы, семинары',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Олимпиады',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Предметные декады',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Конкурсы',
+      },
+      {
+        path: '/',
+        role: MenuItemType.FileManager,
+        title: 'Выставки',
       },
     ],
   },
