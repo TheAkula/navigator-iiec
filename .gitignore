@@ -1,10 +1,17 @@
 # files
-files/**/*
-!files/**/*.gitkeep
-!files/for-students
-!files/for-all
-!files/for-teachers
-!files/for-admins
+!kmo$/.gitkeep
+!prepod$/.gitkeep
+!smk$/.gitkeep
+!РЗ$/.gitkeep
+!labor/.gitkeep
+!stud2/.gitkeep
+kmo/*
+prepod$/*
+skm$/*
+РЗ$/*
+labor/*
+stud2/*
+
 node_modules
 
 # IDE

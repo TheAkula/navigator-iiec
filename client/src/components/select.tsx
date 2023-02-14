@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
 import arrow from '../assets/images/arrow.svg'
 
@@ -86,8 +86,6 @@ const SelectLabelButton = styled.button`
     align-items: center;
     justify-content: space-between;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     min-height: 35px;
     cursor: pointer;
     padding: 10px 12px;
@@ -110,7 +108,7 @@ interface DropdownStyled {
 
 const DropdownStyle = styled.div<DropdownStyled>`
     position: absolute;
-    top: 35px;
+    top: 100%;
     left: 0;
     max-height: 40vmax;
     min-width: 10rem;

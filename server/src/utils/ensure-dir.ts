@@ -9,17 +9,19 @@ export async function ensureDir(path: string) {
     if (dirs[i].length === 0) continue;
     const path = dirs.slice(0, i + 1);
     if (!existsSync('/' + path.join(sep))) {
-      await new Promise((_, reject) =>
+      await new Promise<void>((res, reject) =>
         mkdir(path.join(sep), (err) => {
           if (err) {
             console.log(err);
 
-            reject(
+            return reject(
               new InternalServerErrorException(
                 'Произошла ошибка при создании папки',
               ),
             );
           }
+
+          res();
         }),
       );
     }

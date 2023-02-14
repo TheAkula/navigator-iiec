@@ -3,6 +3,7 @@ import { Block, BlocksWrapper, CenterBlock } from '../../components'
 import styled from 'styled-components'
 import { Select } from '../select'
 import { MainLinkItem } from '../main-link-item'
+import { ViewsComponentsList } from '../views'
 
 export const MethodSupport = () => {
   return (
@@ -15,14 +16,17 @@ export const MethodSupport = () => {
             ))}
           </ul>
         </Block>
-        <CenterBlock>
-          <ChoiceText>Выберите специальность:</ChoiceText>
+      <CenterBlock>
+			<ViewsComponentsList>
 
-          <Select
-            label="10.02.05 Обеспечение информационной безопасности автоматизированных систем"
-            values={selectChoiceData}
-          />
-        </CenterBlock>
+      <ChoiceText>Выберите специальность:</ChoiceText>
+
+      <Select
+    label={selectChoiceData[0]}
+    values={selectChoiceData}
+      />
+		</ViewsComponentsList>
+      </CenterBlock>
       </BlocksWrapper>
     </>
   )

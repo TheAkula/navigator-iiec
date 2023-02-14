@@ -2,6 +2,8 @@ import { MouseEventHandler, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { MainMode, useFileViewerContext } from '../context/file-viewer-context'
 import { ILinkItem, MenuItemType } from '../types'
+import { css } from 'styled-components'
+import styled from 'styled-components'
 
 export interface LinkItemProps {
   link: ILinkItem
@@ -29,23 +31,39 @@ export const LinkItem = ({ link, renderItem }: LinkItemProps) => {
   return (
     <>
       {link.role === MenuItemType.Link && (
-        <Link onClick={clickHandler} to={stringPath}>
+        <StyledLink onClick={clickHandler} to={stringPath}>
           {elem}
-        </Link>
+        </StyledLink>
       )}
       {link.role === MenuItemType.ExternalRef && (
-        <a
+        <StyledA
           onClick={clickHandler}
           href={stringPath}
           target="_blank"
           rel="noreferrer"
         >
           {elem}
-        </a>
+        </StyledA>
       )}
       {link.role === MenuItemType.FileManager && (
-        <span onClick={changeHandler}>{elem}</span>
+        <StyledSpan onClick={changeHandler}>{elem}</StyledSpan>
       )}
     </>
   )
 }
+
+const linkStyle = css`
+  cursor: pointer;
+`
+
+const StyledLink = styled(Link)`
+  ${linkStyle}
+`
+
+const StyledA = styled.a`
+  ${linkStyle}
+`
+
+const StyledSpan = styled.span`
+  ${linkStyle}
+`

@@ -11,6 +11,7 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
   cursor: pointer;
   padding: 8px 10px;
   position: relative;
+  justify-content: space-between;
 
   span {
     color: #6d6d6d;
@@ -19,14 +20,9 @@ export const StyledHeaderItem = styled.div<StyledHeaderItemProps>`
 
   .arrow {
     display: ${(props) => (props.active ? 'block' : 'none')};
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translate(-50%)
-      ${(props) => (!props.reverse ? 'rotate(180deg)' : '')};
+    transform: ${(props) => (!props.reverse ? 'rotate(180deg)' : '')};
     width: 14px;
     height: 14px;
-    margin-top: ${(props) => (props.reverse ? '-2px' : '')};
   }
 
   :hover {

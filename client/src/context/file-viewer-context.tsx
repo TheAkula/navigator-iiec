@@ -54,7 +54,7 @@ interface FileViewerContextValue {
   renamedValue: string
   uploadProgress: number
   showUploadProgress: boolean
-	downloadProgress: number
+  downloadProgress: number
   showDownloadProgress: boolean
   changeRenamedFile: () => void
   changeRenamedValue: (value: string) => void
@@ -105,31 +105,31 @@ const FileViewerContext = createContext<FileViewerContextValue>({
   renamedValue: '',
   uploadProgress: 0,
   showUploadProgress: false,
-	downloadProgress: 0,
-	showDownloadProgress: false,
+  downloadProgress: 0,
+  showDownloadProgress: false,
   /* eslint-disable @typescript-eslint/no-empty-function */
-  changeRenamedFile: () => {},
-  changeRenamedValue: () => {},
-  changeLocalPath: () => {},
-  selectFiles: () => {},
-  pasteFiles: () => {},
-  removeFromSelectedFiles: () => {},
-  clearSelectedFiles: () => {},
-  toggleFilter: () => {},
+  changeRenamedFile: () => { },
+  changeRenamedValue: () => { },
+  changeLocalPath: () => { },
+  selectFiles: () => { },
+  pasteFiles: () => { },
+  removeFromSelectedFiles: () => { },
+  clearSelectedFiles: () => { },
+  toggleFilter: () => { },
   goBack: () => Promise.resolve(),
   goNext: () => Promise.resolve(),
   getPrevPath: () => [],
-  removeFromBuffer: () => {},
-  addToBuffer: () => {},
-  clearBuffer: () => {},
-  addToNativeBuffer: () => {},
-  clearNativeBuffer: () => {},
-  updateMode: () => {},
+  removeFromBuffer: () => { },
+  addToBuffer: () => { },
+  clearBuffer: () => { },
+  addToNativeBuffer: () => { },
+  clearNativeBuffer: () => { },
+  updateMode: () => { },
   uploadFiles: () => Promise.resolve(),
   deleteFiles: () => Promise.resolve(),
   renameFile: () => Promise.resolve(),
-  copyFiles: () => {},
-  cutFiles: () => {},
+  copyFiles: () => { },
+  cutFiles: () => { },
   openDirectory: () => Promise.resolve(),
   downloadFile: () => Promise.resolve(),
   createDir: () => Promise.resolve(),
@@ -168,22 +168,22 @@ export const FileViewerContextProvider = ({ children }: Props) => {
   })
   const [uploadProgress, setUploadProgress] = useState<number>(0)
   const [showUploadProgress, setShowUploadProgress] = useState(false)
-	const [downloadProgress, setDownloadProgress] = useState<number>(0)
-	const [showDownloadProgress, setShowDownloadProgress] = useState(false)
-	
-  const selectFiles = (files: FileType[]) => {
+  const [downloadProgress, setDownloadProgress] = useState<number>(0)
+  const [showDownloadProgress, setShowDownloadProgress] = useState(false)
+
+  const selectFiles = useCallback((files: FileType[]) => {
     setSelectedFiles((prevFiles) => [...prevFiles, ...files])
-  }
+  }, [])
 
-  const clearSelectedFiles = () => {
+  const clearSelectedFiles = useCallback(() => {
     setSelectedFiles(() => [])
-  }
+  }, [])
 
-  const removeFromSelectedFiles = (file: FileType) => {
+  const removeFromSelectedFiles = useCallback((file: FileType) => {
     setSelectedFiles((prevFiles) => prevFiles.filter((f) => f === file))
-  }
+  }, [])
 
-  const toggleFilter = (filter: Filter) => {
+  const toggleFilter = useCallback((filter: Filter) => {
     function incrementFilters(filters: FileViewerFilter, filter: Filter) {
       const newFilter: FileViewerFilter = { ...filters }
       const prevOrder = newFilter[filter][1]
@@ -214,44 +214,46 @@ export const FileViewerContextProvider = ({ children }: Props) => {
         ],
       }
     })
-  }
+  }, [])
 
   const request =
-    <T extends unknown[]>(cb: (...args: T) => Promise<void>) =>
-    async (...args: T) => {
-      setLoading(true)
-      setError(null)
+    useCallback(<T extends unknown[]>(cb: (...args: T) => Promise<void>) =>
+      async (...args: T) => {
+        setLoading(true)
+        setError(null)
 
-      try {
-        await cb(...args)
-      } catch (err) {
-        setError((err as AxiosError).response?.data.message)
-      }
-    }
+        try {
+          await cb(...args)
+        } catch (err) {
+          setError((err as AxiosError).response?.data.message)
+        }
+      }, [])
 
   const updateDirectory = useCallback(async () => {
     const response = await open_directory({ path })
 
     if (response.config.params.path.join() === path.join()) {
-			setFiles(() => response.data)
+      setFiles(() => response.data)
     }
   }, [path])
 
-  const openDirectory = request(async (path: string[]) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const openDirectory = useCallback(request(async (path: string[]) => {
     const respone = await open_directory({ path })
     setFiles(respone.data)
     setMode(MainMode.FILE_VIEWER)
     setPath(path)
     setLocalPath([])
-  })
+  }), [])
 
-  const downloadFile = request(async (path: string[], title: string) => {
-		setShowDownloadProgress(true)
-		const res = await download_file({ path }, (progressEvent) => {
-			setDownloadProgress(progressEvent.loaded / progressEvent.total)
-		})
-		setShowDownloadProgress(false)
-		setDownloadProgress(0)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const downloadFile = useCallback(request(async (path: string[], title: string) => {
+    setShowDownloadProgress(true)
+    const res = await download_file({ path }, (progressEvent) => {
+      setDownloadProgress(progressEvent.loaded / progressEvent.total)
+    })
+    setShowDownloadProgress(false)
+    setDownloadProgress(0)
     const blob = new Blob([res.data])
 
     const link = document.createElement('a')
@@ -259,17 +261,19 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     link.href = url
     link.download = title
     link.click()
-  })
+  }), [])
 
-  const goNext = request(async (dir: string) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const goNext = useCallback(request(async (dir: string) => {
     const response = await open_directory({ path: path.concat(dir) })
 
     setFiles(() => response.data)
     setPath((prev) => [...prev, dir])
     setLocalPath((prev) => [...prev, dir])
-  })
+  }), [path])
 
-  const goBack = request(async () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const goBack = useCallback(request(async () => {
     if (path.length) {
       const respone = await open_directory({
         path: path.slice(0, path.length - 1),
@@ -278,31 +282,39 @@ export const FileViewerContextProvider = ({ children }: Props) => {
       setPath((prevPath) => prevPath.slice(0, prevPath.length - 1))
       setLocalPath((prevPath) => prevPath.slice(0, prevPath.length - 1))
     }
-  })
+  }), [path])
 
-  const uploadFiles = request(async () => {
-		setShowUploadProgress(true)
-		
+  const clearNativeBuffer = useCallback(() => setBuffer(() => []), [])
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const uploadFiles = useCallback(request(async () => {
+    setShowUploadProgress(true)
+
     if (nativeBuffer.length) {
-			await upload_files({ files: nativeBuffer, dest: path }, (progressEvent: any) => {
-				setUploadProgress(progressEvent.loaded / progressEvent.total)
-			})
-			setShowUploadProgress(false)
-			setUploadProgress(0)
-			clearNativeBuffer()
-		}
-	})
+      await upload_files({ files: nativeBuffer, dest: path }, (progressEvent: any) => {
+        setUploadProgress(progressEvent.loaded / progressEvent.total)
+      })
+      console.log("end of upload")
+      setShowUploadProgress(false)
+      setUploadProgress(0)
+      clearNativeBuffer()
+    }
+  }), [nativeBuffer, path, clearNativeBuffer])
 
-  const deleteFiles = request(async () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const deleteFiles = useCallback(request(async () => {
     if (selectedFiles.length) {
       await delete_files({
         files: selectedFiles.map((f) => ({ path: f.path })),
       })
       clearSelectedFiles()
     }
-  })
+  }), [selectedFiles, clearSelectedFiles])
 
-  const moveFilesRequest = request(async (dest: string[]) => {
+  const clearBuffer = useCallback(() => setBuffer(() => []), [])
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const moveFilesRequest = useCallback(request(async (dest: string[]) => {
     if (buffer.length) {
       await move_files({
         dest,
@@ -312,9 +324,10 @@ export const FileViewerContextProvider = ({ children }: Props) => {
       })
       clearBuffer()
     }
-  })
+  }), [buffer, clearBuffer])
 
-  const renameFile = request(async () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const renameFile = useCallback(request(async () => {
     if (renamedFile.length) {
       const file = files.find((f) => f.path.join() === renamedFile.join())
       await rename_file({
@@ -324,9 +337,10 @@ export const FileViewerContextProvider = ({ children }: Props) => {
       clearSelectedFiles()
       setRenamedFile([])
     }
-  })
+  }), [renamedFile, renamedValue, clearSelectedFiles, files])
 
-  const copyFilesRequest = request(async (to: string[]) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const copyFilesRequest = useCallback(request(async (to: string[]) => {
     if (buffer.length) {
       await copy_files({
         to,
@@ -336,15 +350,17 @@ export const FileViewerContextProvider = ({ children }: Props) => {
       })
       clearBuffer()
     }
-  })
+  }), [clearBuffer, buffer])
 
-  const createDir = request(async (name: string) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const createDir = useCallback(request(async (name: string) => {
     await create_dir({ name, path })
-  })
+  }), [path])
 
-  const createFile = request(async (name: string) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const createFile = useCallback(request(async (name: string) => {
     await create_file({ name, path })
-  })
+  }), [path])
 
   const addToBuffer = useCallback((files: FileType[]) => {
     setBuffer((prevBuffer) => [...prevBuffer, ...files])
@@ -360,34 +376,30 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     )
   }, [])
 
-  const clearBuffer = useCallback(() => setBuffer(() => []), [])
-
   const addToNativeBuffer = useCallback(
     (files: File[]) => setNativeBuffer(() => files),
     [],
   )
 
-  const clearNativeBuffer = useCallback(() => setBuffer(() => []), [])
-
   const getPrevPath = useCallback(() => path.slice(0, path.length - 1), [path])
 
   const updateMode = useCallback((mode: MainMode) => setMode(() => mode), [])
 
-  const copyFiles = () => {
+  const copyFiles = useCallback(() => {
     setBufferAction(BufferAction.COPY)
     clearBuffer()
     addToBuffer(selectedFiles)
     clearSelectedFiles()
-  }
+  }, [clearBuffer, clearSelectedFiles, addToBuffer, selectedFiles])
 
-  const cutFiles = () => {
+  const cutFiles = useCallback(() => {
     setBufferAction(BufferAction.CUT)
     clearBuffer()
     addToBuffer(selectedFiles)
     clearSelectedFiles()
-  }
+  }, [clearBuffer, addToBuffer, selectedFiles, clearSelectedFiles])
 
-  const pasteFiles = async () => {
+  const pasteFiles = useCallback(async () => {
     if (bufferAction === BufferAction.COPY) {
       await copyFilesRequest(path)
     } else if (bufferAction === BufferAction.CUT) {
@@ -395,70 +407,70 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     }
 
     clearBuffer()
-  }
+  }, [clearBuffer, path, bufferAction, copyFilesRequest, moveFilesRequest])
 
-  const changeLocalPath = (localPath: string[]) => {
+  const changeLocalPath = useCallback((localPath: string[]) => {
     setLocalPath(localPath)
-  }
+  }, [])
 
-  const changeRenamedFile = () => {
-    if (selectFiles.length === 1) {
+  const changeRenamedFile = useCallback(() => {
+    if (selectedFiles.length === 1) {
       setRenamedValue(getName(selectedFiles[0]))
       setRenamedFile(selectedFiles[0].path)
     }
-  }
+  }, [selectedFiles])
 
-  const changeRenamedValue = (value: string) => {
+  const changeRenamedValue = useCallback((value: string) => {
     if (renamedFile.length) {
       setRenamedValue(value)
     }
-  }
+  }, [renamedFile])
 
-	const contextValue: FileViewerContextValue = {
-        loading,
-        error,
-        buffer,
-        nativeBuffer,
-        path,
-        mode,
-        files,
-        filters,
-        selectedFiles,
-        localPath,
-        renamedFile,
-        renamedValue,
-				showUploadProgress,
-				uploadProgress,
-				downloadProgress,
-				showDownloadProgress,
-        changeRenamedFile,
-        changeRenamedValue,
-        changeLocalPath,
-        updateDirectory,
-        createDir,
-        createFile,
-        cutFiles,
-        pasteFiles,
-        selectFiles,
-        removeFromSelectedFiles,
-        clearSelectedFiles,
-        downloadFile,
-        toggleFilter,
-        addToBuffer,
-        clearBuffer,
-        removeFromBuffer,
-        goBack,
-        goNext,
-        getPrevPath,
-        addToNativeBuffer,
-        clearNativeBuffer,
-        updateMode,
-        uploadFiles,
-        renameFile,
-        deleteFiles,
-        copyFiles,
-        openDirectory,
-      }
+  const contextValue: FileViewerContextValue = {
+    loading,
+    error,
+    buffer,
+    nativeBuffer,
+    path,
+    mode,
+    files,
+    filters,
+    selectedFiles,
+    localPath,
+    renamedFile,
+    renamedValue,
+    showUploadProgress,
+    uploadProgress,
+    downloadProgress,
+    showDownloadProgress,
+    changeRenamedFile,
+    changeRenamedValue,
+    changeLocalPath,
+    updateDirectory,
+    createDir,
+    createFile,
+    cutFiles,
+    pasteFiles,
+    selectFiles,
+    removeFromSelectedFiles,
+    clearSelectedFiles,
+    downloadFile,
+    toggleFilter,
+    addToBuffer,
+    clearBuffer,
+    removeFromBuffer,
+    goBack,
+    goNext,
+    getPrevPath,
+    addToNativeBuffer,
+    clearNativeBuffer,
+    updateMode,
+    uploadFiles,
+    renameFile,
+    deleteFiles,
+    copyFiles,
+    openDirectory,
+  }
 
   return (
     <FileViewerContext.Provider value={contextValue}>
