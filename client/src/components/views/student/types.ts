@@ -24,7 +24,7 @@ export const StudentsData: ILinkItem[] = [
   },
   {
     // TODO: delete
-    path: '\\\\192.168.0.102\\Навигатор\\stud\\testing.mht',
+    path: '/testing.mht',
     title: 'Тестирование',
     role: MenuItemType.ExternalRef,
   },

@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 export interface LinkItemProps {
   link: ILinkItem
-  renderItem: (title: string) => ReactNode
+  renderItem: (link: ILinkItem) => ReactNode
 }
 
 export const LinkItem = ({ link, renderItem }: LinkItemProps) => {
@@ -22,11 +22,12 @@ export const LinkItem = ({ link, renderItem }: LinkItemProps) => {
     }
   }
 
-  const clickHandler = () => {
+  const clickHandler: MouseEventHandler = (e) => {
+    e.stopPropagation()
     updateMode(MainMode.ROUTES)
   }
 
-  const elem = renderItem(link.title)
+  const elem = renderItem(link)
 
   return (
     <>
@@ -40,7 +41,6 @@ export const LinkItem = ({ link, renderItem }: LinkItemProps) => {
           onClick={clickHandler}
           href={stringPath}
           target="_blank"
-          rel="noreferrer"
         >
           {elem}
         </StyledA>

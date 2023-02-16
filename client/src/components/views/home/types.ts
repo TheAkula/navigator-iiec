@@ -1,12 +1,12 @@
 import { ILinkItem, MenuItemType } from '../../../types'
 
-// TODO: make list links
 export const mainData: ILinkItem[] = [
   {
-    path: '\\\\192.168.0.102\\ЦСП$\\Политика 2016-2017.pdf',
+    path: '//192.168.0.102/ЦСП$/Политика 2016-2017.pdf',
     title: 'Политика и цели колледжа в области качества',
     role: MenuItemType.ExternalRef,
   },
+	// TODO: check path
   {
     title: 'Кабинеты колледжа',
     path: '/',
@@ -18,178 +18,183 @@ export const mainData: ILinkItem[] = [
     role: MenuItemType.ExternalRef,
   },
   {
-    path: '/',
+    path: '',
     title: 'Организационные и нормативно-правовые документы',
     role: MenuItemType.FileManager,
     listSelect: [
       {
-        path: '/',
+        path: ['НД$'],
         role: MenuItemType.FileManager,
         title: 'Нормативные документы - Законодательство',
       },
       {
-        path: '/',
+        path: ['ЛС$'],
         role: MenuItemType.FileManager,
         title: 'Правоустанавливающие документы колледжа',
       },
+			{
+        path: '/struct.jpg',
+        role: MenuItemType.ExternalRef,
+        title: 'Организационная структура колледжа',
+      },
       {
-        path: '/',
+        path: ['смк$', 'Реестры'],
         role: MenuItemType.FileManager,
         title: 'Реестры',
       },
       {
-        path: '/',
+        path: ['ПА$'],
         role: MenuItemType.FileManager,
         title: 'Локальные акты',
       },
       {
-        path: '/',
+        path: ['смк$', 'Положения о подразделениях'],
         role: MenuItemType.FileManager,
         title: 'Положения о подразделениях',
       },
       {
-        path: '/',
+        path: ['Госзадание$'],
         role: MenuItemType.FileManager,
         title: 'Государственное задание',
       },
       {
-        path: '/',
+        path: ['ПР$'],
         role: MenuItemType.FileManager,
         title: 'Программа развития колледжа',
       },
       {
-        path: '/',
+        path: ['ПГОД$'],
         role: MenuItemType.FileManager,
         title: 'Годовой план работы колледжа',
       },
       {
-        path: '/',
+        path: ['ПМЕС$'],
         role: MenuItemType.FileManager,
         title: 'Месячные планы работы колледжа',
       },
       {
-        path: '/',
+        path: ['ОГОД$'],
         role: MenuItemType.FileManager,
         title: 'Отчет об итогах деятельности колледжа за год',
       },
       {
-        path: '/',
+        path: ['отчет1$'],
         role: MenuItemType.FileManager,
         title: 'Отчеты внешние',
       },
       {
-        path: '/',
+        path: ['ПК1$'],
         role: MenuItemType.FileManager,
         title: 'Приказы',
       },
       {
-        path: '/',
+        path: ['ДП1$'],
         role: MenuItemType.FileManager,
         title: 'Документы по делопроизводству',
       },
       {
-        path: '/',
+        path: ['Формы$'],
         role: MenuItemType.FileManager,
         title: 'Формы',
       },
       {
-        path: '/',
+        path: ['lic ak$'],
         role: MenuItemType.FileManager,
         title: 'Материалы по лицензированию и аккредитации',
       },
       {
-        path: '/',
+        path: ['модуль$'],
         role: MenuItemType.FileManager,
         title: 'Модуль сбора данных - аккредитация',
       },
       {
-        path: '/',
+        path: ['госуслуги$'],
         role: MenuItemType.FileManager,
         title: 'Гос.услуги колледжа в электронном виде',
       },
       {
-        path: '/',
+        path: ['пд$'],
         role: MenuItemType.FileManager,
         title: 'Персональные данные',
       },
     ],
   },
   {
-    path: '/',
+    path: '',
     title: 'Учебная работа',
     role: MenuItemType.FileManager,
     listSelect: [
       {
-        path: '/',
+        path: ['ПК2$'],
         role: MenuItemType.FileManager,
         title:
           'Приказы по контингенту бюджетных групп ППССЗ очной формы обучения',
       },
       {
-        path: '/',
+        path: ['ПК3$'],
         role: MenuItemType.FileManager,
         title:
           'Приказы по контингенту внебюджетных групп ППССЗ очной формы обучения',
       },
       {
-        path: '/',
+        path: ['ПК5$'],
         role: MenuItemType.FileManager,
         title:
           'Приказы по контингенту внебюджетных групп ППССЗ заочной формы обучения',
       },
       {
-        path: '/',
+        path: ['ПК6$'],
         role: MenuItemType.FileManager,
         title:
           'Приказы по контингенту бюджетных групп ППКРС очной формы обучения',
       },
       {
-        path: '/',
+        path: ['ГР$'],
         role: MenuItemType.FileManager,
         title: 'Графики учебного процесса',
       },
       {
-        path: '/',
+        path: ['КМО$', 'documents', 'ucheb'],
         role: MenuItemType.FileManager,
         title: 'Рабочие учебные планы по специальностям',
       },
       {
-        path: '/',
+        path: ['НП$'],
         role: MenuItemType.FileManager,
         title: 'Нагрузка преподавателей очной и заочной форм обучения',
       },
       {
-        path: '/',
+        path: ['НГ$'],
         role: MenuItemType.FileManager,
         title: 'Нагрузка групп очной и заочной форм обучения',
       },
       {
-        path: '/',
+        path: ['АГО$'],
         role: MenuItemType.FileManager,
         title: 'Промежуточная аттестация групп очной формы обучения',
       },
       {
-        path: '/',
+        path: ['ВРП$'],
         role: MenuItemType.FileManager,
         title: 'Ведомости ежемесячного учета часов работы преподавателей',
       },
       {
-        path: '/',
+        path: ['СГ$'],
         role: MenuItemType.FileManager,
         title: 'Контингент студентов',
       },
       {
-        path: '/',
+        path: ['ФГОС третьего поколения$'],
         role: MenuItemType.FileManager,
         title: 'ФГОС третьего поколения',
       },
       {
-        path: '/',
+        path: ['prof_standart$'],
         role: MenuItemType.FileManager,
         title: 'Профессиональные стандарты',
       },
       {
-        path: '/',
+        path: ['овз$'],
         role: MenuItemType.FileManager,
         title:
           'Организация образовательной деятельности для лиц с ограниченными возможностями здоровья',
@@ -197,47 +202,47 @@ export const mainData: ILinkItem[] = [
     ],
   },
   {
-    path: '/',
+    path: '',
     title: 'Методическая работа',
     role: MenuItemType.FileManager,
     listSelect: [
       {
-        path: '/',
+        path: ['ТОП50_ФГОС$'],
         role: MenuItemType.FileManager,
         title: 'Реализация ФГОС по ТОП 50',
       },
       {
-        path: '/',
+        path: ['МК$'],
         role: MenuItemType.FileManager,
         title: 'Методическая копилка',
       },
       {
-        path: '/',
+        path: ['ПК$'],
         role: MenuItemType.FileManager,
         title: 'Повышение квалификации',
       },
       {
-        path: '/',
+        path: ['ЦК$'],
         role: MenuItemType.FileManager,
         title: 'Цикловые комиссии',
       },
       {
-        path: '/',
+        path: ['ПиМС$'],
         role: MenuItemType.FileManager,
         title: 'Педагогические и методические советы',
       },
       {
-        path: '/',
+        path: ['МР$'],
         role: MenuItemType.FileManager,
         title: 'Методические разработки',
       },
       {
-        path: '/',
+        path: ['СЧ$'],
         role: MenuItemType.FileManager,
         title: 'Студенческие чтения',
       },
       {
-        path: '/',
+        path: ['Методсеминары$'],
         role: MenuItemType.FileManager,
         title: 'Методические семинары, конференции',
       },
@@ -254,162 +259,158 @@ export const mainData: ILinkItem[] = [
     role: MenuItemType.FileManager,
   },
   {
-    path: '/',
+    path: '',
     title: 'Воспитательная работа',
     role: MenuItemType.FileManager,
     listSelect: [
       {
-        path: '/',
+        path: ['Концепция_воспит$'],
         role: MenuItemType.FileManager,
         title: 'Концепция воспитания в колледже',
       },
       {
-        path: '/',
+        path: ['Психол_пед_сопр$'],
         role: MenuItemType.FileManager,
         title: 'Психолого-педагогическое сопровождение',
       },
       {
-        path: '/',
+        path: ['Репортаж_праздник$'],
         role: MenuItemType.FileManager,
         title: 'Репортажи с тематических праздников колледжа',
       },
       {
-        path: '/',
+        path: ['Студсовет$'],
         role: MenuItemType.FileManager,
         title: 'Студенческий совет колледжа"',
       },
       {
-        path: '/',
+        path: ['Музей$'],
         role: MenuItemType.FileManager,
         title: 'Музей истории колледжа',
       },
       {
-        path: '/',
+        path: ['Спорт$'],
         role: MenuItemType.FileManager,
         title: 'Спорт в колледже',
       },
       {
-        path: '/',
+        path: ['ДТК$'],
         role: MenuItemType.FileManager,
         title: 'Деятельность творческих коллективов в колледже',
       },
       {
-        path: '/',
+        path: ['Расп_секций$'],
         role: MenuItemType.FileManager,
         title: 'Расписание занятий творческих объединений и спортивных секций',
       },
     ],
   },
   {
-    path: '/',
+    path: '',
     title: 'Библиотека',
     role: MenuItemType.FileManager,
     listSelect: [
       {
-        path: '/',
-        role: MenuItemType.FileManager,
+        path: '//192.168.0.102/library$/index.htm',
+        role: MenuItemType.ExternalRef,
         title: 'Электронная библиотека',
       },
       {
-        path: '/',
+        path: ['news$'],
         role: MenuItemType.FileManager,
         title: 'Анонсы новинок',
       },
     ],
   },
   {
-    path: '/',
+    path: '',
     title: 'Безопасность, охрана труда',
     role: MenuItemType.FileManager,
     listSelect: [
       {
-        path: '/',
-        role: MenuItemType.FileManager,
+        path: '//192.168.0.102/Б$/Редактор НАВИГАТОРА/index.html',
+        role: MenuItemType.ExternalRef,
         title: 'Безопасность',
       },
       {
-        path: '/',
+        path: ['ОТ$'],
         role: MenuItemType.FileManager,
         title: 'Охрана труда',
       },
     ],
   },
   {
-    path: '/',
+    path: '',
     title: 'Отдел кадров',
     role: MenuItemType.FileManager,
     listSelect: [
       {
-        path: '/',
+        path: ['ДИ$'],
         role: MenuItemType.FileManager,
         title: 'Должностные инструкции работников колледжа',
       },
       {
-        path: '/',
+        path: ['АР$'],
         role: MenuItemType.FileManager,
         title: 'Документы по аттестации работников колледжа',
       },
       {
-        path: '/',
-        role: MenuItemType.FileManager,
-        title: 'Должностные инструкции работников колледжа',
-      },
-      {
-        path: '/',
+        path: ['ДР$'],
         role: MenuItemType.FileManager,
         title: 'Дни рождения сотрудников',
       },
-      {
-        path: '/',
-        role: MenuItemType.FileManager,
-        title: 'Фото сотрудников',
-      },
+			// TODO: check path
+      // {
+      //   path: '/',
+      //   role: MenuItemType.FileManager,
+      //   title: 'Фото сотрудников',
+      // },
     ],
   },
   {
-    path: '/',
+    path: '',
     title: 'Профориентационная работа, реклама колледжа',
     role: MenuItemType.FileManager,
     listSelect: [
       {
-        path: '/',
+        path: ['Реклама$'],
         role: MenuItemType.FileManager,
         title: 'Рекламная информация',
       },
       {
-        path: '/',
+        path: ['ПП$'],
         role: MenuItemType.FileManager,
         title: 'Правила приема в колледж',
       },
     ],
   },
   {
-    path: '/',
+    path: '',
     title: 'Конференции, олимпиады, конкурсы, предметные декады',
     role: MenuItemType.FileManager,
     listSelect: [
       {
-        path: '/',
+        path: ['c_f$'],
         role: MenuItemType.FileManager,
         title: 'Конференции, форумы, семинары',
       },
       {
-        path: '/',
+        path: ['olimp$'],
         role: MenuItemType.FileManager,
         title: 'Олимпиады',
       },
       {
-        path: '/',
+        path: ['dec$'],
         role: MenuItemType.FileManager,
         title: 'Предметные декады',
       },
       {
-        path: '/',
+        path: ['Конкурсы$'],
         role: MenuItemType.FileManager,
         title: 'Конкурсы',
       },
       {
-        path: '/',
+        path: ['Выставки$'],
         role: MenuItemType.FileManager,
         title: 'Выставки',
       },

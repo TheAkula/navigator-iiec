@@ -2,75 +2,75 @@ import { useEffect, useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
 import arrow from '../assets/images/arrow.svg'
 
+export interface SelectValue {
+  value: string
+  title: string
+}
+
 interface Props {
-    label: string
-    values: string[]
-    onChange?: (v: string) => void
+  values: SelectValue[]
+  onChange?: (v: string) => void
+  value: string
 }
 
 export const Select = ({
-    label,
-    values,
-    onChange
+  values,
+  onChange,
+  value,
 }: Props) => {
-    const [currentValue, setCurrentValue] = useState('')
-    const [open, setOpen] = useState(false)
-    const selectBtnRef = useRef<HTMLButtonElement>(null)
-    const dropdownRef = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState(false)
+  const selectBtnRef = useRef<HTMLButtonElement>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
-    const handleOpen = () => {
-        setOpen(prev => !prev)
+  const handleOpen = () => {
+    setOpen(prev => !prev)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleChange = (value: string) => {
+    if (onChange) {
+      onChange(value)
     }
+    handleClose()
+  }
 
-    const handleClose = () => {
+  useEffect(() => {
+    function handleClickOutside(event: Event) {
+      if (selectBtnRef.current && !selectBtnRef.current.contains(event.target as Node) && !(dropdownRef.current && dropdownRef.current.contains(event.target as Node))) {
         setOpen(false)
+      }
     }
 
-    const handleValueChange = (value: string) => {
-        setCurrentValue(value)
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
     }
+  }, [selectBtnRef])
 
-    const handleChange = (value: string) => {
-        handleValueChange(value)
+  const selectedItem = values.find((v) => v.value === value)
 
-        if (onChange) {
-            onChange(value)
-        }
-        handleClose()
-    }
-
-    useEffect(() => {
-        function handleClickOutside(event: Event) {
-            if (selectBtnRef.current && !selectBtnRef.current.contains(event.target as Node) && !(dropdownRef.current && dropdownRef.current.contains(event.target as Node))) {
-                setOpen(false)
-            }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside)
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [selectBtnRef])
-
-    return (
-        <SelectContainer>
-            <SelectLabelButton onClick={handleOpen} ref={selectBtnRef}>
-                <SelectLabel>{currentValue !== '' ? currentValue : label}</SelectLabel>
-                <ArrowImage active={open} src={arrow} alt='arrow' />
-            </SelectLabelButton>
-            <DropdownStyle isVisible={open} ref={dropdownRef}>
-                {values.map((value, index) => (
-                    <DropdownItem
-                        onClick={() => handleChange(value)}
-                        active={value === currentValue}
-                        key={index}>
-                        {value}
-                    </DropdownItem>
-                ))}
-            </DropdownStyle>
-        </SelectContainer>
-    )
+  return (
+    <SelectContainer>
+      <SelectLabelButton onClick={handleOpen} ref={selectBtnRef}>
+        <SelectLabel>{selectedItem?.title}</SelectLabel>
+        <ArrowImage active={open} src={arrow} alt='arrow' />
+      </SelectLabelButton>
+      <DropdownStyle isVisible={open} ref={dropdownRef}>
+        {values.map((v, index) => (
+          <DropdownItem
+            onClick={() => handleChange(v.value)}
+            active={v.value === value}
+            key={index}>
+            {v.title}
+          </DropdownItem>
+        ))}
+      </DropdownStyle>
+    </SelectContainer>
+  )
 }
 
 const SelectContainer = styled.div`
@@ -103,7 +103,7 @@ const SelectLabel = styled.p`
 `
 
 interface DropdownStyled {
-    isVisible: boolean
+  isVisible: boolean
 }
 
 const DropdownStyle = styled.div<DropdownStyled>`
@@ -120,15 +120,15 @@ const DropdownStyle = styled.div<DropdownStyled>`
     transition: max-height 0.2s ease;
     overflow: scroll;
     ${(p) =>
-        p.isVisible !== true &&
-        css`
+    p.isVisible !== true &&
+    css`
     max-height: 40px;
     visibility: hidden;
     `}
 `
 
 interface DropdownItemStyled {
-    active: boolean
+  active: boolean
 }
 
 const DropdownItem = styled.div<DropdownItemStyled>`
@@ -142,8 +142,8 @@ const DropdownItem = styled.div<DropdownItemStyled>`
     border-radius: 0.3rem;
     cursor: pointer;
     ${(p) =>
-        p.active &&
-        css`
+    p.active &&
+    css`
     color: #166edc;
     font-weight: 500;
     `}
@@ -154,7 +154,7 @@ const DropdownItem = styled.div<DropdownItemStyled>`
 `
 
 interface ArrowStyled {
-    active: boolean
+  active: boolean
 }
 
 const ArrowImage = styled.img<ArrowStyled>`

@@ -12,39 +12,32 @@ export const RenderItem = ({ link }: Props) => {
 
   const [isVisibleList, setIsVisibleList] = useState(false)
 
-  const renderList = (title: string) => {
-    return (
-      <ListText>{title}</ListText>
-    )
-  }
-
-  const renderItem = (title: string) => {
+  const renderItem = (link: ILinkItem) => {
 
     return (
-      <>
-        <StyledViewsComponent onClick={() => setIsVisibleList(!isVisibleList)}>{title}</StyledViewsComponent>
+      <div>
+        <StyledViewsComponent onClick={() => setIsVisibleList(prev => !prev)}>{link.title}</StyledViewsComponent>
         <WrapperList>
           {
-            isVisibleList && link.listSelect?.map((el) => (
-              <LinkItem link={el} renderItem={renderList} />
-            ))
+            isVisibleList && link.listSelect && <InnerBlock>
+              {link.listSelect.map((el) => (
+                <RenderItem key={el.title} link={el} />
+              ))}
+            </InnerBlock>
           }
         </WrapperList>
-      </>
+      </div>
     )
   }
 
   return <LinkItem link={link} renderItem={renderItem} />
 }
 
+const InnerBlock = styled.div`
+  padding-left: 10px;
+`
+
 const WrapperList = styled.div`
   margin-bottom: 10px;
 `
 
-const ListText = styled.p`
-  padding: 0 0 5px 10px;
-
-  :hover {
-    color: #018ddc;
-  }
-`

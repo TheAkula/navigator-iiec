@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { ILinkItem } from '../types'
 import { LinkItem, LinkItemProps } from './link-item'
 
 type Props = Omit<LinkItemProps, 'renderItem'> & {
@@ -6,11 +7,11 @@ type Props = Omit<LinkItemProps, 'renderItem'> & {
 }
 
 export const MainLinkItem = ({ img, link }: Props) => {
-  const renderItem = (title: string) => {
+  const renderItem = (link: ILinkItem) => {
     const itemContent = (
       <>
-        {img && <img src={img} alt={title} />}
-        <ItemTitle>{title}</ItemTitle>
+        {img && <img src={img} alt={link.title} />}
+        <ItemTitle>{link.title}</ItemTitle>
       </>
     )
 
