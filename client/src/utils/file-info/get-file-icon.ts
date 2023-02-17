@@ -3,42 +3,31 @@ import {
   IMAGE_EXTENSIONS,
   VIDEO_EXTENSIONS,
 } from '../constants'
-import TxtIcon from '../../assets/images/txt.png'
-import UnknownIcon from '../../assets/images/unknown.png'
-import VideoIcon from '../../assets/images/video.png'
-import ZipIcon from '../../assets/images/zip.png'
-import XlsIcon from '../../assets/images/xls.png'
-import PptIcon from '../../assets/images/ppt.png'
-import PdfIcon from '../../assets/images/pdf.png'
-import AudioIcon from '../../assets/images/mp3.png'
-import ImageIcon from '../../assets/images/image.png'
-import FolderIcon from '../../assets/images/folder.png'
-import DocIcon from '../../assets/images/doc.png'
 
 export const getIcon = (ext: string, isDir: boolean): string => {
   const extension = ext.replace('.', '')
 
   if (isDir) {
-    return FolderIcon
+    return 'images/folder.png'
   } else if (IMAGE_EXTENSIONS.includes(extension)) {
-    return ImageIcon
+    return 'images/image.png'
   } else if (VIDEO_EXTENSIONS.includes(extension)) {
-    return VideoIcon
+    return 'images/video.png'
   } else if (AUDIO_EXTENSIONS.includes(extension)) {
-    return AudioIcon
+    return 'images/mp3.png'
   } else if (extension === 'doc' || extension === 'docx') {
-    return DocIcon
+    return 'images/doc.png'
   } else if (extension === 'ppt') {
-    return PptIcon
+    return 'images/ppt.png'
   } else if (extension === 'pdf') {
-    return PdfIcon
+    return 'images/pdf.png'
   } else if (extension === 'txt') {
-    return TxtIcon
+    return '/images/txt.png'
   } else if (extension === 'xls') {
-    return XlsIcon
+    return 'images/xls.png'
   } else if (extension === 'zip') {
-    return ZipIcon
+    return 'images/zip.png'
   }
 
-  return UnknownIcon
+  return 'images/unknown.png'
 }

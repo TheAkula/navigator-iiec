@@ -1,0 +1,51 @@
+[
+    {
+      "title": "Комплексное методическое обеспечение",
+      "path": "/method-support",
+      "img": "images/metod-obr.svg",
+      "role": 2
+    },
+    {
+      "title": "Расписание",
+      "path": ["РЗ$"],
+      "img": "images/timetable.svg",
+      "role": 1
+    },
+    {
+      "title": "Менеджмент качества",
+      "path": "/manage-quality",
+      "img": "images/quality.svg",
+      "role": 2
+    },
+    {
+      "title": "Библиотека PROFSPO",
+      "path": "https://profspo.ru/",
+      "img": "images/library.svg",
+      "role": 2
+    },
+    {
+      "title": "Консультант Плюс",
+      "path": "http://www.consultant.ru/",
+      "img": "images/konsultant-plus.svg",
+      "role": 2
+    },
+    {
+      "title": "Официальный сайт колледжа",
+      "path": "https://ciur.ru/ipek",
+      "img": "images/optimize-web.svg",
+      "role": 2
+    },
+    {
+      "title": "Телефонные абоненты ИПЭК",
+      "path": "/",
+      "img": "images/phone.svg",
+      "role": 2
+    },
+    {
+      "title": "Наша гордость",
+      "path": [""],
+      "img": "images/event.svg",
+      "role": 1
+    }
+  ]
+  

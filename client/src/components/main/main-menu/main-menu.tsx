@@ -1,4 +1,3 @@
-import Logo from '../../../assets/images/logo 1.svg'
 import { FileViewer } from '../../fileViewer/file-viewer'
 import {
   MainMode,
@@ -13,7 +12,6 @@ export const MainMenu = () => {
   return (
     <CenterBlock
       style={{
-        backgroundImage: `url('${Logo}')`,
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'calc(100% - 100px)',
@@ -23,4 +21,3 @@ export const MainMenu = () => {
     </CenterBlock>
   )
 }
-

@@ -2,7 +2,6 @@ import { MouseEventHandler, useState } from 'react'
 import styled from 'styled-components'
 import { getIcon, getSize } from '../utils'
 import { FileTree } from './modals/upload-files-modal'
-import FolderIcon from '../assets/images/folder.png'
 
 interface Props {
   file: FileTree | File
@@ -45,7 +44,7 @@ export const FileOrFolder = ({ file, name }: Props) => {
     <Folder onClick={showHandler}>
       <FolderInfo>
         <ImageContainer>
-          <img src={FolderIcon} alt={name} />
+          <img src="images/folder.png" alt={name} />
         </ImageContainer>
         <span>{name}</span>
       </FolderInfo>

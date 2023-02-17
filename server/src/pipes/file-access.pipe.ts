@@ -1,20 +1,28 @@
-import { PipeTransform, Injectable, ArgumentMetadata, Inject, InternalServerErrorException, ForbiddenException } from '@nestjs/common';
+import {
+  PipeTransform,
+  Injectable,
+  Inject,
+  InternalServerErrorException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Reflect, Property } from 'src/utils';
 import { Request } from 'express';
 import { User } from 'src/modules/users/user.model';
 import { FilesService } from 'src/modules/files/files.service';
-import { PATHS } from 'src/shared/constants';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const PATHS = require('../data/files.json');
 import { FileAccessRight } from 'src/shared/types';
 
 @Injectable()
 export class FileAccessPipe implements PipeTransform {
-  constructor(@Inject(REQUEST) private readonly req: Request,
-							private filesService: FilesService) { }
+  constructor(
+    @Inject(REQUEST) private readonly req: Request,
+    private filesService: FilesService,
+  ) {}
 
   private filePathValidate(obj: object, metadata: Property) {
     if (metadata) {
-
       const user = this.req.user as User;
 
       if (!user) {
@@ -33,7 +41,7 @@ export class FileAccessPipe implements PipeTransform {
           const roleIndex = p.roles.findIndex((r) => r.role === user.role);
 
           if (roleIndex === -1) {
-            throw new ForbiddenException('Нет доступа к данным файлам')
+            throw new ForbiddenException('Нет доступа к данным файлам');
           }
 
           // TODO: add property value validation
@@ -42,19 +50,23 @@ export class FileAccessPipe implements PipeTransform {
           );
 
           if (!haveAccess) {
-            throw new ForbiddenException('Нет доступа к данным файлам')
+            throw new ForbiddenException('Нет доступа к данным файлам');
           }
         }
       }
 
       if (!foundPath) {
-        throw new ForbiddenException('Нет доступа к данным файлам')
+        throw new ForbiddenException('Нет доступа к данным файлам');
       }
     }
   }
 
   transform(value: any) {
-    Reflect.processMetadataRecursive(value, "file:access", this.filePathValidate.bind(this))
+    Reflect.processMetadataRecursive(
+      value,
+      'file:access',
+      this.filePathValidate.bind(this),
+    );
 
     return value;
   }

@@ -1,11 +1,12 @@
 import { RenderItem } from '../render-item'
 import { ViewsComponentsList } from '../styled'
-import { StudentsData } from './types'
+import studentsData from '../../../data/student.json'
+import { ILinkItem } from '../../../types'
 
 export const Student = () => {
   return (
     <ViewsComponentsList>
-      {StudentsData?.map((el) => (
+      {(studentsData as ILinkItem[]).map((el) => (
         <RenderItem key={el.title} link={el} />
       ))}
     </ViewsComponentsList>

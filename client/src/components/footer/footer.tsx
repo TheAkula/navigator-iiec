@@ -1,5 +1,4 @@
 import { Line, StyledLogo } from '../styled'
-import LogoImage from '../../assets/images/logo.svg'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { dataFooter } from './types'
@@ -10,7 +9,7 @@ export const Footer = () => {
       <StyledFooter>
         <Wrapper>
           <StyledLogo>
-            <img src={LogoImage} alt="Навигатор 2.0" />
+            <img src="images/logo.svg" alt="Навигатор 2.0" />
           </StyledLogo>
           <StyledFooterMenu>
             {dataFooter?.map((el) => (

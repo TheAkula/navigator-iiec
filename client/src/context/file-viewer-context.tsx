@@ -108,28 +108,28 @@ const FileViewerContext = createContext<FileViewerContextValue>({
   downloadProgress: 0,
   showDownloadProgress: false,
   /* eslint-disable @typescript-eslint/no-empty-function */
-  changeRenamedFile: () => { },
-  changeRenamedValue: () => { },
-  changeLocalPath: () => { },
-  selectFiles: () => { },
-  pasteFiles: () => { },
-  removeFromSelectedFiles: () => { },
-  clearSelectedFiles: () => { },
-  toggleFilter: () => { },
+  changeRenamedFile: () => {},
+  changeRenamedValue: () => {},
+  changeLocalPath: () => {},
+  selectFiles: () => {},
+  pasteFiles: () => {},
+  removeFromSelectedFiles: () => {},
+  clearSelectedFiles: () => {},
+  toggleFilter: () => {},
   goBack: () => Promise.resolve(),
   goNext: () => Promise.resolve(),
   getPrevPath: () => [],
-  removeFromBuffer: () => { },
-  addToBuffer: () => { },
-  clearBuffer: () => { },
-  addToNativeBuffer: () => { },
-  clearNativeBuffer: () => { },
-  updateMode: () => { },
+  removeFromBuffer: () => {},
+  addToBuffer: () => {},
+  clearBuffer: () => {},
+  addToNativeBuffer: () => {},
+  clearNativeBuffer: () => {},
+  updateMode: () => {},
   uploadFiles: () => Promise.resolve(),
   deleteFiles: () => Promise.resolve(),
   renameFile: () => Promise.resolve(),
-  copyFiles: () => { },
-  cutFiles: () => { },
+  copyFiles: () => {},
+  cutFiles: () => {},
   openDirectory: () => Promise.resolve(),
   downloadFile: () => Promise.resolve(),
   createDir: () => Promise.resolve(),
@@ -216,8 +216,8 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     })
   }, [])
 
-  const request =
-    useCallback(<T extends unknown[]>(cb: (...args: T) => Promise<void>) =>
+  const request = useCallback(
+    <T extends unknown[]>(cb: (...args: T) => Promise<void>) =>
       async (...args: T) => {
         setLoading(true)
         setError(null)
@@ -227,7 +227,9 @@ export const FileViewerContextProvider = ({ children }: Props) => {
         } catch (err) {
           setError((err as AxiosError).response?.data.message)
         }
-      }, [])
+      },
+    [],
+  )
 
   const updateDirectory = useCallback(async () => {
     const response = await open_directory({ path })
@@ -238,129 +240,164 @@ export const FileViewerContextProvider = ({ children }: Props) => {
   }, [path])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const openDirectory = useCallback(request(async (path: string[]) => {
-    const respone = await open_directory({ path })
-    setFiles(respone.data)
-    setMode(MainMode.FILE_VIEWER)
-    setPath(path)
-    setLocalPath([])
-  }), [])
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const downloadFile = useCallback(request(async (path: string[], title: string) => {
-    setShowDownloadProgress(true)
-    const res = await download_file({ path }, (progressEvent) => {
-      setDownloadProgress(progressEvent.loaded / progressEvent.total)
-    })
-    setShowDownloadProgress(false)
-    setDownloadProgress(0)
-    const blob = new Blob([res.data])
-
-    const link = document.createElement('a')
-    const url = URL.createObjectURL(blob)
-    link.href = url
-    link.download = title
-    link.click()
-  }), [])
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const goNext = useCallback(request(async (dir: string) => {
-    const response = await open_directory({ path: path.concat(dir) })
-
-    setFiles(() => response.data)
-    setPath((prev) => [...prev, dir])
-    setLocalPath((prev) => [...prev, dir])
-  }), [path])
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const goBack = useCallback(request(async () => {
-    if (path.length) {
-      const respone = await open_directory({
-        path: path.slice(0, path.length - 1),
-      })
+  const openDirectory = useCallback(
+    request(async (path: string[]) => {
+      const respone = await open_directory({ path })
       setFiles(respone.data)
-      setPath((prevPath) => prevPath.slice(0, prevPath.length - 1))
-      setLocalPath((prevPath) => prevPath.slice(0, prevPath.length - 1))
-    }
-  }), [path])
+      setMode(MainMode.FILE_VIEWER)
+      setPath(path)
+      setLocalPath([])
+    }),
+    [],
+  )
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const downloadFile = useCallback(
+    request(async (path: string[], title: string) => {
+      setShowDownloadProgress(true)
+      const res = await download_file({ path }, (progressEvent) => {
+        setDownloadProgress(progressEvent.loaded / progressEvent.total)
+      })
+      setShowDownloadProgress(false)
+      setDownloadProgress(0)
+      const blob = new Blob([res.data])
+
+      const link = document.createElement('a')
+      const url = URL.createObjectURL(blob)
+      link.href = url
+      link.download = title
+      link.click()
+    }),
+    [],
+  )
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const goNext = useCallback(
+    request(async (dir: string) => {
+      const response = await open_directory({ path: path.concat(dir) })
+
+      setFiles(() => response.data)
+      setPath((prev) => [...prev, dir])
+      setLocalPath((prev) => [...prev, dir])
+    }),
+    [path],
+  )
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const goBack = useCallback(
+    request(async () => {
+      if (path.length) {
+        const respone = await open_directory({
+          path: path.slice(0, path.length - 1),
+        })
+        setFiles(respone.data)
+        setPath((prevPath) => prevPath.slice(0, prevPath.length - 1))
+        setLocalPath((prevPath) => prevPath.slice(0, prevPath.length - 1))
+      }
+    }),
+    [path],
+  )
 
   const clearNativeBuffer = useCallback(() => setBuffer(() => []), [])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const uploadFiles = useCallback(request(async () => {
-    setShowUploadProgress(true)
+  const uploadFiles = useCallback(
+    request(async () => {
+      setShowUploadProgress(true)
 
-    if (nativeBuffer.length) {
-      await upload_files({ files: nativeBuffer, dest: path }, (progressEvent: any) => {
-        setUploadProgress(progressEvent.loaded / progressEvent.total)
-      })
-      console.log("end of upload")
-      setShowUploadProgress(false)
-      setUploadProgress(0)
-      clearNativeBuffer()
-    }
-  }), [nativeBuffer, path, clearNativeBuffer])
+      if (nativeBuffer.length) {
+        await upload_files(
+          { files: nativeBuffer, dest: path },
+          (progressEvent: any) => {
+            setUploadProgress(progressEvent.loaded / progressEvent.total)
+          },
+        )
+        setShowUploadProgress(false)
+        setUploadProgress(0)
+        clearNativeBuffer()
+      }
+    }),
+    [nativeBuffer, path, clearNativeBuffer],
+  )
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const deleteFiles = useCallback(request(async () => {
-    if (selectedFiles.length) {
-      await delete_files({
-        files: selectedFiles.map((f) => ({ path: f.path })),
-      })
-      clearSelectedFiles()
-    }
-  }), [selectedFiles, clearSelectedFiles])
+  const deleteFiles = useCallback(
+    request(async () => {
+      if (selectedFiles.length) {
+        await delete_files({
+          files: selectedFiles.map((f) => ({ path: f.path })),
+        })
+        clearSelectedFiles()
+      }
+    }),
+    [selectedFiles, clearSelectedFiles],
+  )
 
   const clearBuffer = useCallback(() => setBuffer(() => []), [])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const moveFilesRequest = useCallback(request(async (dest: string[]) => {
-    if (buffer.length) {
-      await move_files({
-        dest,
-        files: buffer.map((f) => ({
-          path: f.path,
-        })),
-      })
-      clearBuffer()
-    }
-  }), [buffer, clearBuffer])
+  const moveFilesRequest = useCallback(
+    request(async (dest: string[]) => {
+      if (buffer.length) {
+        await move_files({
+          dest,
+          files: buffer.map((f) => ({
+            path: f.path,
+          })),
+        })
+        clearBuffer()
+      }
+    }),
+    [buffer, clearBuffer],
+  )
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const renameFile = useCallback(request(async () => {
-    if (renamedFile.length) {
-      const file = files.find((f) => f.path.join() === renamedFile.join())
-      await rename_file({
-        new_name: renamedValue + (file?.ext || ''),
-        path: renamedFile,
-      })
-      clearSelectedFiles()
-      setRenamedFile([])
-    }
-  }), [renamedFile, renamedValue, clearSelectedFiles, files])
+  const renameFile = useCallback(
+    request(async () => {
+      if (renamedFile.length) {
+        const file = files.find((f) => f.path.join() === renamedFile.join())
+        await rename_file({
+          new_name: renamedValue + (file?.ext || ''),
+          path: renamedFile,
+        })
+        clearSelectedFiles()
+        setRenamedFile([])
+      }
+    }),
+    [renamedFile, renamedValue, clearSelectedFiles, files],
+  )
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const copyFilesRequest = useCallback(request(async (to: string[]) => {
-    if (buffer.length) {
-      await copy_files({
-        to,
-        files: buffer.map((f) => ({
-          from: f.path,
-        })),
-      })
-      clearBuffer()
-    }
-  }), [clearBuffer, buffer])
+  const copyFilesRequest = useCallback(
+    request(async (to: string[]) => {
+      if (buffer.length) {
+        await copy_files({
+          to,
+          files: buffer.map((f) => ({
+            from: f.path,
+          })),
+        })
+        clearBuffer()
+      }
+    }),
+    [clearBuffer, buffer],
+  )
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const createDir = useCallback(request(async (name: string) => {
-    await create_dir({ name, path })
-  }), [path])
+  const createDir = useCallback(
+    request(async (name: string) => {
+      await create_dir({ name, path })
+    }),
+    [path],
+  )
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const createFile = useCallback(request(async (name: string) => {
-    await create_file({ name, path })
-  }), [path])
+  const createFile = useCallback(
+    request(async (name: string) => {
+      await create_file({ name, path })
+    }),
+    [path],
+  )
 
   const addToBuffer = useCallback((files: FileType[]) => {
     setBuffer((prevBuffer) => [...prevBuffer, ...files])
@@ -420,11 +457,14 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     }
   }, [selectedFiles])
 
-  const changeRenamedValue = useCallback((value: string) => {
-    if (renamedFile.length) {
-      setRenamedValue(value)
-    }
-  }, [renamedFile])
+  const changeRenamedValue = useCallback(
+    (value: string) => {
+      if (renamedFile.length) {
+        setRenamedValue(value)
+      }
+    },
+    [renamedFile],
+  )
 
   const contextValue: FileViewerContextValue = {
     loading,

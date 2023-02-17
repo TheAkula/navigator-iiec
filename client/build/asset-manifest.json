@@ -1,37 +1,13 @@
 {
   "files": {
-    "main.js": "/static/js/main.1b73258d.js",
+    "main.js": "/static/js/main.edc5078d.js",
     "static/media/Roboto-Medium.ttf": "/static/media/Roboto-Medium.7429a63c09f79a1760b0.ttf",
     "static/media/Roboto-Regular.ttf": "/static/media/Roboto-Regular.a8d6ac03c7b96b7acb62.ttf",
     "static/media/Roboto-Bold.ttf": "/static/media/Roboto-Bold.75371f53f06181df75f1.ttf",
-    "static/media/konsultant-plus.svg": "/static/media/konsultant-plus.715f03a16d11466300614c2d08e5d6b5.svg",
-    "static/media/doc.png": "/static/media/doc.b0d02c391dbec4024b32.png",
-    "static/media/xls.png": "/static/media/xls.10f985122116f274c5e7.png",
-    "static/media/logo 1.svg": "/static/media/logo 1.39c6b64ab4645edd0b126360dea1ada2.svg",
-    "static/media/logo.svg": "/static/media/logo.7d38ba9a5a040b2a30e2c9f7df34eead.svg",
-    "static/media/mp3.png": "/static/media/mp3.722f0eefefb366e835ed.png",
-    "static/media/video.png": "/static/media/video.87edd22a616e5c1ab78c.png",
-    "static/media/txt.png": "/static/media/txt.dbd38f1621ffb95c44a4.png",
-    "static/media/pdf.png": "/static/media/pdf.6279a47b4effd0a7eae7.png",
-    "static/media/image.png": "/static/media/image.8b5d552adafeac92a1ed.png",
-    "static/media/zip.png": "/static/media/zip.6b513a027be1fed56ad2.png",
-    "static/media/quality.svg": "/static/media/quality.7e6ca282aceac331df251a508846b174.svg",
-    "static/media/optimize-web.svg": "/static/media/optimize-web.0209255c0179722fb2cfa114e3c485bf.svg",
-    "static/media/timetable.svg": "/static/media/timetable.0a48cfc55e712183e49c7b3395ab4425.svg",
-    "static/media/video.svg": "/static/media/video.306a0389658af891f349663ba92864a2.svg",
-    "static/media/metod-obr.svg": "/static/media/metod-obr.a2715c19e76cfbd2179f346ea614b519.svg",
-    "static/media/documents.svg": "/static/media/documents.5a5b18ab44cddcf11420dcb01621ad7b.svg",
-    "static/media/phone.svg": "/static/media/phone.4d49a721b1745aa191b4b246ec7622f3.svg",
-    "static/media/gateway-locked.svg": "/static/media/gateway-locked.25f262e890c0fa80c1b917869708523c.svg",
-    "static/media/library.svg": "/static/media/library.62201ad0d3a5bbc0ff3221366bede400.svg",
-    "static/media/event.svg": "/static/media/event.5ce4aee27e8b306876f5947afc7096fb.svg",
     "index.html": "/index.html",
-    "static/media/map 1.svg": "/static/media/map 1.f378ea03b099f2b2f825f9b4cc7ee75d.svg",
-    "static/media/photo.svg": "/static/media/photo.94f2872e109dcc4ba4bb4b8ca6a83feb.svg",
-    "static/media/arrow.svg": "/static/media/arrow.54d65a6b5880256502073e1ddd3d992c.svg",
-    "main.1b73258d.js.map": "/static/js/main.1b73258d.js.map"
+    "main.edc5078d.js.map": "/static/js/main.edc5078d.js.map"
   },
   "entrypoints": [
-    "static/js/main.1b73258d.js"
+    "static/js/main.edc5078d.js"
   ]
 }

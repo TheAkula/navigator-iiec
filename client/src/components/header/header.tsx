@@ -1,9 +1,4 @@
-import {
-  StyledHeader,
-  StyledNavigation,
-  StyledNavigationItem,
-} from './styled'
-import LogoImage from '../../assets/images/logo.svg'
+import { StyledHeader, StyledNavigation, StyledNavigationItem } from './styled'
 import { headerMenuData } from './types'
 import {
   MainMode,
@@ -25,21 +20,21 @@ export const Header = ({ isShowMenu = true, children }: Props) => {
 
   return (
     <StyledHeader>
-
       <StyledLogo>
-        <img src={LogoImage} alt="Навигатор 2.0" />
+        <img src="images/logo.svg" alt="Навигатор 2.0" />
       </StyledLogo>
 
-      {isShowMenu && <StyledNavigation>
-        {headerMenuData?.map((el) => (
-          <StyledNavigationItem onClick={onClick} key={el.id} to={el.path}>
-            {el.title}
-          </StyledNavigationItem>
-        ))}
-      </StyledNavigation>}
+      {isShowMenu && (
+        <StyledNavigation>
+          {headerMenuData?.map((el) => (
+            <StyledNavigationItem onClick={onClick} key={el.id} to={el.path}>
+              {el.title}
+            </StyledNavigationItem>
+          ))}
+        </StyledNavigation>
+      )}
 
       {children}
-
-    </StyledHeader >
+    </StyledHeader>
   )
 }

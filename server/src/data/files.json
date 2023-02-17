@@ -1,0 +1,92 @@
+[
+    {
+      "path": "smk$/",
+      "roles": [
+        {
+          "role": 0,
+          "rights": [0]
+        },
+        {
+          "role": 2,
+          "rights": [0, 1]
+        }
+      ]
+    },
+    {
+      "path": "stud2/",
+      "roles": [
+        {
+          "role": 1,
+          "rights": [0, 1]
+        },
+        {
+          "role": 0,
+          "rights": [0, 1]
+        },
+        {
+          "role": 2,
+          "rights": [0, 1]
+        }
+      ]
+    },
+    {
+      "path": "labor/",
+      "roles": [
+        {
+          "role": 1,
+          "rights": [0]
+        },
+        {
+          "role": 0,
+          "rights": [1, 0]
+        },
+        {
+          "role": 2,
+          "rights": [0, 1]
+        }
+      ]
+    },
+    {
+      "path": "prepod$/",
+      "roles": [
+        {
+          "role": 0,
+          "rights": [0, 1]
+        },
+        {
+          "role": 2,
+          "rights": [0, 1]
+        }
+      ]
+    },
+    {
+      "path": "kmo$/",
+      "roles": [
+        {
+          "role": 0,
+          "rights": [0]
+        },
+        {
+          "role": 2,
+          "rights": [0, 1]
+        }
+      ]
+    },
+    {
+      "path": "РЗ$/",
+      "roles": [
+        {
+          "role": 0,
+          "rights": [0]
+        },
+        {
+          "role": 2,
+          "rights": [0, 1]
+        },
+        {
+          "role": 1,
+          "rights": [0]
+        }
+      ]
+    }
+  ]

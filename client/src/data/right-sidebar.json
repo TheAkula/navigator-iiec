@@ -1,0 +1,27 @@
+[
+    {
+      "title": "Документы преподавателей",
+      "path": ["prepod$"],
+      "img": "images/documents.svg",
+      "role": 1
+    },
+    {
+      "title": "Фото",
+      "path": ["фото$"],
+      "img": "images/photo.svg",
+      "role": 1
+    },
+    {
+      "title": "Видео",
+      "path": ["Video"],
+      "img": "images/video.svg",
+      "role": 1
+    },
+    {
+      "title": "Шлюз",
+      "path": ["шлюз"],
+      "img": "images/gateway-locked.svg",
+      "role": 1
+    }
+  ]
+  

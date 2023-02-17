@@ -1,11 +1,12 @@
-import { leftSidebarData } from '../components/main/menu-types'
-import { rightSidebarData } from '../components/main/additionally-types'
+import leftSidebarData from '../data/left-sidebar.json'
+import rightSidebarData from '../data/right-sidebar.json'
 import { Authorization, Block, BlocksWrapper, Header } from '../components'
 import { MainMenu } from '../components/main'
 import { Layout } from '../layout'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { MainLinkItem } from '../components/main-link-item'
+import { ISidebarLink } from '../types'
 
 export const MainScreen = () => {
   const navigate = useNavigate()
@@ -33,7 +34,7 @@ export const MainScreen = () => {
         <BlocksWrapper>
           <Block title="Меню">
             <ul>
-              {leftSidebarData?.map((el) => (
+              {(leftSidebarData as ISidebarLink[]).map((el) => (
                 <MainLinkItem key={el.title} link={el} img={el.img} />
               ))}
             </ul>
@@ -43,7 +44,7 @@ export const MainScreen = () => {
 
           <Block title="Дополнительно">
             <ul>
-              {rightSidebarData?.map((el) => (
+              {(rightSidebarData as ISidebarLink[]).map((el) => (
                 <MainLinkItem key={el.title} link={el} img={el.img} />
               ))}
             </ul>

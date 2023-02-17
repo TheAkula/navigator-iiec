@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
-import arrow from '../assets/images/arrow.svg'
 
 export interface SelectValue {
   value: string
@@ -13,17 +12,13 @@ interface Props {
   value: string
 }
 
-export const Select = ({
-  values,
-  onChange,
-  value,
-}: Props) => {
+export const Select = ({ values, onChange, value }: Props) => {
   const [open, setOpen] = useState(false)
   const selectBtnRef = useRef<HTMLButtonElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   const handleOpen = () => {
-    setOpen(prev => !prev)
+    setOpen((prev) => !prev)
   }
 
   const handleClose = () => {
@@ -39,7 +34,14 @@ export const Select = ({
 
   useEffect(() => {
     function handleClickOutside(event: Event) {
-      if (selectBtnRef.current && !selectBtnRef.current.contains(event.target as Node) && !(dropdownRef.current && dropdownRef.current.contains(event.target as Node))) {
+      if (
+        selectBtnRef.current &&
+        !selectBtnRef.current.contains(event.target as Node) &&
+        !(
+          dropdownRef.current &&
+          dropdownRef.current.contains(event.target as Node)
+        )
+      ) {
         setOpen(false)
       }
     }
@@ -57,14 +59,15 @@ export const Select = ({
     <SelectContainer>
       <SelectLabelButton onClick={handleOpen} ref={selectBtnRef}>
         <SelectLabel>{selectedItem?.title}</SelectLabel>
-        <ArrowImage active={open} src={arrow} alt='arrow' />
+        <ArrowImage active={open} src="images/arrow.svg" alt="arrow" />
       </SelectLabelButton>
       <DropdownStyle isVisible={open} ref={dropdownRef}>
         {values.map((v, index) => (
           <DropdownItem
             onClick={() => handleChange(v.value)}
             active={v.value === value}
-            key={index}>
+            key={index}
+          >
             {v.title}
           </DropdownItem>
         ))}
@@ -74,32 +77,32 @@ export const Select = ({
 }
 
 const SelectContainer = styled.div`
-    position: relative;
-    margin: 0;
+  position: relative;
+  margin: 0;
 `
 
 const SelectLabelButton = styled.button`
-    border: 1px solid #C9C9C9;
-    border-radius: 4px;
-    width: 100%;
-    background-color: #fff;
-    align-items: center;
-    justify-content: space-between;
-    display: flex;
-    min-height: 35px;
-    cursor: pointer;
-    padding: 10px 12px;
-    transition: 0.3s ease;
-    &:hover {
-        background-color: #eee;
-    }
+  border: 1px solid #c9c9c9;
+  border-radius: 4px;
+  width: 100%;
+  background-color: #fff;
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  min-height: 35px;
+  cursor: pointer;
+  padding: 10px 12px;
+  transition: 0.3s ease;
+  &:hover {
+    background-color: #eee;
+  }
 `
 
 const SelectLabel = styled.p`
-    font-weight: 500;
-    font-size: 13px;
-    line-height: 15px;
-    color: #000000;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 15px;
+  color: #000000;
 `
 
 interface DropdownStyled {
@@ -107,23 +110,23 @@ interface DropdownStyled {
 }
 
 const DropdownStyle = styled.div<DropdownStyled>`
-    position: absolute;
-    top: 100%;
-    left: 0;
-    max-height: 40vmax;
-    min-width: 10rem;
-    display: flex;
-    flex-direction: column;
-    border-radius: 0 4px; 
-    background: #fafafa;
-    border: 1px solid #C9C9C9;
-    transition: max-height 0.2s ease;
-    overflow: scroll;
-    ${(p) =>
+  position: absolute;
+  top: 100%;
+  left: 0;
+  max-height: 40vmax;
+  min-width: 10rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0 4px;
+  background: #fafafa;
+  border: 1px solid #c9c9c9;
+  transition: max-height 0.2s ease;
+  overflow: scroll;
+  ${(p) =>
     p.isVisible !== true &&
     css`
-    max-height: 40px;
-    visibility: hidden;
+      max-height: 40px;
+      visibility: hidden;
     `}
 `
 
@@ -132,25 +135,25 @@ interface DropdownItemStyled {
 }
 
 const DropdownItem = styled.div<DropdownItemStyled>`
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 10px 12px;
-    font-size: 0.9rem;
-    font-weight: 400;
-    color: #333;
-    border-radius: 0.3rem;
-    cursor: pointer;
-    ${(p) =>
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #333;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  ${(p) =>
     p.active &&
     css`
-    color: #166edc;
-    font-weight: 500;
+      color: #166edc;
+      font-weight: 500;
     `}
-    &:hover, :focus, :focus:hover {
-        background-color: #daf2ff;
-        outline: none;
-    }
+  &:hover, :focus, :focus:hover {
+    background-color: #daf2ff;
+    outline: none;
+  }
 `
 
 interface ArrowStyled {
@@ -158,6 +161,6 @@ interface ArrowStyled {
 }
 
 const ArrowImage = styled.img<ArrowStyled>`
-    transition: 0.3s ease all;
-    transform: ${({ active }) => active ? 'rotate(180deg)' : 'rotate(0)'};
+  transition: 0.3s ease all;
+  transform: ${({ active }) => (active ? 'rotate(180deg)' : 'rotate(0)')};
 `
