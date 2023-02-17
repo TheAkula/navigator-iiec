@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { useFileViewerContext } from '../../context/file-viewer-context'
 import { FileOrFolder } from '../file-or-folder'
+import { BtnCancel, BtnCreate } from '../styled'
 
 interface Props {
   setShow: (show: boolean) => void
@@ -27,13 +28,13 @@ function sortFilesToFolders(files: File[]): FileTree {
       if (!path[j].length) continue
 
       if (!(path[j] in elem)) {
-        ;(elem as FileTree)[path[j]] = {}
+        ; (elem as FileTree)[path[j]] = {}
       }
 
       elem = (elem as FileTree)[path[j]] as FileTree
     }
 
-    ;(elem as FileTree)[path[path.length - 1]] = file
+    ; (elem as FileTree)[path[path.length - 1]] = file
   }
 
   return result
@@ -52,7 +53,7 @@ export const UploadFilesModal = ({ setShow }: Props) => {
     setShow(false)
   }
 
-	// TODO: add func to remove files to upload
+  // TODO: add func to remove files to upload
   // const onHide = () => {}
 
   const files = sortFilesToFolders(nativeBuffer)
@@ -69,8 +70,8 @@ export const UploadFilesModal = ({ setShow }: Props) => {
         </FilesWrapper>
       </ModalWrapper>
       <ButtonWrapper>
-        <button onClick={onAgree}>Ок</button>
-        <button onClick={onCancel}>Отмена</button>
+        <BtnCreate onClick={onAgree}>Ок</BtnCreate>
+        <BtnCancel onClick={onCancel}>Отмена</BtnCancel>
       </ButtonWrapper>
     </>
   )

@@ -15,19 +15,3 @@ export const WrapperBtns = styled.div`
   justify-content: space-between;
   gap: 10px;
 `
-
-export const BtnCreate = styled.button`
-  background-color: lightgreen;
-  border: none;
-  padding: 5px 10px;
-  width: 47%;
-  cursor: pointer;
-`
-
-export const BtnCancel = styled.button`
-  width: 47%;
-  padding: 5px 10px;
-  background-color: #ff4d4d;
-  border: none;
-  cursor: pointer;
-`
