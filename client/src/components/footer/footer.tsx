@@ -1,6 +1,5 @@
 import { Line, StyledLogo } from '../styled'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import { dataFooter } from './types'
 
 export const Footer = () => {
@@ -13,7 +12,7 @@ export const Footer = () => {
           </StyledLogo>
           <StyledFooterMenu>
             {dataFooter?.map((el) => (
-              <StyledMenuItem to={el.href} key={el.id}>
+              <StyledMenuItem href={el.href} target="_blank" key={el.id}>
                 {el.item}
               </StyledMenuItem>
             ))}
@@ -43,7 +42,7 @@ const Wrapper = styled.div`
   padding: 30px 45px 20px;
 `
 
-const StyledMenuItem = styled(Link)`
+const StyledMenuItem = styled.a`
   font-weight: 500;
   font-size: 18px;
   line-height: 21px;

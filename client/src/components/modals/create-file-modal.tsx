@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useFileViewerContext } from '../../context/file-viewer-context'
-import { BtnCancel, BtnCreate, Input, WrapperBtns } from './styles'
+import { BtnCancel, BtnCreate } from '../styled'
+import { Input, WrapperBtns } from './styles'
 
 interface Props {
   setShow: (show: boolean) => void

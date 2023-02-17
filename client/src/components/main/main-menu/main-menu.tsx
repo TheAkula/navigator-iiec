@@ -10,13 +10,7 @@ export const MainMenu = () => {
   const { mode } = useFileViewerContext()
 
   return (
-    <CenterBlock
-      style={{
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'calc(100% - 100px)',
-      }}
-    >
+    <CenterBlock>
       {mode === MainMode.FILE_VIEWER ? <FileViewer /> : <Outlet />}
     </CenterBlock>
   )

@@ -44,3 +44,21 @@ export const Separator = styled.div`
   width: 100%;
   height: 1px;
 `
+
+export const BtnCreate = styled.button`
+  background-color: ${({ theme }) => theme.colors.green};
+  border: none;
+  padding: 5px 10px;
+  width: 47%;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.white};
+`
+
+export const BtnCancel = styled.button`
+  width: 47%;
+  padding: 5px 10px;
+  background-color: #ff4d4d;
+  border: none;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.white};
+`
