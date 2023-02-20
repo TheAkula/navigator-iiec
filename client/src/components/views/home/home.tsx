@@ -1,12 +1,18 @@
 import { RenderItem } from '../render-item'
 import { ViewsComponentsList } from '../styled'
-import mainData from '../../../data/main.json'
 import { ILinkItem } from '../../../types'
+import { useEffect, useState } from 'react'
 
 export const Home = () => {
+  const [data, setData] = useState<ILinkItem[]>([])
+
+  useEffect(() => {
+    fetch('data/main.json').then((res) => res.json()).then((res) => setData(res))
+  }, [])
+
   return (
     <ViewsComponentsList>
-      {(mainData as ILinkItem[])?.map((el) => (
+      {data.map((el) => (
         <RenderItem key={el.title} link={el} />
       ))}
     </ViewsComponentsList>

@@ -1,15 +1,15 @@
-import leftSidebarData from '../data/left-sidebar.json'
-import rightSidebarData from '../data/right-sidebar.json'
 import { Authorization, Block, BlocksWrapper, Header } from '../components'
 import { MainMenu } from '../components/main'
 import { Layout } from '../layout'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { MainLinkItem } from '../components/main-link-item'
 import { ISidebarLink } from '../types'
 
 export const MainScreen = () => {
   const navigate = useNavigate()
+  const [leftData, setLeftData] = useState<ISidebarLink[]>([])
+  const [rightData, setRightData] = useState<ISidebarLink[]>([])
 
   const hasJWTtoken = () => {
     let flag = false
@@ -18,6 +18,11 @@ export const MainScreen = () => {
 
     return flag
   }
+
+  useEffect(() => {
+    fetch('data/left-sidebar.json').then((res) => res.json()).then((res) => setLeftData(res))
+    fetch('data/right-sidebar.json').then((res) => res.json()).then((res) => setRightData(res))
+  }, [])
 
   useEffect(() => {
     !hasJWTtoken() ? navigate('/login') : navigate('/')
@@ -34,7 +39,7 @@ export const MainScreen = () => {
         <BlocksWrapper>
           <Block title="Меню">
             <ul>
-              {(leftSidebarData as ISidebarLink[]).map((el) => (
+              {leftData.map((el) => (
                 <MainLinkItem key={el.title} link={el} img={el.img} />
               ))}
             </ul>
@@ -44,7 +49,7 @@ export const MainScreen = () => {
 
           <Block title="Дополнительно">
             <ul>
-              {(rightSidebarData as ISidebarLink[]).map((el) => (
+              {rightData.map((el) => (
                 <MainLinkItem key={el.title} link={el} img={el.img} />
               ))}
             </ul>
