@@ -45,9 +45,9 @@ export class FilesController {
 
     let stats: Stats;
     try {
-      stats = statSync(filePath)
+      stats = statSync(filePath);
     } catch (err) {
-      throw new BadRequestException('Файл не найден')
+      throw new BadRequestException('Файл не найден');
     }
 
     const file = createReadStream(filePath);

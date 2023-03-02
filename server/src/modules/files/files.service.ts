@@ -47,7 +47,7 @@ export class FilesService {
             ),
           );
         }
-				
+
         const files = [];
 
         for (const file of content) {
@@ -111,7 +111,7 @@ export class FilesService {
 
                   res();
                 }),
-															 );
+              );
             } catch (err) {
               reject(err);
             }
@@ -127,9 +127,9 @@ export class FilesService {
                     );
                   }
 
-                  res()
+                  res();
                 }),
-															 );
+              );
             } catch (err) {
               reject(err);
             }
@@ -157,10 +157,10 @@ export class FilesService {
                 );
               }
 
-              res()
+              res();
             },
           ),
-															 );
+        );
       }),
     );
   }
@@ -179,10 +179,10 @@ export class FilesService {
             );
           }
 
-          res()
+          res();
         },
       ),
-													 );
+    );
   }
 
   async copy({ files, to }: CopyDto): Promise<void> {
@@ -208,7 +208,7 @@ export class FilesService {
                   res()
                 },
               ),
-														 );
+            );
           } else {
             await new Promise(() => {
               return cp(
