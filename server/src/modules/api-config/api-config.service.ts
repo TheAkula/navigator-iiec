@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { UserEntity } from '../users/user.entity';
+import { UserPermissionEntity } from '../user_permissions/user_permission.entity';
 
 @Injectable()
 export class ApiConfigService {
@@ -26,5 +29,18 @@ export class ApiConfigService {
 
   getJwtSecret(): string {
     return this.getAsString('JWT_SECRET');
+  }
+
+  getTypeOrmModuleOptions(): TypeOrmModuleOptions {
+    return {
+      type: this.getAsString('DATABASE_TYPE') as any,
+      host: this.getAsString('DATABASE_HOST'),
+      port: this.getAsNumber('DATABASE_PORT'),
+      username: this.getAsString('DATABASE_USER'),
+      password: this.getAsString('DATABASE_PASSWORD'),
+      database: this.getAsString('DATABASE_NAME'),
+      entities: [UserEntity, UserPermissionEntity],
+      synchronize: true,
+    };
   }
 }

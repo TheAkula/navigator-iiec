@@ -83,6 +83,7 @@ interface FileViewerContextValue {
   openDirectory: (path: string[]) => Promise<void>
   downloadFile: (path: string[], title: string) => Promise<void>
   updateDirectory: () => Promise<void>
+  reset: () => void
 }
 
 const FileViewerContext = createContext<FileViewerContextValue>({
@@ -108,33 +109,34 @@ const FileViewerContext = createContext<FileViewerContextValue>({
   downloadProgress: 0,
   showDownloadProgress: false,
   /* eslint-disable @typescript-eslint/no-empty-function */
-  changeRenamedFile: () => { },
-  changeRenamedValue: () => { },
-  changeLocalPath: () => { },
-  selectFiles: () => { },
-  pasteFiles: () => { },
-  removeFromSelectedFiles: () => { },
-  clearSelectedFiles: () => { },
-  toggleFilter: () => { },
+  changeRenamedFile: () => {},
+  changeRenamedValue: () => {},
+  changeLocalPath: () => {},
+  selectFiles: () => {},
+  pasteFiles: () => {},
+  removeFromSelectedFiles: () => {},
+  clearSelectedFiles: () => {},
+  toggleFilter: () => {},
   goBack: () => Promise.resolve(),
   goNext: () => Promise.resolve(),
   getPrevPath: () => [],
-  removeFromBuffer: () => { },
-  addToBuffer: () => { },
-  clearBuffer: () => { },
-  addToNativeBuffer: () => { },
-  clearNativeBuffer: () => { },
-  updateMode: () => { },
+  removeFromBuffer: () => {},
+  addToBuffer: () => {},
+  clearBuffer: () => {},
+  addToNativeBuffer: () => {},
+  clearNativeBuffer: () => {},
+  updateMode: () => {},
   uploadFiles: () => Promise.resolve(),
   deleteFiles: () => Promise.resolve(),
   renameFile: () => Promise.resolve(),
-  copyFiles: () => { },
-  cutFiles: () => { },
+  copyFiles: () => {},
+  cutFiles: () => {},
   openDirectory: () => Promise.resolve(),
   downloadFile: () => Promise.resolve(),
   createDir: () => Promise.resolve(),
   createFile: () => Promise.resolve(),
   updateDirectory: () => Promise.resolve(),
+  reset: () => undefined,
   /* eslint-enable @typescript-eslint/no-empty-function */
 })
 
@@ -145,6 +147,13 @@ interface Props {
 export enum BufferAction {
   CUT,
   COPY,
+}
+
+const defaultFilters: FileViewerFilter = {
+  [Filter.TITLE]: [FilterState.ASC, 0],
+  [Filter.TIME]: [FilterState.ASC, 1],
+  [Filter.EXT]: [FilterState.ASC, 2],
+  [Filter.SIZE]: [FilterState.ASC, 3],
 }
 
 export const FileViewerContextProvider = ({ children }: Props) => {
@@ -160,16 +169,31 @@ export const FileViewerContextProvider = ({ children }: Props) => {
   const [bufferAction, setBufferAction] = useState<BufferAction>()
   const [renamedFile, setRenamedFile] = useState<string[]>([])
   const [renamedValue, setRenamedValue] = useState<string>('')
-  const [filters, setFilters] = useState<FileViewerFilter>({
-    [Filter.TITLE]: [FilterState.ASC, 0],
-    [Filter.TIME]: [FilterState.ASC, 1],
-    [Filter.EXT]: [FilterState.ASC, 2],
-    [Filter.SIZE]: [FilterState.ASC, 3],
-  })
+  const [filters, setFilters] = useState<FileViewerFilter>(defaultFilters)
   const [uploadProgress, setUploadProgress] = useState<number>(0)
   const [showUploadProgress, setShowUploadProgress] = useState(false)
   const [downloadProgress, setDownloadProgress] = useState<number>(0)
   const [showDownloadProgress, setShowDownloadProgress] = useState(false)
+
+  const reset = useCallback(() => {
+    setBuffer(() => [])
+    setNativeBuffer(() => [])
+    setSelectedFiles(() => [])
+    setPath(() => [])
+    setLocalPath(() => [])
+    setMode(() => MainMode.ROUTES)
+    setFiles(() => [])
+    setLoading(() => false)
+    setError(() => null)
+    setBufferAction(() => undefined)
+    setRenamedFile(() => [])
+    setRenamedValue(() => '')
+    setFilters(() => defaultFilters)
+    setUploadProgress(0)
+    setShowUploadProgress(false)
+    setDownloadProgress(0)
+    setShowDownloadProgress(false)
+  }, [])
 
   const selectFiles = useCallback((files: FileType[]) => {
     setSelectedFiles((prevFiles) => [...prevFiles, ...files])
@@ -510,6 +534,7 @@ export const FileViewerContextProvider = ({ children }: Props) => {
     deleteFiles,
     copyFiles,
     openDirectory,
+    reset,
   }
 
   return (

@@ -90,7 +90,7 @@ export const ContextMenu = () => {
     input.click()
   })
 
-    const onUploadFolders = contextMenuOperation(() => {
+  const onUploadFolders = contextMenuOperation(() => {
     const input = document.createElement('input')
     input.type = 'file'
     input.multiple = true
@@ -99,7 +99,7 @@ export const ContextMenu = () => {
     input.onchange = (e: Event) => {
       const files = (e.target as HTMLInputElement).files
 
-      if (files) {
+      if (files && files.length) {
         addToNativeBuffer([...files])
         setShowModal(true)
         setModalMode(ModalMode.UPLOAD)
@@ -109,7 +109,7 @@ export const ContextMenu = () => {
     }
 
     input.click()
-    })
+  })
 
   const onRename = contextMenuOperation(() => {
     changeRenamedFile()

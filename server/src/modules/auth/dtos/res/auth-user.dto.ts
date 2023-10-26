@@ -1,6 +1,6 @@
-import { User } from 'src/modules/users/user.model';
+import { UserDto } from 'src/modules/users/dtos/user.dto';
 
 export class AuthUserDto {
-  user: User;
+  user: UserDto;
   token: string;
 }

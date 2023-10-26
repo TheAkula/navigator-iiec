@@ -6,9 +6,20 @@ import { MulterModule } from '@nestjs/platform-express';
 import { AuthModule } from '../auth/auth.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ApiConfigService } from '../api-config/api-config.service';
+import { UsersModule } from '../users/users.module';
+import { UserPermissionsModule } from '../user_permissions/user_permissions.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      imports: [ApiConfigModule],
+      useFactory: (apiConfigService: ApiConfigService) =>
+        apiConfigService.getTypeOrmModuleOptions(),
+      inject: [ApiConfigService],
+    }),
     MulterModule.register({
       dest: './uploads',
     }),
@@ -16,9 +27,10 @@ import { join } from 'path';
       rootPath: join(__dirname, '..', '..', '..', 'static'),
     }),
     FilesModule,
-    ConfigModule.forRoot(),
     ApiConfigModule,
     AuthModule,
+    UsersModule,
+    UserPermissionsModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

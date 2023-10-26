@@ -31,17 +31,17 @@ import { diskStorage } from 'multer';
 import { dirname, join, sep } from 'path';
 import { ensureDir } from 'src/utils';
 import { FileAccessPipe } from 'src/pipes/file-access.pipe';
-import { statSync } from 'fs'
+import { statSync } from 'fs';
 
 @UseGuards(JwtAuthGuard)
 @UsePipes(FileAccessPipe)
 @Controller()
 export class FilesController {
-  constructor(private filesService: FilesService) { }
+  constructor(private filesService: FilesService) {}
 
   @Get('/download-file')
   getFile(@Res() res: Response, @Query() { path }: GetFileDto) {
-    const filePath = this.filesService.getPath(...path)
+    const filePath = this.filesService.getPath(...path);
 
     let stats: Stats;
     try {
@@ -70,8 +70,9 @@ export class FilesController {
             return;
           }
 
-          file.originalname = Buffer.from(file.originalname, 'latin1')
-            .toString('utf8')
+          file.originalname = Buffer.from(file.originalname, 'latin1').toString(
+            'utf8',
+          );
           const relativePath = file.originalname.replace(/@/g, sep);
 
           const index = relativePath.lastIndexOf(sep);
@@ -82,7 +83,6 @@ export class FilesController {
             relativePath.substring(0, index),
           );
 
-          console.log(fileDir)
           await ensureDir(fileDir);
 
           callback(null, fileDir);

@@ -1,4 +1,5 @@
-import { InternalServerErrorException } from "@nestjs/common";
+import { InternalServerErrorException } from '@nestjs/common';
+import { PromiseOr } from './utils';
 
 export interface Property {
   name: string;
@@ -80,32 +81,40 @@ export class Reflect {
 
     return value.properties;
   }
-    
+
   static clearMetadata(): void {
     this.metadata = {};
   }
 
-    static processMetadataRecursive<T extends object>(obj: T, metadataType: string, func: (obj: object, metadata: Property) => void): void {
-	if (Object.keys(obj).length === 0) {
-	    throw new InternalServerErrorException()
-	}
+  static async processMetadataRecursive<T extends object>(
+    obj: T,
+    metadataType: string,
+    func: (obj: object, metadata: Property) => PromiseOr<void>,
+  ): Promise<void> {
+    if (Object.keys(obj).length === 0) {
+      throw new InternalServerErrorException();
+    }
 
-	if (Array.isArray(obj)) {
-	    for (const nes_obj of obj) {
-		this.processMetadataRecursive(nes_obj, metadataType, func);
-	    }
-	}
+    if (Array.isArray(obj)) {
+      for (const nes_obj of obj) {
+        this.processMetadataRecursive(nes_obj, metadataType, func);
+      }
+    }
 
-	for (const key in obj) {
-	    const meta = this.getMetadata(metadataType, key, (obj.constructor as ObjectConstructor));
-	    if (meta !== null) {
-		func(obj, meta)
-	    }
+    for (const key in obj) {
+      const meta = this.getMetadata(
+        metadataType,
+        key,
+        obj.constructor as ObjectConstructor,
+      );
+      if (meta !== null) {
+        await func(obj, meta);
+      }
 
-	    const key_obj = obj[key]
-	    if (typeof key_obj === 'object') {
-		this.processMetadataRecursive(key_obj, metadataType, func)
-	    }
-	}
+      const key_obj = obj[key];
+      if (typeof key_obj === 'object') {
+        this.processMetadataRecursive(key_obj, metadataType, func);
+      }
+    }
   }
 }

@@ -8,22 +8,20 @@ import {
 import { REQUEST } from '@nestjs/core';
 import { Reflect, Property } from 'src/utils';
 import { Request } from 'express';
-import { User } from 'src/modules/users/user.model';
-import { FilesService } from 'src/modules/files/files.service';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const PATHS = require('../data/files.json');
+import { UserEntity } from 'src/modules/users/user.entity';
 import { FileAccessRight } from 'src/shared/types';
+import { UserPermissionsService } from 'src/modules/user_permissions/user_permissions.service';
 
 @Injectable()
 export class FileAccessPipe implements PipeTransform {
   constructor(
     @Inject(REQUEST) private readonly req: Request,
-    private filesService: FilesService,
+    private userPermissionsService: UserPermissionsService,
   ) {}
 
-  private filePathValidate(obj: object, metadata: Property) {
+  private async filePathValidate(obj: object, metadata: Property) {
     if (metadata) {
-      const user = this.req.user as User;
+      const user = this.req.user as UserEntity;
 
       if (!user) {
         throw new InternalServerErrorException(
@@ -31,38 +29,31 @@ export class FileAccessPipe implements PipeTransform {
         );
       }
 
-      const path = this.filesService.getPath(...obj[metadata.name], '/');
-      let foundPath = false;
-      for (const p of PATHS) {
-        const accessPath = this.filesService.getPath(p.path);
+      const path = obj[metadata.name].join('/');
 
-        if (path.startsWith(accessPath)) {
-          foundPath = true;
-          const roleIndex = p.roles.findIndex((r) => r.role === user.role);
+      const paths = await this.userPermissionsService.getByPathAndRole(
+        path,
+        user.permissions,
+      );
 
-          if (roleIndex === -1) {
-            throw new ForbiddenException('Нет доступа к данным файлам');
-          }
-
-          // TODO: add property value validation
-          const haveAccess = p.roles[roleIndex].rights.includes(
-            metadata.value as FileAccessRight,
-          );
-
-          if (!haveAccess) {
-            throw new ForbiddenException('Нет доступа к данным файлам');
-          }
-        }
+      if (paths.length == 0) {
+        throw new ForbiddenException('Нет доступа к данным файлам');
       }
 
-      if (!foundPath) {
+      const closestPath = paths.reduce((p, c) =>
+        c.path.length > p.path.length ? c : p,
+      );
+
+      const permission = metadata.value as FileAccessRight;
+
+      if (!closestPath.permissions.includes(permission)) {
         throw new ForbiddenException('Нет доступа к данным файлам');
       }
     }
   }
 
-  transform(value: any) {
-    Reflect.processMetadataRecursive(
+  async transform(value: any) {
+    await Reflect.processMetadataRecursive(
       value,
       'file:access',
       this.filePathValidate.bind(this),

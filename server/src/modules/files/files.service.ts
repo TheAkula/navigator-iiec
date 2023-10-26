@@ -25,7 +25,7 @@ import { FileType } from './file';
 
 @Injectable()
 export class FilesService {
-  constructor(private apiConfigService: ApiConfigService) { }
+  constructor(private apiConfigService: ApiConfigService) {}
 
   getPath(...paths: string[]): string {
     return join(
@@ -205,7 +205,7 @@ export class FilesService {
                     );
                   }
 
-                  res()
+                  res();
                 },
               ),
             );
@@ -226,11 +226,10 @@ export class FilesService {
                     );
                   }
 
-                  res()
+                  res();
                 },
               );
             });
-
           }
           res();
         });

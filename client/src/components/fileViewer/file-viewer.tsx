@@ -97,7 +97,7 @@ export const FileViewer = () => {
     return () => {
       clearInterval(t)
     }
-  }, [path])
+  }, [path, updateDirectory])
 
   useEffect(() => {
     function closeContextMenu() {
@@ -120,7 +120,7 @@ export const FileViewer = () => {
   const onContextMenu: MouseEventHandler = (e) => {
     e.stopPropagation()
     e.preventDefault()
-		
+
     setShowContextMenu(true)
     setContextMenuMode(ContextMenuMode.WORKSPACE)
     setCoords([
@@ -150,22 +150,20 @@ export const FileViewer = () => {
 
   let fileList = null
 
-  if (files && files.length) {
-    fileList = getSortedFiles(files, filters).map((file) => {
-      const selected = selectedFiles.find((f) => {
-        return f.path.join() === file.path.join()
-      })
-
-      return (
-        <FileBlock
-          selected={!!selected}
-          key={file.path.join()}
-          file={file}
-          onContextMenu={onContextMenuFile}
-        />
-      )
+  fileList = getSortedFiles(files, filters).map((file) => {
+    const selected = selectedFiles.find((f) => {
+      return f.path.join() === file.path.join()
     })
-  }
+
+    return (
+      <FileBlock
+        selected={!!selected}
+        key={file.path.join()}
+        file={file}
+        onContextMenu={onContextMenuFile}
+      />
+    )
+  })
 
   return (
     <>

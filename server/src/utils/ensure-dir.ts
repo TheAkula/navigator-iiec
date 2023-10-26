@@ -5,25 +5,27 @@ import { sep } from 'path';
 export async function ensureDir(path: string) {
   const dirs = path.split(sep);
 
-  for (let i = 0; i < dirs.length; ++i) {
-    if (dirs[i].length === 0) continue;
-    const path = dirs.slice(0, i + 1);
-    if (!existsSync('/' + path.join(sep))) {
-      await new Promise<void>((res, reject) =>
-        mkdir(path.join(sep), (err) => {
-          if (err) {
-            console.log(err);
+  await Promise.all(
+    dirs.map((dir, i) => {
+      if (dir.length === 0) return null;
+      const path = dirs.slice(0, i + 1);
+      if (!existsSync('/' + path.join(sep))) {
+        return new Promise<void>((res, reject) =>
+          mkdir(path.join(sep), (err) => {
+            if (err) {
+              console.log(err);
 
-            return reject(
-              new InternalServerErrorException(
-                'Произошла ошибка при создании папки',
-              ),
-            );
-          }
+              return reject(
+                new InternalServerErrorException(
+                  'Произошла ошибка при создании папки',
+                ),
+              );
+            }
 
-          res();
-        }),
-      );
-    }
-  }
+            res();
+          }),
+        );
+      }
+    }),
+  );
 }
