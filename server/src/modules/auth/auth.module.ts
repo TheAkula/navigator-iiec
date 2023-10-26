@@ -17,7 +17,7 @@ import { UsersModule } from '../users/users.module';
       useFactory(apiConfigService: ApiConfigService) {
         return {
           secret: apiConfigService.getJwtSecret(),
-          signOptions: { expiresIn: '30d' },
+          signOptions: { expiresIn: apiConfigService.getJwtExpireTime() },
         };
       },
       inject: [ApiConfigService],

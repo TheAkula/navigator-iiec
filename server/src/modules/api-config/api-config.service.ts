@@ -31,6 +31,10 @@ export class ApiConfigService {
     return this.getAsString('JWT_SECRET');
   }
 
+  getJwtExpireTime(): string {
+    return this.getAsString('JWT_EXPIRE_TIME');
+  }
+
   getTypeOrmModuleOptions(): TypeOrmModuleOptions {
     return {
       type: this.getAsString('DATABASE_TYPE') as any,
@@ -42,5 +46,9 @@ export class ApiConfigService {
       entities: [UserEntity, UserPermissionEntity],
       synchronize: true,
     };
+  }
+
+  getStaticFolder(): string {
+    return this.getAsString('STATIC_FOLDER');
   }
 }

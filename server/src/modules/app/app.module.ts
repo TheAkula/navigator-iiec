@@ -14,20 +14,30 @@ import { UserPermissionsModule } from '../user_permissions/user_permissions.modu
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    ApiConfigModule,
     TypeOrmModule.forRootAsync({
       imports: [ApiConfigModule],
       useFactory: (apiConfigService: ApiConfigService) =>
         apiConfigService.getTypeOrmModuleOptions(),
       inject: [ApiConfigService],
     }),
-    MulterModule.register({
-      dest: './uploads',
+    MulterModule.registerAsync({
+      imports: [ApiConfigModule],
+      useFactory: (apiConfigService: ApiConfigService) => ({
+        dest: apiConfigService.getUploadDest(),
+      }),
+      inject: [ApiConfigService],
     }),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', '..', 'static'),
+    ServeStaticModule.forRootAsync({
+      imports: [ApiConfigModule],
+      useFactory: (apiConfigService: ApiConfigService) => [
+        {
+          rootPath: join(__dirname, apiConfigService.getStaticFolder()),
+        },
+      ],
+      inject: [ApiConfigService],
     }),
     FilesModule,
-    ApiConfigModule,
     AuthModule,
     UsersModule,
     UserPermissionsModule,
