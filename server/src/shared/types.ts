@@ -1,4 +1,4 @@
 export enum FileAccessRight {
-  READ,
-  WRITE,
+  READ = 'READ',
+  WRITE = 'WRITE',
 }

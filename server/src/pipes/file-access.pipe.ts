@@ -10,18 +10,19 @@ import { Reflect, Property } from 'src/utils';
 import { Request } from 'express';
 import { UserEntity } from 'src/modules/users/user.entity';
 import { FileAccessRight } from 'src/shared/types';
-import { UserPermissionsService } from 'src/modules/user_permissions/user_permissions.service';
+import { PathPermissionsService } from 'src/modules/path_permissions/path_permissions.service';
 
 @Injectable()
 export class FileAccessPipe implements PipeTransform {
   constructor(
     @Inject(REQUEST) private readonly req: Request,
-    private userPermissionsService: UserPermissionsService,
+    private pathPermissionsService: PathPermissionsService,
   ) {}
 
   private async filePathValidate(obj: object, metadata: Property) {
     if (metadata) {
       const user = this.req.user as UserEntity;
+      const permission = metadata.value as FileAccessRight;
 
       if (!user) {
         throw new InternalServerErrorException(
@@ -31,24 +32,38 @@ export class FileAccessPipe implements PipeTransform {
 
       const path = obj[metadata.name].join('/');
 
-      const paths = await this.userPermissionsService.getByPathAndRole(
-        path,
-        user.permissions,
-      );
+      const closestPath = await this.pathPermissionsService.getByPath(path);
 
-      if (paths.length == 0) {
-        throw new ForbiddenException('Нет доступа к данным файлам');
+      if (!closestPath) {
+        throw new ForbiddenException('Нет доступа к файлам');
       }
 
-      const closestPath = paths.reduce((p, c) =>
-        c.path.length > p.path.length ? c : p,
-      );
+      switch (permission) {
+        case FileAccessRight.READ:
+          const readGroup = user.groups.find(
+            (g) =>
+              g.id == closestPath.readGroup?.id ||
+              g.id == closestPath.writeGroup?.id,
+          );
 
-      const permission = metadata.value as FileAccessRight;
+          if (readGroup) {
+            return;
+          }
+          break;
+        case FileAccessRight.WRITE:
+          const writeGroup = user.groups.find(
+            (g) => g.id == closestPath.writeGroup?.id,
+          );
 
-      if (!closestPath.permissions.includes(permission)) {
-        throw new ForbiddenException('Нет доступа к данным файлам');
+          if (writeGroup) {
+            return;
+          }
+          break;
+        default:
+          throw new InternalServerErrorException('Unknown access right');
       }
+
+      throw new ForbiddenException('Нет доступа к файлам');
     }
   }
 

@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { UserEntity } from '../users/user.entity';
-import { UserPermissionEntity } from '../user_permissions/user_permission.entity';
+import { PathPermissionEntity } from '../path_permissions/path_permission.entity';
+import { RolesGroupEntity } from '../roles_groups/roles_group.entity';
 
 @Injectable()
 export class ApiConfigService {
@@ -43,7 +44,7 @@ export class ApiConfigService {
       username: this.getAsString('DATABASE_USER'),
       password: this.getAsString('DATABASE_PASSWORD'),
       database: this.getAsString('DATABASE_NAME'),
-      entities: [UserEntity, UserPermissionEntity],
+      entities: [UserEntity, PathPermissionEntity, RolesGroupEntity],
       synchronize: true,
     };
   }

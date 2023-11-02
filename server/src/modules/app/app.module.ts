@@ -9,7 +9,7 @@ import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApiConfigService } from '../api-config/api-config.service';
 import { UsersModule } from '../users/users.module';
-import { UserPermissionsModule } from '../user_permissions/user_permissions.module';
+import { PathPermissionsModule } from '../path_permissions/path_permissions.module';
 
 @Module({
   imports: [
@@ -40,7 +40,7 @@ import { UserPermissionsModule } from '../user_permissions/user_permissions.modu
     FilesModule,
     AuthModule,
     UsersModule,
-    UserPermissionsModule,
+    PathPermissionsModule,
   ],
 })
 export class AppModule {}
